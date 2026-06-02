@@ -1,0 +1,1 @@
+(()=>{"use strict";chrome.action.onClicked.addListener(e=>{chrome.sidePanel.open({tabId:e.id})}),chrome.sidePanel.setPanelBehavior({openPanelOnActionClick:!0})})();
