@@ -1,0 +1,26 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# 환경변수 (API 키 노출 방지)
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+extension/dist/
+
+# macOS
+.DS_Store
+
+# 에디터
+.vscode/
+.idea/
+
+# 크롤링 임시파일
+backend/data/*_progress.json
+.claude/
