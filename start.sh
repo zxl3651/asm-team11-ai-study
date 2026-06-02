@@ -16,7 +16,7 @@ if [ ! -f .env ]; then
   if [ -f .env.example ]; then
     cp .env.example .env
     echo "⚠️  .env 파일이 없어 .env.example을 복사했습니다."
-    echo "   ANTHROPIC_API_KEY를 .env에 설정해주세요."
+    echo "   UPSTAGE_API_KEY를 .env에 설정해주세요."
     echo ""
   fi
 fi
