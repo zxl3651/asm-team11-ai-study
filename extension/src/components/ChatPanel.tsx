@@ -201,6 +201,7 @@ export const ChatPanel: React.FC = () => {
     scheduleCount: 0,
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
+  const [agentStatus, setAgentStatus] = useState<string | null>(null);
 
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -273,15 +274,50 @@ export const ChatPanel: React.FC = () => {
           throw new Error(`서버 오류: ${res.status}`);
         }
 
-        const data = await res.json();
-        const assistantMsg: Message = {
-          id: generateId(),
-          role: "assistant",
-          content: data.response,
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, assistantMsg]);
-      } catch (err) {
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder();
+        if (!reader) {
+          throw new Error("스트림 리더를 생성할 수 없습니다.");
+        }
+
+        let buffer = "";
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n\n");
+          buffer = lines.pop() || "";
+
+          for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (!trimmedLine.startsWith("data: ")) continue;
+
+            const rawData = trimmedLine.substring(6).trim();
+            if (!rawData) continue;
+
+            try {
+              const data = JSON.parse(rawData);
+              if (data.type === "status") {
+                setAgentStatus(data.message);
+              } else if (data.type === "complete") {
+                const assistantMsg: Message = {
+                  id: generateId(),
+                  role: "assistant",
+                  content: data.response,
+                  timestamp: new Date(),
+                };
+                setMessages((prev) => [...prev, assistantMsg]);
+                setAgentStatus(null);
+              } else if (data.type === "error") {
+                throw new Error(data.message);
+              }
+            } catch (jsonErr) {
+              console.warn("[SoMa Mate] SSE JSON 파싱 실패:", jsonErr);
+            }
+          }
+        }
+      } catch (err: any) {
         const errorMsg: Message = {
           id: generateId(),
           role: "system",
@@ -292,6 +328,7 @@ export const ChatPanel: React.FC = () => {
         setMessages((prev) => [...prev, errorMsg]);
       } finally {
         setIsLoading(false);
+        setAgentStatus(null);
         inputRef.current?.focus();
       }
     },
@@ -743,10 +780,13 @@ export const ChatPanel: React.FC = () => {
             <div className="avatar assistant">
               <Bot size={16} />
             </div>
-            <div className="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
+            <div className="loading-status-box">
+              <div className="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              {agentStatus && <span className="agent-status-text">{agentStatus}</span>}
             </div>
           </div>
         )}

@@ -1,8 +1,20 @@
 import json
 from pathlib import Path
+import contextvars
 
 DATA_DIR = Path(__file__).parent / "data"
 REALTIME_MENTORINGS_FILE = DATA_DIR / "mentorings_realtime.json"
+
+# 실시간 상태 전송용 ContextVar
+status_callback_var = contextvars.ContextVar("status_callback", default=None)
+
+def report_status(message: str):
+    callback = status_callback_var.get()
+    if callback:
+        try:
+            callback(message)
+        except Exception:
+            pass
 
 def _load_mentors() -> list[dict]:
     with open(DATA_DIR / "mentors.json", encoding="utf-8") as f:
@@ -115,6 +127,7 @@ def _get_solar_llm():
     )
 
 def analyze_query_for_search(user_query: str) -> dict:
+    report_status("사용자 질문 의도 분석 중...")
     print(f"\n🔍 [RAG-STEP 1] Query Analysis 시작...")
     print(f"   └─ 사용자 자연어 질의: '{user_query}'")
     llm = _get_solar_llm()
@@ -150,6 +163,7 @@ def rerank_mentorings_with_llm(user_query: str, candidates: list[dict], limit: i
     if not candidates:
         return []
     
+    report_status("추천 멘토링/특강 LLM 리랭킹 평가 중...")
     print(f"\n🧠 [RAG-STEP 4] LLM Reranking 시작 (후보군 {len(candidates)}개)...")
     llm = _get_solar_llm()
     
@@ -222,6 +236,7 @@ def search_mentorings(
 
     vector_results = []
     if search_query:
+        report_status(f"의미 벡터 검색 수행 중: '{search_query}'")
         print(f"\n⚡ [RAG-STEP 2] ChromaDB 벡터 검색 수행...")
         print(f"   └─ 검색어: '{search_query}'")
         from vector_store import search_vector_mentorings
@@ -230,6 +245,7 @@ def search_mentorings(
     else:
         print("\n⚡ [RAG-STEP 2] 검색어가 제공되지 않아 벡터 검색을 건너뜁니다.")
 
+    report_status("SQLite 하이브리드 필터링 및 점수화 연산 중...")
     print(f"\n🎯 [RAG-STEP 3] SQLite 하이브리드 필터링 및 가중치 합산 시작...")
     results = []
     vector_ids = {res["id"]: res for res in vector_results}
@@ -444,6 +460,7 @@ def search_trainees_tool(
 def get_user_calendar_tool() -> str:
     """현재 로그인한 연수생의 개인 시간표(접수 완료된 특강 및 멘토링 일정) 목록을 반환합니다.
     일정이 겹치는지 분석할 때 이 캘린더 데이터를 참조하세요."""
+    report_status("사용자 개인 시간표 데이터 조회 중...")
     calendar = _load_user_calendar()
     # 취소 또는 반려된 일정은 캘린더 충돌 분석 대상에서 제외
     active_calendar = [
@@ -462,6 +479,7 @@ def get_user_calendar_tool() -> str:
 def get_team_info_tool() -> str:
     """현재 로그인한 연수생의 소속 팀 매칭 정보(팀명, 팀장, 팀원 목록, 멘토명, 프로젝트명 등)를 반환합니다.
     사용자의 팀명, 팀원, 전담 멘토, 프로젝트 개발 기술 스택이나 도메인 등의 정보를 물어볼 때 이 툴을 호출하여 참조하세요."""
+    report_status("소속 팀 매칭 정보 데이터 조회 중...")
     team_info = _load_team_info()
     result = {
         "total": len(team_info),

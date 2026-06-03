@@ -119,9 +119,12 @@ def run_agent(
     user_message: str,
     session_id: str,
     agent_graph,
+    on_status_update=None,
 ) -> tuple[str, list[dict]]:
     from database import db
     print(f"\n💬 [Agent Core] 대화 세션 '{session_id}' 실행 시작...")
+    if on_status_update:
+        on_status_update("이전 대화 세션 복원 중...")
     # 대화 이력을 SQLite에서 로드하여 대화 기억 복원
     conversation_history = db.load_chat_history(session_id)
     print(f"   └─ SQLite에서 이전 대화 이력 로드 완료 (메시지 {len(conversation_history)}건)")
@@ -152,6 +155,8 @@ def run_agent(
     start_count = len(messages)
     
     # LangGraph 실행
+    if on_status_update:
+        on_status_update("스케줄 교차 검증 및 답변 작성 중...")
     print(f"⚙️ [Agent Core] LangGraph 에이전트 추론 엔진 호출...")
     output = agent_graph.invoke({"messages": messages})
     final_messages = output["messages"]

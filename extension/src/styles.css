@@ -817,7 +817,21 @@ body {
   animation: spin 0.8s linear infinite;
   flex-shrink: 0;
 }
+.loading-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
+.agent-status-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  animation: pulseStatus 2s infinite ease-in-out;
+  padding-left: 4px;
+}
 
-
-
+@keyframes pulseStatus {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

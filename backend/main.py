@@ -1,10 +1,12 @@
 import os
 import json
+import asyncio
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from agent import create_agent_graph, run_agent
@@ -67,47 +69,77 @@ async def health():
     return {"status": "ok", "service": "SoMa Mate API"}
 
 
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat")
 async def chat(req: ChatRequest):
-    try:
-        from database import db
-        
-        # 프론트엔드에서 실시간 스케줄을 보내왔다면 SQLite DB 갱신
-        if req.user_calendar is not None:
-            try:
-                db.save_user_calendar(req.user_calendar)
-            except Exception as e:
-                print(f"⚠️ 캘린더 DB 저장 실패: {str(e)}")
+    queue = asyncio.Queue()
 
-        # 프론트엔드에서 실시간 특강 목록을 보내왔다면 SQLite DB 및 ChromaDB 갱신
-        if req.available_mentorings is not None:
-            try:
+    def sync_status_callback(msg: str):
+        # 비동기 이벤트 루프를 사용하여 다른 스레드에서 생성된 상태 메시지를 큐에 추가
+        try:
+            loop = asyncio.get_running_loop()
+            loop.call_soon_threadsafe(queue.put_nowait, {"type": "status", "message": msg})
+        except RuntimeError:
+            pass
+
+    async def event_generator():
+        # contextvars에 콜백 등록
+        from tools import status_callback_var, db
+        token = status_callback_var.set(sync_status_callback)
+
+        try:
+            # 1. 캘린더 데이터 동기화
+            if req.user_calendar is not None:
+                sync_status_callback("개인 일정표 데이터 동기화 중...")
+                db.save_user_calendar(req.user_calendar)
+
+            # 2. 특강/멘토링 및 RAG 벡터 인덱싱
+            if req.available_mentorings is not None:
+                sync_status_callback("특강 정보 및 RAG 벡터 인덱싱 중...")
                 db.save_mentorings(req.available_mentorings)
-                # ChromaDB 벡터 스토어 동기화
                 from vector_store import sync_mentorings_to_vector_db
                 sync_mentorings_to_vector_db(req.available_mentorings)
-            except Exception as e:
-                print(f"⚠️ 실시간 특강 DB/벡터 저장 실패: {str(e)}")
 
-        # 프론트엔드에서 팀 정보를 보내왔다면 SQLite DB 갱신
-        if req.team_info is not None:
-            try:
+            # 3. 팀 매칭 정보 동기화
+            if req.team_info is not None:
+                sync_status_callback("팀 매칭 정보 데이터 동기화 중...")
                 db.save_team_info(req.team_info)
-            except Exception as e:
-                print(f"⚠️ 팀 정보 DB 저장 실패: {str(e)}")
 
-        response_text, updated_history = run_agent(
-            user_message=req.message,
-            session_id=req.session_id,
-            agent_graph=app.state.agent,
-        )
+            # 에이전트 실행 코드를 별도 스레드에서 구동 (LangChain 블로킹 방지)
+            async def run_agent_task():
+                # run_in_executor를 통해 동기 함수를 비동기 컨텍스트에서 안전하게 실행
+                loop = asyncio.get_running_loop()
+                return await loop.run_in_executor(
+                    None,
+                    run_agent,
+                    req.message,
+                    req.session_id,
+                    app.state.agent,
+                    sync_status_callback
+                )
 
-        return ChatResponse(response=response_text, session_id=req.session_id)
+            # 에이전트 구동 태스크 생성
+            agent_future = asyncio.create_task(run_agent_task())
 
-    except KeyError:
-        raise HTTPException(status_code=500, detail="UPSTAGE_API_KEY가 설정되지 않았습니다.")
-    except Exception as e:
-        raise HTTPException(status_code=520, detail=f"AI API 오류: {str(e)}")
+            # 에이전트가 처리하는 동안 큐의 진행 상태 메시지를 계속 전송
+            while not agent_future.done():
+                try:
+                    item = await asyncio.wait_for(queue.get(), timeout=0.1)
+                    yield f"data: {json.dumps(item, ensure_ascii=False)}\n\n"
+                except asyncio.TimeoutError:
+                    continue
+
+            # 에이전트 결과 획득 및 최종 완료 이벤트 전송
+            response_text, _ = await agent_future
+            final_data = {"type": "complete", "response": response_text}
+            yield f"data: {json.dumps(final_data, ensure_ascii=False)}\n\n"
+
+        except Exception as e:
+            err_data = {"type": "error", "message": f"AI 처리 중 오류가 발생했습니다: {str(e)}"}
+            yield f"data: {json.dumps(err_data, ensure_ascii=False)}\n\n"
+        finally:
+            status_callback_var.reset(token)
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 @app.delete("/chat/{session_id}")
