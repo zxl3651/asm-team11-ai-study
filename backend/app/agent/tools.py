@@ -17,14 +17,26 @@ def _load(name: str) -> list[dict]:
         return json.load(f)
 
 
+def _tokens(query: str) -> list[str]:
+    """'React, Node.js' 처럼 여러 값이 한 문자열로 오는 경우를 쪼갠다."""
+    return [t.strip().lower() for t in query.replace("/", ",").split(",") if t.strip()]
+
+
+def _matches(query: str, values: list[str]) -> bool:
+    """query 토큰 중 하나라도 values 항목과 부분일치하면 True."""
+    if not query:
+        return True
+    return any(tok in v.lower() for tok in _tokens(query) for v in values)
+
+
 def search_mentors(stack: str = "", field: str = "", startup: bool | None = None) -> list[dict]:
     """스택/분야/창업경험 조건으로 멘토를 필터링한다."""
     mentors = _load("mentors.json")
     results = []
     for m in mentors:
-        if stack and not any(stack.lower() in s.lower() for s in m["stacks"]):
+        if not _matches(stack, m["stacks"]):
             continue
-        if field and not any(field in f for f in m["fields"]):
+        if not _matches(field, m["fields"]):
             continue
         if startup is not None and m["startup_experience"] != startup:
             continue
@@ -39,7 +51,7 @@ def search_sessions(field: str = "", only_open: bool = True) -> list[dict]:
     for s in sessions:
         if only_open and s["status"] != "접수중":
             continue
-        if field and not any(field in f for f in s["field"]):
+        if not _matches(field, s["field"]):
             continue
         results.append(s)
     return results
@@ -55,8 +67,8 @@ TOOL_SCHEMAS = [
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "stack": {"type": "string", "description": "예: Spring, React, Python"},
-                    "field": {"type": "string", "description": "예: 백엔드, 창업, AI"},
+                    "stack": {"type": "string", "description": "기술 스택. 예: Spring, React, Python"},
+                    "field": {"type": "string", "description": "관심 분야. 사용자가 분야를 직접 말한 경우에만 채운다. 스택만 언급했으면 비워 둔다. 예: 창업, AI, 클라우드"},
                     "startup": {"type": "boolean", "description": "창업 경험 멘토만 찾을 때 true"},
                 },
             },
