@@ -26,18 +26,19 @@ interface SyncStatus {
   hasUserInfo: boolean;
   hasMentorings: boolean;
   hasTeams: boolean;
-  hasHistoryCalendar: boolean;
   hasSchedule: boolean;
   userInfoTimestamp: number | null;
   mentoringTimestamp: number | null;
   teamTimestamp: number | null;
-  historyCalendarTimestamp: number | null;
   scheduleTimestamp: number | null;
   userInfoName: string;
   mentoringCount: number;
   teamCount: number;
-  historyCalendarCount: number;
   scheduleCount: number;
+  serverUserInfoCount: number | null;
+  serverMentoringCount: number | null;
+  serverTeamCount: number | null;
+  serverScheduleCount: number | null;
 }
 
 async function loadParsedMentorings(): Promise<any[]> {
@@ -56,31 +57,22 @@ async function loadParsedCalendar(): Promise<any[]> {
   return new Promise((resolve) => {
     if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
       chrome.storage.local.get(
-        ["parsedHistoryCalendar", "parsedSchedule"],
+        ["parsedSchedule"],
         (result) => {
-          const history = result.parsedHistoryCalendar || [];
           const schedule = result.parsedSchedule || [];
 
-          const formattedHistory = history.map((item: any) => ({
-            source: "user_history",
-            subjectTitle: item.title || "",
-            date: item.dateStr || "",
-            timeRangeStr: item.timeRangeStr || "",
-            author: item.author || "",
-            isApproved: item.isApproved || false,
-            url: item.url || "",
-          }));
-
           const formattedSchedule = schedule.map((item: any) => ({
-            subjectTitle: item.subjectTitle || "",
-            date: item.date || "",
+            source: "monthly_schedule",
+            id: item.id || `${item.date || ""}:${item.subjectTitle || ""}`,
+            title: item.subjectTitle || "",
+            dateStr: item.date || "",
             timeRangeStr: "09:00 ~ 18:00",
             author: "소마 센터",
             isApproved: true,
             url: item.url || "",
           }));
 
-          resolve([...formattedHistory, ...formattedSchedule]);
+          resolve(formattedSchedule);
         }
       );
     } else {
@@ -101,45 +93,72 @@ async function loadParsedTeamInfo(): Promise<any[]> {
   });
 }
 
+async function loadParsedUserInfo(): Promise<any | null> {
+  return new Promise((resolve) => {
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.get(["parsedUserInfo"], (result) => {
+        resolve(result.parsedUserInfo || null);
+      });
+    } else {
+      resolve(null);
+    }
+  });
+}
+
 async function loadSyncStatus(): Promise<SyncStatus> {
+  const loadServerStatus = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/sync/status`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  };
+
   return new Promise((resolve) => {
     if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
       chrome.storage.local.get(
         [
           "parsedMentorings",
           "parsedTeamInfo",
-          "parsedHistoryCalendar",
           "parsedSchedule",
           "parsedUserInfo",
           "mentoringParseTimestamp",
           "teamParseTimestamp",
-          "historyCalendarParseTimestamp",
           "scheduleParseTimestamp",
           "userInfoParseTimestamp",
         ],
         (result) => {
-          const mList = result.parsedMentorings || [];
-          const tList = result.parsedTeamInfo || [];
-          const hcList = result.parsedHistoryCalendar || [];
-          const sList = result.parsedSchedule || [];
-          const userInfo = result.parsedUserInfo || null;
-          resolve({
-            hasUserInfo: !!(userInfo && (userInfo.name || userInfo.email || userInfo.phone)),
-            hasMentorings: mList.length > 0,
-            hasTeams: tList.length > 0,
-            hasHistoryCalendar: hcList.length > 0,
-            hasSchedule: sList.length > 0,
-            userInfoTimestamp: result.userInfoParseTimestamp || null,
-            mentoringTimestamp: result.mentoringParseTimestamp || null,
-            teamTimestamp: result.teamParseTimestamp || null,
-            historyCalendarTimestamp: result.historyCalendarParseTimestamp || null,
-            scheduleTimestamp: result.scheduleParseTimestamp || null,
-            userInfoName: userInfo?.name || "",
-            mentoringCount: mList.length,
-            teamCount: tList.length,
-            historyCalendarCount: hcList.length,
-            scheduleCount: sList.length,
-          });
+          void (async () => {
+            const serverStatus = await loadServerStatus();
+            const readiness = serverStatus?.readiness || {};
+            const calendarBySource = serverStatus?.user_calendar?.by_source || {};
+            const calendarByOwnerSource = serverStatus?.user_calendar?.by_owner_source || {};
+            const mList = result.parsedMentorings || [];
+            const tList = result.parsedTeamInfo || [];
+            const sList = result.parsedSchedule || [];
+            const userInfo = result.parsedUserInfo || null;
+            const ownerCalendarStats = userInfo?.name ? calendarByOwnerSource[userInfo.name] || {} : {};
+            resolve({
+              hasUserInfo: !!(userInfo && (userInfo.name || userInfo.email || userInfo.phone)),
+              hasMentorings: mList.length > 0,
+              hasTeams: tList.length > 0,
+              hasSchedule: sList.length > 0,
+              userInfoTimestamp: result.userInfoParseTimestamp || null,
+              mentoringTimestamp: result.mentoringParseTimestamp || null,
+              teamTimestamp: result.teamParseTimestamp || null,
+              scheduleTimestamp: result.scheduleParseTimestamp || null,
+              userInfoName: userInfo?.name || "",
+              mentoringCount: mList.length,
+              teamCount: tList.length,
+              scheduleCount: sList.length,
+              serverUserInfoCount: readiness.user_info?.total ?? null,
+              serverMentoringCount: serverStatus?.mentorings?.total ?? readiness.mentorings?.total ?? null,
+              serverTeamCount: readiness.team_info?.total ?? null,
+              serverScheduleCount: ownerCalendarStats.monthly_schedule ?? calendarBySource.monthly_schedule ?? null,
+            });
+          })();
         }
       );
     } else {
@@ -147,18 +166,19 @@ async function loadSyncStatus(): Promise<SyncStatus> {
         hasUserInfo: false,
         hasMentorings: false,
         hasTeams: false,
-        hasHistoryCalendar: false,
         hasSchedule: false,
         userInfoTimestamp: null,
         mentoringTimestamp: null,
         teamTimestamp: null,
-        historyCalendarTimestamp: null,
         scheduleTimestamp: null,
         userInfoName: "",
         mentoringCount: 0,
         teamCount: 0,
-        historyCalendarCount: 0,
         scheduleCount: 0,
+        serverUserInfoCount: null,
+        serverMentoringCount: null,
+        serverTeamCount: null,
+        serverScheduleCount: null,
       });
     }
   });
@@ -176,6 +196,12 @@ function formatTimestamp(ts: number | null): string {
   const diffHour = Math.floor(diffMin / 60);
   if (diffHour < 24) return `${diffHour}시간 전`;
   return date.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
+}
+
+function formatStoredCount(localCount: number, serverCount: number | null): string {
+  if (serverCount === null) return `${localCount}건`;
+  if (localCount === serverCount) return `${localCount}건`;
+  return `수집 ${localCount}건 / 서버 ${serverCount}건`;
 }
 
 // ── 메인 컴포넌트 ─────────────────────────────────────
@@ -197,18 +223,19 @@ export const ChatPanel: React.FC = () => {
     hasUserInfo: false,
     hasMentorings: false,
     hasTeams: false,
-    hasHistoryCalendar: false,
     hasSchedule: false,
     userInfoTimestamp: null,
     mentoringTimestamp: null,
     teamTimestamp: null,
-    historyCalendarTimestamp: null,
     scheduleTimestamp: null,
     userInfoName: "",
     mentoringCount: 0,
     teamCount: 0,
-    historyCalendarCount: 0,
     scheduleCount: 0,
+    serverUserInfoCount: null,
+    serverMentoringCount: null,
+    serverTeamCount: null,
+    serverScheduleCount: null,
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
   const [agentStatus, setAgentStatus] = useState<string | null>(null);
@@ -269,6 +296,7 @@ export const ChatPanel: React.FC = () => {
       setProcessingSteps(["요청을 확인하고 있어요..."]);
 
       try {
+        const parsedUserInfo = await loadParsedUserInfo();
         const res = await fetch(`${API_BASE}/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -278,6 +306,7 @@ export const ChatPanel: React.FC = () => {
             user_calendar: null,
             available_mentorings: null,
             team_info: null,
+            user_info: parsedUserInfo,
           }),
         });
 
@@ -417,39 +446,56 @@ export const ChatPanel: React.FC = () => {
     syncStatus.userInfoTimestamp || 0,
     syncStatus.mentoringTimestamp || 0,
     syncStatus.teamTimestamp || 0,
-    syncStatus.historyCalendarTimestamp || 0,
     syncStatus.scheduleTimestamp || 0
   );
 
   const hasAnyData =
-    syncStatus.hasUserInfo || syncStatus.hasMentorings || syncStatus.hasTeams || syncStatus.hasHistoryCalendar || syncStatus.hasSchedule;
+    syncStatus.hasUserInfo || syncStatus.hasMentorings || syncStatus.hasTeams || syncStatus.hasSchedule;
 
   const dataCount = [
     syncStatus.hasUserInfo,
     syncStatus.hasMentorings,
     syncStatus.hasTeams,
-    syncStatus.hasHistoryCalendar,
     syncStatus.hasSchedule,
   ].filter(Boolean).length;
 
   const clearSyncData = async () => {
-    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-      chrome.storage.local.clear(async () => {
-        await fetch(`${API_BASE}/chat`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: "동기화 데이터를 수동으로 초기화했습니다.",
-            session_id: sessionId,
-            user_calendar: [],
-            available_mentorings: [],
-            team_info: [],
-            user_info: {},
-          }),
-        }).catch(() => {});
+    const clearServer = fetch(`${API_BASE}/sync`, { method: "DELETE" }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Server clear failed: ${res.status}`);
+      }
+    });
+    const clearBrowser = new Promise<void>((resolve) => {
+      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.clear(() => resolve());
+      } else {
+        resolve();
+      }
+    });
 
-        refreshSyncStatus();
-      });
+    try {
+      await Promise.all([clearServer, clearBrowser]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: generateId(),
+          role: "system",
+          content: "수집 데이터가 초기화되었습니다. 브라우저 저장소와 서버 동기화 데이터가 모두 삭제되었습니다.",
+          timestamp: new Date(),
+        },
+      ]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: generateId(),
+          role: "system",
+          content: "수집 데이터 초기화 중 서버 삭제 요청에 실패했습니다. 백엔드 서버 상태를 확인해 주세요.",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      refreshSyncStatus();
     }
   };
 
@@ -629,25 +675,15 @@ export const ChatPanel: React.FC = () => {
       const sYear = now.getFullYear();
       const sMonth = String(now.getMonth() + 1).padStart(2, '0');
 
-      // 1. 기본정보, 2. 개인 접수 이력, 3. 월간 일정, 4. 팀 매칭, 5. 멘토링 목록을 병렬로 동시 시작!
+      // 1. 기본정보, 2. 월간 일정, 3. 팀 매칭, 4. 멘토링 목록을 병렬로 동시 시작!
       setSyncProgress("포털 데이터 병렬 수집 시작...");
 
-      const [parsedUserInfo, historyDocs, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
+      const [parsedUserInfo, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
         fetchAndParse("myInfo/forUpdateMy.do?menuNo=200036", parseMyInfoPage),
-        fetchAllPagesDocs("userAnswer/history.do?menuNo=200047", "개인 시간표"),
         fetchAndParse(`schedule/list.do?menuNo=200043&sYear=${sYear}&sMonth=${sMonth}`, parseCalendarResultList),
         fetchAndParse("myTeam/team.do?menuNo=200093", parseTeamPage),
         fetchAllPagesDocs("mentoLec/list.do?menuNo=200046", "멘토링/특강 목록")
       ]);
-
-      let parsedHistory: any[] | null = null;
-      if (historyDocs) {
-        parsedHistory = [];
-        historyDocs.forEach(doc => {
-          const items = parseHistoryPage(doc);
-          if (items) parsedHistory = [...(parsedHistory || []), ...items];
-        });
-      }
 
       let parsedMentorings: any[] | null = null;
       let parsedCalendarItems: any[] = [];
@@ -662,72 +698,105 @@ export const ChatPanel: React.FC = () => {
       }
 
       if (parsedMentorings && parsedMentorings.length > 0) {
-        // 수집된 모든 멘토링 중 "접수중"인 건들만 상세 페이지를 병렬 Fetch하여 상세 필드 갱신
-        const activeMentorings = parsedMentorings.filter((item: any) => item.status === "접수중" && item.url);
+        const seenDetailKeys = new Set<string>();
+        const mentoringDetailTargets = parsedMentorings.filter((item: any) => {
+          if (!item.url) return false;
+          const key = item.id || item.url;
+          if (seenDetailKeys.has(key)) return false;
+          seenDetailKeys.add(key);
+          return true;
+        });
         const detailedMentorings = [...parsedMentorings];
 
-        if (activeMentorings.length > 0) {
-          setSyncProgress(`멘토링 상세정보 업데이트 중... (0 / ${activeMentorings.length}건 완료)`);
+        const buildDetailUrlCandidates = (item: any): string[] => {
+          const url = item.url || "";
+          const fallbackPath = item.id ? `mentoLec/view.do?menuNo=200046&qustnrSn=${encodeURIComponent(item.id)}` : "";
+          if (/^https?:\/\//i.test(url)) return [url];
+
+          const relativePaths = url.toLowerCase().startsWith("javascript:")
+            ? [fallbackPath].filter(Boolean)
+            : [url, fallbackPath].filter(Boolean);
+          const candidates: string[] = [];
+          for (const origin of origins) {
+            for (const path of relativePaths) {
+              if (path.startsWith("/")) {
+                candidates.push(`${origin}${path}`);
+                continue;
+              }
+              for (const center of centers) {
+                candidates.push(`${origin}${center}/sw/mypage/${path}`);
+              }
+            }
+          }
+          return Array.from(new Set(candidates));
+        };
+
+        if (mentoringDetailTargets.length > 0) {
+          setSyncProgress(`멘토링 상세정보 전체 업데이트 중... (0 / ${mentoringDetailTargets.length}건 완료)`);
 
           const results = await runConcurrentPool(
-            activeMentorings,
-            20, // 20개 동시 요청 한도 설정
+            mentoringDetailTargets,
+            30,
             async (item) => {
-              let targetUrl = item.url;
-              if (targetUrl.startsWith("/")) {
-                targetUrl = `${origins[0]}${targetUrl}`;
-              }
-              try {
-                const res = await fetch(targetUrl, { credentials: "include" });
-                if (res.ok) {
-                  const html = await res.text();
-                  if (!html.includes("loginForm") && !html.includes("member/user/login.do")) {
-                    const doc = new DOMParser().parseFromString(html, "text/html");
-                    const detail = parseMentoringDetailPage(doc);
-                    return { id: item.id, detail };
+              for (const targetUrl of buildDetailUrlCandidates(item)) {
+                try {
+                  const res = await fetch(targetUrl, { credentials: "include" });
+                  if (res.ok) {
+                    const html = await res.text();
+                    if (!html.includes("loginForm") && !html.includes("member/user/login.do")) {
+                      const doc = new DOMParser().parseFromString(html, "text/html");
+                      const detail = parseMentoringDetailPage(doc);
+                      return { id: item.id, url: item.url, detail };
+                    }
                   }
+                } catch (e) {
+                  console.warn(`[SoMa Mate] 멘토링 상세 Fetch 실패: ${targetUrl}`, e);
                 }
-              } catch (e) {
-                console.warn(`[SoMa Mate] 멘토링 상세 Fetch 실패: ${targetUrl}`, e);
               }
               return null;
             },
             (completed, total) => {
-              setSyncProgress(`멘토링 상세정보 업데이트 중... (${completed} / ${total}건 완료)`);
+              setSyncProgress(`멘토링 상세정보 전체 업데이트 중... (${completed} / ${total}건 완료)`);
             }
           );
 
+          let detailSuccessCount = 0;
           results.forEach(res => {
             if (res) {
-              const idx = detailedMentorings.findIndex((m: any) => m.id === res.id);
+              detailSuccessCount++;
+              const idx = detailedMentorings.findIndex((m: any) => (res.id && m.id === res.id) || m.url === res.url);
               if (idx > -1) {
                 const original = detailedMentorings[idx];
                 detailedMentorings[idx] = {
                   ...original,
-                  location: res.detail.location || "",
-                  deliveryMethod: res.detail.deliveryMethod || "",
-                  isOnline: res.detail.isOnline,
+                  location: res.detail.location || original.location || "",
+                  deliveryMethod: res.detail.deliveryMethod || original.deliveryMethod || "",
+                  isOnline: res.detail.isOnline ?? original.isOnline,
                   currentParticipants: res.detail.appliedCount || original.currentParticipants,
                   maxParticipants: res.detail.totalCount || original.maxParticipants,
                   mentor_name: res.detail.author || original.author,
+                  author: res.detail.author || original.author,
+                  dateStr: res.detail.dateStr || original.dateStr,
+                  timeRangeStr: res.detail.timeRangeStr || original.timeRangeStr,
                   description: res.detail.title || original.title,
+                  participantNames: res.detail.participantNames || original.participantNames || [],
                 };
               }
             }
           });
+          console.info(
+            `[SoMa Mate] 멘토링/특강 목록 ${parsedMentorings.length}건 중 상세 ${detailSuccessCount}/${mentoringDetailTargets.length}건 업데이트`
+          );
         }
         parsedMentorings = detailedMentorings;
+      } else if (mentoringDocs) {
+        throw new Error("멘토링/특강 목록 페이지는 열렸지만 파싱된 항목이 0건입니다. 포털 목록 DOM 구조가 바뀌었을 수 있습니다.");
       }
 
       const updates: any = {};
       if (parsedUserInfo && (parsedUserInfo.name || parsedUserInfo.email || parsedUserInfo.phone)) {
         updates.parsedUserInfo = parsedUserInfo;
         updates.userInfoParseTimestamp = timestamp;
-        successCount++;
-      }
-      if (parsedHistory) {
-        updates.parsedHistoryCalendar = parsedHistory;
-        updates.historyCalendarParseTimestamp = timestamp;
         successCount++;
       }
       if (parsedSchedule) {
@@ -756,49 +825,52 @@ export const ChatPanel: React.FC = () => {
           });
         });
 
-        // 📡 백엔드 데이터베이스 및 ChromaDB RAG 연동 (단 1회 수행)
+        // 백엔드 데이터베이스 및 ChromaDB RAG 연동 (단 1회 수행)
         setSyncProgress("백엔드 데이터베이스 동기화 중...");
         
-        const formattedHistory = (parsedHistory || []).map((item: any) => ({
-          source: "user_history",
-          id: item.id || "",
-          title: item.title || "",
+        const formattedSchedule = (parsedSchedule || []).map((item: any) => ({
+          source: "monthly_schedule",
+          id: item.id || `${item.date || ""}:${item.subjectTitle || item.title || ""}`,
+          title: item.subjectTitle || item.title || "",
           url: item.url || "",
-          author: item.author || "",
-          dateStr: item.dateStr || "",
-          timeRangeStr: item.timeRangeStr || "",
-          status: item.status || "",
-          isApproved: item.isApproved || false,
+          author: item.author || "소마 센터",
+          dateStr: item.date || item.dateStr || "",
+          timeRangeStr: item.timeRangeStr || "09:00 ~ 18:00",
+          status: item.status || "공식",
+          isApproved: true,
         }));
 
         try {
-          const res = await fetch(`${API_BASE}/chat`, {
+          const res = await fetch(`${API_BASE}/sync`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              message: "포털 데이터 동기화를 완료했습니다.",
-              session_id: sessionId,
-              user_calendar: formattedHistory,
+              user_calendar: formattedSchedule,
               available_mentorings: parsedMentorings || [],
               team_info: parsedTeams || [],
               user_info: parsedUserInfo || null,
             }),
           });
-          if (res.ok) {
-            const reader = res.body?.getReader();
-            if (reader) {
-              while (true) {
-                const { done } = await reader.read();
-                if (done) break;
-              }
-            }
+          if (!res.ok) {
+            throw new Error(`Backend sync failed: ${res.status}`);
           }
+          const syncResult = await res.json();
+          console.info("[SoMa Mate] 백엔드 동기화 결과:", syncResult);
         } catch (syncErr) {
           console.error("[SoMa Mate] 백엔드 연동 동기화 실패:", syncErr);
         }
       }
     } catch (err) {
       console.error("Background sync error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: generateId(),
+          role: "system",
+          content: err instanceof Error ? err.message : "포털 데이터 동기화 중 오류가 발생했습니다.",
+          timestamp: new Date(),
+        },
+      ]);
     } finally {
       if (!silent) setIsLoading(false);
       setSyncProgress(null);
@@ -845,7 +917,7 @@ export const ChatPanel: React.FC = () => {
           >
             <span>📡 포털 데이터 수집 현황</span>
             <span className="sync-status-summary">
-              {dataCount} / 5 연동
+              {dataCount} / 4 연동
               <ChevronDown size={14} className={isSyncStatusOpen ? "chevron open" : "chevron"} />
             </span>
           </button>
@@ -862,32 +934,26 @@ export const ChatPanel: React.FC = () => {
                   <span className="label">기본정보</span>
                   <span className={`value ${syncStatus.userInfoTimestamp ? "connected" : "disconnected"}`}>
                     {syncStatus.userInfoTimestamp
-                      ? `✅ 연동됨${syncStatus.userInfoName ? ` (${syncStatus.userInfoName})` : ""} ${formatTimestamp(syncStatus.userInfoTimestamp)}`
+                      ? `✅ 연동됨${syncStatus.userInfoName ? ` (${syncStatus.userInfoName})` : ""}${syncStatus.serverUserInfoCount === 1 ? " / 서버 저장됨" : syncStatus.serverUserInfoCount === 0 ? " / 서버 0건" : ""} ${formatTimestamp(syncStatus.userInfoTimestamp)}`
                       : "⬜ 미수집"}
                   </span>
                 </li>
                 <li>
                   <span className="label">멘토링/특강 목록</span>
                   <span className={`value ${syncStatus.mentoringTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.mentoringTimestamp ? `✅ 연동됨 (${syncStatus.mentoringCount}건) ${formatTimestamp(syncStatus.mentoringTimestamp)}` : "⬜ 미수집"}
-                  </span>
-                </li>
-                <li>
-                  <span className="label">개인 시간표 (접수내역)</span>
-                  <span className={`value ${syncStatus.historyCalendarTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.historyCalendarTimestamp ? `✅ 연동됨 (${syncStatus.historyCalendarCount}건) ${formatTimestamp(syncStatus.historyCalendarTimestamp)}` : "⬜ 미수집"}
+                    {syncStatus.mentoringTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.mentoringCount, syncStatus.serverMentoringCount)}) ${formatTimestamp(syncStatus.mentoringTimestamp)}` : "⬜ 미수집"}
                   </span>
                 </li>
                 <li>
                   <span className="label">센터 월간일정 (공식)</span>
                   <span className={`value ${syncStatus.scheduleTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.scheduleTimestamp ? `✅ 연동됨 (${syncStatus.scheduleCount}건) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 미수집"}
+                    {syncStatus.scheduleTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.scheduleCount, syncStatus.serverScheduleCount)}) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 미수집"}
                   </span>
                 </li>
                 <li>
                   <span className="label">소속 팀 매칭 정보</span>
                   <span className={`value ${syncStatus.teamTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.teamTimestamp ? `✅ 연동됨 (${syncStatus.teamCount}건) ${formatTimestamp(syncStatus.teamTimestamp)}` : "⬜ 미수집"}
+                    {syncStatus.teamTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.teamCount, syncStatus.serverTeamCount)}) ${formatTimestamp(syncStatus.teamTimestamp)}` : "⬜ 미수집"}
                   </span>
                 </li>
               </ul>
@@ -915,12 +981,12 @@ export const ChatPanel: React.FC = () => {
             <div className="quick-actions-grid">
               <button
                 className="quick-action-card"
-                onClick={() => setInput("우리 팀 정보를 확인하고, 이번 주에 어떤 요일/시간대에 2시간 동안 팀 회의를 진행할 수 있을지 가능한 후보 시간대를 모두 찾아서 추천해줘.")}
+                onClick={() => setInput("우리 팀 정보를 확인하고, 팀원 각자가 신청·참여 중인 멘토링/특강 일정을 모두 고려해서 이번 주에 팀원 전원이 2시간 동안 회의할 수 있는 후보 시간대를 모두 찾아줘.")}
               >
                 <div className="quick-action-icon">👥</div>
                 <div className="quick-action-content">
-                  <span className="action-title">이번 주 팀 회의 가능 시간 찾기</span>
-                  <span className="action-desc">우리 팀원들의 일정을 파악하여 이번 주 2시간 회의 가능 시간대를 분석해 줍니다.</span>
+                  <span className="action-title">팀 멘토링/특강 일정 기반 회의 시간</span>
+                  <span className="action-desc">팀원별 멘토링·특강 접수 일정을 충돌 조건으로 포함해 2시간 공통 회의 후보를 찾습니다.</span>
                 </div>
               </button>
               <button

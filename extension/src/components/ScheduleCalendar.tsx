@@ -17,6 +17,8 @@ type CellType = "available" | "meeting" | "unavailable" | "lecture" | "mentoring
 interface Cell {
   type: CellType;
   label: string;
+  tooltipTitle: string;
+  tooltipBody: string;
 }
 
 interface ParsedSchedule {
@@ -26,14 +28,64 @@ interface ParsedSchedule {
 
 function parseCellValue(raw: string): Cell {
   const v = raw.trim();
-  if (!v || v === "-") return { type: "available", label: "" };
-  if (v === "가능") return { type: "available", label: "" };
-  if (v === "회의") return { type: "meeting", label: "회의" };
-  if (v === "불가") return { type: "unavailable", label: "불가" };
-  if (v.startsWith("특강:")) return { type: "lecture", label: v.slice(3) };
-  if (v.startsWith("멘토링:")) return { type: "mentoring", label: v.slice(4) };
+  if (!v || v === "-") {
+    return {
+      type: "available",
+      label: "",
+      tooltipTitle: "가능",
+      tooltipBody: "이 시간대는 비어 있습니다.",
+    };
+  }
+  if (v === "가능") {
+    return {
+      type: "available",
+      label: "",
+      tooltipTitle: "가능",
+      tooltipBody: "이 시간대는 비어 있습니다.",
+    };
+  }
+  if (v === "회의" || v.startsWith("회의:")) {
+    const title = v.startsWith("회의:") ? v.slice(3).trim() : "회의";
+    return {
+      type: "meeting",
+      label: title,
+      tooltipTitle: "회의 불가",
+      tooltipBody: title ? `회의 "${title}"이(가) 배치된 시간대입니다.` : "팀 회의 또는 조율 불가 시간대입니다.",
+    };
+  }
+  if (v === "불가") {
+    return {
+      type: "unavailable",
+      label: "불가",
+      tooltipTitle: "불가",
+      tooltipBody: "다른 개인 일정이 겹치는 시간대입니다.",
+    };
+  }
+  if (v.startsWith("특강:")) {
+    const title = v.slice(3).trim();
+    return {
+      type: "lecture",
+      label: title,
+      tooltipTitle: "특강",
+      tooltipBody: title ? `특강 "${title}"이(가) 배치된 시간대입니다.` : "특강이 배치된 시간대입니다.",
+    };
+  }
+  if (v.startsWith("멘토링:")) {
+    const title = v.slice(4).trim();
+    return {
+      type: "mentoring",
+      label: title,
+      tooltipTitle: "멘토링",
+      tooltipBody: title ? `멘토링 "${title}"이(가) 배치된 시간대입니다.` : "멘토링이 배치된 시간대입니다.",
+    };
+  }
   // fallback: treat unknown as unavailable with label
-  return { type: "unavailable", label: v };
+  return {
+    type: "unavailable",
+    label: v,
+    tooltipTitle: "상세 정보",
+    tooltipBody: v,
+  };
 }
 
 function parseScheduleBlock(raw: string): ParsedSchedule | null {
@@ -63,7 +115,12 @@ function parseScheduleBlock(raw: string): ParsedSchedule | null {
 
     // Pad or trim to match header length
     while (cellValues.length < headers.length) {
-      cellValues.push({ type: "available", label: "" });
+      cellValues.push({
+        type: "available",
+        label: "",
+        tooltipTitle: "가능",
+        tooltipBody: "이 시간대는 비어 있습니다.",
+      });
     }
 
     timeSlots.push({ time, cells: cellValues.slice(0, headers.length) });
@@ -127,11 +184,18 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({ content }) =
                     key={ci}
                     className={`schedule-cell schedule-cell--${cell.type}`}
                     style={CELL_STYLES[cell.type]}
-                    title={cell.label || (cell.type === "available" ? "가능" : cell.type)}
+                    title={`${parsed.headers[ci] ?? ""} · ${slot.time}\n${cell.tooltipTitle}\n${cell.tooltipBody}`}
                   >
-                    {cell.label && (
-                      <span className="cell-label">{cell.label}</span>
-                    )}
+                    <span className="cell-label">
+                      {cell.label || (cell.type === "available" ? "가능" : "")}
+                    </span>
+                    <div className="schedule-tooltip" role="tooltip" aria-hidden="true">
+                      <div className="schedule-tooltip__header">{cell.tooltipTitle}</div>
+                      <div className="schedule-tooltip__meta">
+                        {parsed.headers[ci]} · {slot.time}
+                      </div>
+                      <div className="schedule-tooltip__body">{cell.tooltipBody}</div>
+                    </div>
                   </td>
                 ))}
               </tr>

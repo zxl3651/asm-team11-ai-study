@@ -6,112 +6,14 @@
  */
 
 import {
-  parseMentoringListPage,
-  parseCalendarResultList,
-  parseTeamPage,
-  parseHistoryPage,
   parseMentoringDetailPage
 } from "./parserUtils";
-
-// ── 해시 유틸리티 ─────────────────────────────────────
-// djb2 해시: 빠르고 가벼운 문자열 해시 (변경 감지 용도)
-function computeHash(str: string): string {
-  let hash = 5381;
-  for (let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) + hash + str.charCodeAt(i)) & 0xffffffff;
-  }
-  return hash.toString(36);
-}
-
-function getContentHash(doc: Document, pageType: string): string {
-  let contentToHash = "";
-
-  switch (pageType) {
-    case "mentoring": {
-      const tbody = doc.querySelector(
-        "#listFrm > div.boardlist.mt50 > table > tbody"
-      );
-      contentToHash += tbody?.innerHTML || "";
-
-      const scripts = Array.from(doc.querySelectorAll("script"));
-      for (const s of scripts) {
-        const text = s.textContent || "";
-        if (text.includes("resultList.push")) {
-          contentToHash += text;
-          break;
-        }
-      }
-      break;
-    }
-    case "team": {
-      const tbody = doc.querySelector(
-        "table.tbl-st1_sui.t.team > tbody"
-      );
-      contentToHash += tbody?.innerHTML || "";
-      break;
-    }
-    case "schedule": {
-      const scripts = Array.from(doc.querySelectorAll("script"));
-      for (const s of scripts) {
-        const text = s.textContent || "";
-        if (text.includes("resultList.push")) {
-          contentToHash += text;
-          break;
-        }
-      }
-      break;
-    }
-    case "history": {
-      const tbody = doc.querySelector(
-        "#contentsList > div > div > div.boardlist > div.tbl-ovx > table > tbody"
-      );
-      contentToHash += tbody?.innerHTML || "";
-      break;
-    }
-  }
-
-  contentToHash = contentToHash.replace(/\s+/g, " ").trim();
-  return computeHash(contentToHash);
-}
-
-function checkHashAndParse(
-  pageType: string,
-  currentHash: string,
-  parseAndSave: () => void
-): void {
-  const hashKey = `${pageType}_contentHash`;
-
-  chrome.storage.local.get([hashKey], (result) => {
-    const savedHash = result[hashKey];
-
-    if (savedHash === currentHash) {
-      console.log(
-        `[SoMa Mate] ${pageType} 페이지 내용 변경 없음 (hash: ${currentHash}). 파싱 스킵.`
-      );
-      chrome.runtime.sendMessage({
-        type: "PARSE_SKIPPED",
-        page: pageType,
-        reason: "no_change",
-      });
-      return;
-    }
-
-    console.log(
-      `[SoMa Mate] ${pageType} 페이지 내용 변경 감지 (old: ${savedHash || "없음"} → new: ${currentHash}). 파싱 실행.`
-    );
-
-    chrome.storage.local.set({ [hashKey]: currentHash }, () => {
-      parseAndSave();
-    });
-  });
-}
 
 // ── 메인 실행 로직 ────────────────────────────────────
 
 function main() {
   const path = window.location.pathname;
   const url = window.location.href;
-  const timestamp = Date.now();
 
   console.log(`[SoMa Mate] Content Script 실행: ${path}`);
 

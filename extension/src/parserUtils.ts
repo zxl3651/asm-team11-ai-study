@@ -417,6 +417,7 @@ export interface MentoringDetail {
   appliedCount: number;
   totalCount: number;
   isApproved: boolean;
+  participantNames: string[];
 }
 
 function getTopValue(container: Document | HTMLElement, label: string): string | null {
@@ -466,6 +467,43 @@ function getDetailTimeFields(timeStr: string | null): { dateStr: string; timeRan
   };
 }
 
+function extractParticipantNames(doc: Document): string[] {
+  const keywords = ["신청자", "참여자", "접수자", "신청 연수생", "참여 연수생", "신청현황", "참여현황", "수강생"];
+  const excluded = new Set([
+    "작성자", "모집인원", "개설 승인", "진행방식", "강의날짜", "장소", "모집 명",
+    "신청", "취소", "상태", "승인", "이름", "소속", "연수생", "멘토",
+  ]);
+  const namePattern = /^[가-힣]{2,5}$/;
+  const names = new Set<string>();
+
+  const addName = (value: string | null | undefined) => {
+    const cleanValue = (value || "").replace(/\s+/g, " ").trim();
+    if (!cleanValue || excluded.has(cleanValue)) return;
+    if (namePattern.test(cleanValue)) {
+      names.add(cleanValue);
+    }
+  };
+
+  const candidateContainers = Array.from(doc.querySelectorAll("table, tbody, tr, div, ul, ol, section"))
+    .filter((el) => {
+      const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      return keywords.some((keyword) => text.includes(keyword));
+    });
+
+  for (const container of candidateContainers) {
+    container.querySelectorAll("a.sui, a[href*='user'], a[href*='member'], span.name, td.name, strong.name").forEach((el) => {
+      addName(el.textContent);
+    });
+
+    container.querySelectorAll("td, span, strong, a").forEach((el) => {
+      const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      text.split(/[,/·|]/).forEach(addName);
+    });
+  }
+
+  return Array.from(names);
+}
+
 export function parseMentoringDetailPage(doc: Document): MentoringDetail {
   const capacityText = getTopValue(doc, "모집인원");
   const approvedText = getTopValue(doc, "개설 승인");
@@ -487,6 +525,7 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
     appliedCount: getAppliedCount(appliedSummary),
     totalCount: getPeopleCount(capacityText),
     isApproved: approvedText === "OK",
+    participantNames: extractParticipantNames(doc),
   };
 }
 
