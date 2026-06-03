@@ -70,52 +70,50 @@ async def health():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
-        # 프론트엔드에서 실시간 스케줄을 보내왔다면 user_calendar.json 갱신
+        from database import db
+        
+        # 프론트엔드에서 실시간 스케줄을 보내왔다면 SQLite DB 갱신
         if req.user_calendar is not None:
             try:
-                with open(USER_CALENDAR_FILE, "w", encoding="utf-8") as f:
-                    json.dump(req.user_calendar, f, ensure_ascii=False, indent=2)
+                db.save_user_calendar(req.user_calendar)
             except Exception as e:
-                print(f"⚠️ 캘린더 캐시 파일 쓰기 실패: {str(e)}")
+                print(f"⚠️ 캘린더 DB 저장 실패: {str(e)}")
 
-        # 프론트엔드에서 실시간 특강 목록을 보내왔다면 mentorings_realtime.json 갱신
+        # 프론트엔드에서 실시간 특강 목록을 보내왔다면 SQLite DB 및 ChromaDB 갱신
         if req.available_mentorings is not None:
             try:
-                with open(REALTIME_MENTORINGS_FILE, "w", encoding="utf-8") as f:
-                    json.dump(req.available_mentorings, f, ensure_ascii=False, indent=2)
+                db.save_mentorings(req.available_mentorings)
+                # ChromaDB 벡터 스토어 동기화
+                from vector_store import sync_mentorings_to_vector_db
+                sync_mentorings_to_vector_db(req.available_mentorings)
             except Exception as e:
-                print(f"⚠️ 실시간 특강 캐시 파일 쓰기 실패: {str(e)}")
+                print(f"⚠️ 실시간 특강 DB/벡터 저장 실패: {str(e)}")
 
-        # 프론트엔드에서 팀 정보를 보내왔다면 team_info.json 갱신
+        # 프론트엔드에서 팀 정보를 보내왔다면 SQLite DB 갱신
         if req.team_info is not None:
             try:
-                with open(TEAM_INFO_FILE, "w", encoding="utf-8") as f:
-                    json.dump(req.team_info, f, ensure_ascii=False, indent=2)
+                db.save_team_info(req.team_info)
             except Exception as e:
-                print(f"⚠️ 팀 정보 캐시 파일 쓰기 실패: {str(e)}")
-
-        sessions = app.state.sessions
-        history = sessions.get(req.session_id, [])
+                print(f"⚠️ 팀 정보 DB 저장 실패: {str(e)}")
 
         response_text, updated_history = run_agent(
             user_message=req.message,
-            conversation_history=history,
+            session_id=req.session_id,
             agent_graph=app.state.agent,
         )
-
-        sessions[req.session_id] = updated_history[-20:]
 
         return ChatResponse(response=response_text, session_id=req.session_id)
 
     except KeyError:
         raise HTTPException(status_code=500, detail="UPSTAGE_API_KEY가 설정되지 않았습니다.")
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"AI API 오류: {str(e)}")
+        raise HTTPException(status_code=520, detail=f"AI API 오류: {str(e)}")
 
 
 @app.delete("/chat/{session_id}")
 async def clear_session(session_id: str):
-    app.state.sessions.pop(session_id, None)
+    from database import db
+    db.clear_chat_history(session_id)
     return {"message": f"세션 '{session_id}' 초기화 완료"}
 
 

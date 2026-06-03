@@ -24,3 +24,7 @@ node_modules/
 backend/data/*_progress.json
 .claude/
 extension/dist
+
+# DB 및 벡터 스토어 데이터
+backend/data/soma.db
+backend/chroma_data/

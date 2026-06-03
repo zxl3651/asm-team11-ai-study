@@ -361,25 +361,23 @@ export const ChatPanel: React.FC = () => {
   ].filter(Boolean).length;
 
   const clearSyncData = async () => {
-    if (window.confirm("수집된 모든 포털 데이터(멘토링, 팀 정보, 시간표)를 초기화하시겠습니까?")) {
-      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.clear(async () => {
-          await fetch(`${API_BASE}/chat`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              message: "동기화 데이터를 수동으로 초기화했습니다.",
-              session_id: sessionId,
-              user_calendar: [],
-              available_mentorings: [],
-              team_info: [],
-            }),
-          }).catch(() => {});
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.clear(async () => {
+        await fetch(`${API_BASE}/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "동기화 데이터를 수동으로 초기화했습니다.",
+            session_id: sessionId,
+            user_calendar: [],
+            available_mentorings: [],
+            team_info: [],
+          }),
+        }).catch(() => {});
 
-          refreshSyncStatus();
-          showToast("모든 포털 수집 데이터가 초기화되었습니다.", "success");
-        });
-      }
+        refreshSyncStatus();
+        showToast("모든 포털 수집 데이터가 초기화되었습니다.", "success");
+      });
     }
   };
 
@@ -559,8 +557,16 @@ export const ChatPanel: React.FC = () => {
       const sYear = now.getFullYear();
       const sMonth = String(now.getMonth() + 1).padStart(2, '0');
 
-      // 1. 개인 접수 이력 (다중 페이지)
-      const historyDocs = await fetchAllPagesDocs("userAnswer/history.do?menuNo=200047", "개인 시간표");
+      // 1. 개인 접수 이력, 2. 월간 일정, 3. 팀 매칭, 4. 멘토링 목록을 병렬로 동시 시작!
+      setSyncProgress("포털 데이터 병렬 수집 시작...");
+
+      const [historyDocs, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
+        fetchAllPagesDocs("userAnswer/history.do?menuNo=200047", "개인 시간표"),
+        fetchAndParse(`schedule/list.do?menuNo=200043&sYear=${sYear}&sMonth=${sMonth}`, parseCalendarResultList),
+        fetchAndParse("myTeam/team.do?menuNo=200093", parseTeamPage),
+        fetchAllPagesDocs("mentoLec/list.do?menuNo=200046", "멘토링/특강 목록")
+      ]);
+
       let parsedHistory: any[] | null = null;
       if (historyDocs) {
         parsedHistory = [];
@@ -570,16 +576,6 @@ export const ChatPanel: React.FC = () => {
         });
       }
 
-      // 2. 월간 일정
-      setSyncProgress("센터 월간 일정 수집 중...");
-      const parsedSchedule = await fetchAndParse(`schedule/list.do?menuNo=200043&sYear=${sYear}&sMonth=${sMonth}`, parseCalendarResultList);
-      
-      // 3. 팀 매칭 현황
-      setSyncProgress("소속 팀 매칭 정보 수집 중...");
-      const parsedTeams = await fetchAndParse("myTeam/team.do?menuNo=200093", parseTeamPage);
-
-      // 4. 멘토링/특강 목록 (다중 페이지)
-      const mentoringDocs = await fetchAllPagesDocs("mentoLec/list.do?menuNo=200046", "멘토링/특강 목록");
       let parsedMentorings: any[] | null = null;
       let parsedCalendarItems: any[] = [];
       if (mentoringDocs) {

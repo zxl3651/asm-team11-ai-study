@@ -422,10 +422,10 @@ export interface MentoringDetail {
 function getTopValue(container: Document | HTMLElement, label: string): string | null {
   const groups = Array.from(container.querySelectorAll("div.top .group"));
   const group = groups.find(
-    (item) => (item.querySelector(".t") as HTMLElement)?.innerText.trim() === label
+    (item) => (item.querySelector(".t")?.textContent || "").trim() === label
   );
   return (
-    (group?.querySelector(".c") as HTMLElement)?.innerText.replace(/\s+/g, " ").trim() || null
+    group?.querySelector(".c")?.textContent?.replace(/\s+/g, " ").trim() || null
   );
 }
 
@@ -470,8 +470,8 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
   const capacityText = getTopValue(doc, "모집인원");
   const approvedText = getTopValue(doc, "개설 승인");
   const appliedSummary =
-    (doc.querySelector(".total-normal.mt50") as HTMLElement)
-      ?.innerText.replace(/\s+/g, " ")
+    doc.querySelector(".total-normal.mt50")
+      ?.textContent?.replace(/\s+/g, " ")
       .trim() || "";
   const deliveryMethod = getTopValue(doc, "진행방식") || "";
   const timeStr = getTopValue(doc, "강의날짜");

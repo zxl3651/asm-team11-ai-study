@@ -41,13 +41,11 @@ def _normalize_parsed_mentoring(item: dict) -> dict:
 
 
 def _load_mentorings() -> list[dict]:
-    if REALTIME_MENTORINGS_FILE.exists():
-        try:
-            with open(REALTIME_MENTORINGS_FILE, encoding="utf-8") as f:
-                raw = json.load(f)
-                return [_normalize_parsed_mentoring(item) for item in raw]
-        except Exception:
-            pass
+    from database import db
+    db_items = db.load_mentorings()
+    if db_items:
+        return [_normalize_parsed_mentoring(item) for item in db_items]
+    # Fallback to static JSON file if DB is empty
     with open(DATA_DIR / "mentorings.json", encoding="utf-8") as f:
         return json.load(f)
 
@@ -103,6 +101,106 @@ def search_mentors(
     }
 
 
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
+import re
+import os
+
+def _get_solar_llm():
+    return ChatOpenAI(
+        model="solar-pro",
+        api_key=os.environ.get("UPSTAGE_API_KEY", ""),
+        base_url="https://api.upstage.ai/v1",
+        temperature=0
+    )
+
+def analyze_query_for_search(user_query: str) -> dict:
+    print(f"\n🔍 [RAG-STEP 1] Query Analysis 시작...")
+    print(f"   └─ 사용자 자연어 질의: '{user_query}'")
+    llm = _get_solar_llm()
+    system_prompt = """사용자의 소마 특강/멘토링 검색용 입력(질문)을 분석하여 최적의 검색을 위해 정보를 추출하십시오.
+반환 형식은 반드시 JSON 형태여야 하며, 다음 필드들을 포함해야 합니다:
+{
+  "search_query": "벡터 DB 검색에 적합하게 정리된 검색어 (예: 'Spring Boot 백엔드 멘토링')",
+  "content_type": "mentoring 또는 lecture 또는 null",
+  "keywords": ["핵심 기술/도메인 단어 목록", "예: ['Spring Boot', '백엔드']"]
+}
+JSON 외의 다른 텍스트는 응답에 포함하지 마십시오."""
+
+    try:
+        response = llm.invoke([
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_query)
+        ])
+        text = response.content.strip()
+        json_match = re.search(r"\{[\s\S]*\}", text)
+        if json_match:
+            res = json.loads(json_match.group(0))
+            print(f"   └─ 분석 성공: search_query='{res.get('search_query')}', content_type='{res.get('content_type')}', keywords={res.get('keywords')}")
+            return res
+    except Exception as e:
+        print(f"⚠️ [RAG-STEP 1] Query analysis failed: {str(e)}")
+    return {
+        "search_query": user_query,
+        "content_type": None,
+        "keywords": []
+    }
+
+def rerank_mentorings_with_llm(user_query: str, candidates: list[dict], limit: int = 5) -> list[dict]:
+    if not candidates:
+        return []
+    
+    print(f"\n🧠 [RAG-STEP 4] LLM Reranking 시작 (후보군 {len(candidates)}개)...")
+    llm = _get_solar_llm()
+    
+    candidates_text = ""
+    for idx, item in enumerate(candidates):
+        candidates_text += f"""
+[후보 {idx}]
+ID: {item.get('id')}
+구분: {item.get('type')}
+제목: {item.get('title')}
+멘토: {item.get('author')}
+장소: {item.get('location')}
+진행방식: {item.get('deliveryMethod')}
+일정: {item.get('dateStr')} {item.get('timeRangeStr')}
+남은 자리: {item.get('max_participants', 0) - item.get('current_participants', 0)}명
+설명: {item.get('description', '')}
+---
+"""
+
+    system_prompt = f"""사용자의 질문에 대해 가장 적절한 소마 멘토링/특강 후보들을 평가하여 최적의 추천 중요도 순서대로 정렬해 주십시오.
+사용자 질문: "{user_query}"
+
+응답 형식은 반드시 정렬된 후보 ID들의 JSON 리스트 형식이어야 합니다.
+예시: ["123", "456", "789"]
+결과에 해당 JSON 리스트 이외의 설명이나 다른 문구는 포함하지 마십시오."""
+
+    try:
+        response = llm.invoke([
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=candidates_text)
+        ])
+        text = response.content.strip()
+        json_match = re.search(r"\[[\s\S]*\]", text)
+        if json_match:
+            sorted_ids = json.loads(json_match.group(0))
+            print(f"   └─ 리랭킹 순서 가공 완료: {sorted_ids[:limit]}")
+            id_to_item = {str(item.get("id")): item for item in candidates}
+            reranked = []
+            for item_id in sorted_ids:
+                item_id_str = str(item_id)
+                if item_id_str in id_to_item:
+                    reranked.append(id_to_item[item_id_str])
+            seen_ids = set(str(item.get("id")) for item in reranked)
+            for item in candidates:
+                if str(item.get("id")) not in seen_ids:
+                    reranked.append(item)
+            return reranked[:limit]
+    except Exception as e:
+        print(f"⚠️ [RAG-STEP 4] LLM Reranking failed: {str(e)}")
+    return candidates[:limit]
+
 def search_mentorings(
     content_type: str | None = None,
     domains: list[str] | None = None,
@@ -113,9 +211,32 @@ def search_mentorings(
 ) -> dict:
     """멘토링 및 특강을 조건에 맞게 검색합니다."""
     items = _load_mentorings()
-    results = []
+    
+    analyzed_query = None
+    search_query = query
+    if query:
+        analyzed_query = analyze_query_for_search(query)
+        search_query = analyzed_query.get("search_query", query)
+        if analyzed_query.get("content_type"):
+            content_type = analyzed_query.get("content_type")
 
+    vector_results = []
+    if search_query:
+        print(f"\n⚡ [RAG-STEP 2] ChromaDB 벡터 검색 수행...")
+        print(f"   └─ 검색어: '{search_query}'")
+        from vector_store import search_vector_mentorings
+        vector_results = search_vector_mentorings(search_query, n_results=20)
+        print(f"   └─ 벡터 매칭 완료 (ChromaDB 결과 {len(vector_results)}건 반환)")
+    else:
+        print("\n⚡ [RAG-STEP 2] 검색어가 제공되지 않아 벡터 검색을 건너뜁니다.")
+
+    print(f"\n🎯 [RAG-STEP 3] SQLite 하이브리드 필터링 및 가중치 합산 시작...")
+    results = []
+    vector_ids = {res["id"]: res for res in vector_results}
+    
     for item in items:
+        item_id = str(item.get("id", ""))
+        
         item_status = item.get("status", "")
         if status and item_status != status:
             continue
@@ -124,20 +245,20 @@ def search_mentorings(
             if item.get("type") != content_type:
                 continue
 
-        # query 검색어 필터 (제목, ID, 작성자, 장소, 설명 매칭)
-        if query:
-            q_lower = query.lower()
+        score = 0
+        is_vector_match = item_id in vector_ids
+        if is_vector_match:
+            distance = vector_ids[item_id].get("distance")
+            similarity = max(0.0, 2.0 - (distance or 1.0))
+            score += similarity * 10
+        elif search_query:
+            q_lower = search_query.lower()
             title_match = q_lower in item.get("title", "").lower()
-            id_match = q_lower == str(item.get("id", ""))
             author_match = q_lower in item.get("author", "").lower()
             desc_match = q_lower in item.get("description", "").lower()
-            loc_match = q_lower in item.get("location", "").lower()
-            
-            if not (title_match or id_match or author_match or desc_match or loc_match):
-                continue
-
-        score = 0
-
+            if title_match or author_match or desc_match:
+                score += 3
+                
         if domains:
             item_domain = item.get("domain", "").lower()
             item_title = item.get("title", "").lower()
@@ -162,7 +283,7 @@ def search_mentorings(
             if matched:
                 score += len(matched)
 
-        if domains or stacks or goals:
+        if search_query or domains or stacks or goals:
             if score > 0:
                 results.append({**item, "_score": score})
         else:
@@ -172,6 +293,12 @@ def search_mentorings(
     for r in results:
         r.pop("_score", None)
 
+    print(f"   └─ 필터링 및 점수화 완료: 전체 {len(results)}건 매칭")
+
+    if query and results:
+        candidates = results[:15]
+        results = rerank_mentorings_with_llm(query, candidates, limit=5)
+        
     spots_info = []
     for r in results:
         max_p = r.get("max_participants", 0) or 0
@@ -181,6 +308,7 @@ def search_mentorings(
             "remaining_spots": max_p - cur_p,
         })
 
+    print(f"🏆 [RAG-STEP 5] 최종 최적 추천 리스트 {len(spots_info)}건 도출 완료")
     return {
         "total": len(spots_info),
         "items": spots_info,
@@ -237,16 +365,12 @@ USER_CALENDAR_FILE = DATA_DIR / "user_calendar.json"
 TEAM_INFO_FILE = DATA_DIR / "team_info.json"
 
 def _load_user_calendar() -> list[dict]:
-    if USER_CALENDAR_FILE.exists():
-        with open(USER_CALENDAR_FILE, encoding="utf-8") as f:
-            return json.load(f)
-    return []
+    from database import db
+    return db.load_user_calendar()
 
 def _load_team_info() -> list[dict]:
-    if TEAM_INFO_FILE.exists():
-        with open(TEAM_INFO_FILE, encoding="utf-8") as f:
-            return json.load(f)
-    return []
+    from database import db
+    return db.load_team_info()
 
 # LangChain Structured Tools 정의
 from langchain_core.tools import tool
