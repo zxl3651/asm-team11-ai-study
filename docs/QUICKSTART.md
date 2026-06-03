@@ -40,6 +40,14 @@ npm run build      # dist/ 생성 (개발 중엔 npm run dev 로 watch)
 > ⚠️ 아이콘 PNG(icon16/48/128)는 아직 없음. 임시로 `public/icons/`에 넣거나
 > manifest 의 `icons`/`action` 항목을 비워도 동작한다.
 
+## 멘토 데이터 갱신 (Notion 크롤링)
+소마 공개 Notion 멘토 DB를 긁어 `app/data/mentors.json`을 새로 채운다.
+```bash
+cd backend && source .venv/bin/activate
+python scripts/crawl_notion_mentors.py   # "저장 완료: N명" 출력
+```
+백엔드는 매 요청마다 JSON을 읽으므로 재시작 불필요.
+
 ## Upstage API 키 발급
 1. https://console.upstage.ai 로그인
 2. 좌측 **API Keys** → **Create new key**

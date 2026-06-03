@@ -1,32 +1,6491 @@
 [
   {
-    "id": "m1",
-    "name": "김백엔드",
-    "stacks": ["Java", "Spring", "AWS", "MSA"],
-    "fields": ["대규모 트래픽", "클라우드", "백엔드"],
-    "goals": ["취업"],
+    "id": "m_97091e40",
+    "name": "기술과 창업자들의 대나무숲 염승헌",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "창업",
+      "AGENT",
+      "마케팅",
+      "투자유치",
+      "회사경영"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토",
+      "해외멘토"
+    ],
+    "startup_experience": true,
+    "bio": "요리/ 운동/ 넷플릭스 24시간 몰아보기",
+    "github": "https://github.com/pixell-global/sayou",
+    "apply_url": "https://github.com/pixell-global/sayou"
+  },
+  {
+    "id": "m_83491e40",
+    "name": "전수열 멘토",
+    "stacks": [
+      "TypeScript",
+      "Python",
+      "Swift",
+      "ReactNative",
+      "Terraform"
+    ],
+    "fields": [
+      "백엔드",
+      "프론트엔드",
+      "서비스 개발",
+      "오픈소스",
+      "MVP 개발",
+      "UI",
+      "UX",
+      "린스타트업"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
     "startup_experience": false,
-    "bio": "네이버 서버 개발 10년. 대규모 트래픽 처리와 Spring 기반 MSA 멘토링.",
-    "apply_url": "https://swm.example/mentor/m1"
+    "bio": "코딩과 커피를 좋아해요",
+    "github": "https://github.com/devxoul",
+    "apply_url": "https://github.com/devxoul"
   },
   {
-    "id": "m2",
-    "name": "이창업",
-    "stacks": ["React", "Node", "TypeScript"],
-    "fields": ["창업", "프론트엔드", "프로덕트"],
-    "goals": ["창업"],
-    "startup_experience": true,
-    "bio": "스타트업 2회 창업/엑싯. React/Node 풀스택 + 초기 프로덕트 빌딩 멘토링.",
-    "apply_url": "https://swm.example/mentor/m2"
+    "id": "m_21391e40",
+    "name": "박재호 멘토",
+    "stacks": [
+      "AWS",
+      "Docker & Kubernetes",
+      "Cloud-Native Tools",
+      "Datadog",
+      "Terraform",
+      "Claude Code",
+      "React",
+      "Spring"
+    ],
+    "fields": [
+      "Infrastructure",
+      "DevOps",
+      "SRE",
+      "클라우드"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "헬스, 맛집 탐방",
+    "github": "",
+    "apply_url": "https://open.kakao.com/me/hoya91"
   },
   {
-    "id": "m3",
-    "name": "박데이터",
-    "stacks": ["Python", "PyTorch", "RAG", "LLM"],
-    "fields": ["AI", "데이터", "검색"],
-    "goals": ["취업", "창업"],
+    "id": "m_74c91e40",
+    "name": "이원준 멘토",
+    "stacks": [
+      "Kotlin",
+      "Python",
+      "C#",
+      "F#",
+      "Clojure"
+    ],
+    "fields": [
+      "백엔드",
+      "오픈소스",
+      "핀테크",
+      "금융",
+      "Web3",
+      "PM",
+      "창업"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
     "startup_experience": true,
-    "bio": "AI 리서치 엔지니어. LLM/RAG 기반 서비스 설계 멘토링.",
-    "apply_url": "https://swm.example/mentor/m3"
+    "bio": "3D 프린팅, 복싱",
+    "github": "https://github.com/Lee-WonJun",
+    "apply_url": "https://github.com/Lee-WonJun"
+  },
+  {
+    "id": "m_89191e40",
+    "name": "황대민 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "Node.js",
+      "Nest.js"
+    ],
+    "fields": [
+      "창업",
+      "AI",
+      "서비스 기획",
+      "서비스 개발",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_dd991e40",
+    "name": "전세진 멘토",
+    "stacks": [
+      "Kotlin",
+      "Spring",
+      "TypeScript",
+      "React"
+    ],
+    "fields": [
+      "백엔드",
+      "프론트엔드",
+      "창업",
+      "M&A"
+    ],
+    "types": [
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "https://github.com/3jins",
+    "apply_url": "https://github.com/3jins"
+  },
+  {
+    "id": "m_37f91e40",
+    "name": "정문창 멘토",
+    "stacks": [
+      "Java",
+      "Python"
+    ],
+    "fields": [
+      "백엔드",
+      "데이터 엔지니어링",
+      "Physical AI",
+      "Agentic AI",
+      "MLOps"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "새로운 일을 만들기",
+    "github": "https://github.com/comchangs",
+    "apply_url": "https://github.com/comchangs"
+  },
+  {
+    "id": "m_edd91e40",
+    "name": "임지수 멘토",
+    "stacks": [
+      "Go",
+      "Kotlin",
+      "TypeScript",
+      "Java",
+      "JavaScript",
+      "AWS"
+    ],
+    "fields": [
+      "창업",
+      "프로덕트 엔지니어링",
+      "SW아키텍처",
+      "수익화",
+      "AI",
+      "M&A"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "축구",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_46f91e40",
+    "name": "김재훈 멘토",
+    "stacks": [
+      "NextJs",
+      "React",
+      "ReactNative",
+      "Nest.js",
+      "TypeScript",
+      "AWS",
+      "JavaScript"
+    ],
+    "fields": [
+      "프론트엔드",
+      "Web",
+      "모바일 APP",
+      "AWS",
+      "LLM",
+      "Web3",
+      "풀스택",
+      "iOS",
+      "Android",
+      "SEO",
+      "AX",
+      "AI Native"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "개발, 넷플릭스",
+    "github": "https://github.com/kimja7045",
+    "apply_url": "https://open.kakao.com/o/s5smnUoi"
+  },
+  {
+    "id": "m_8ed91e40",
+    "name": "최진원 멘토",
+    "stacks": [
+      "Java",
+      "R"
+    ],
+    "fields": [
+      "AI 보안",
+      "시스템 및 암호 보안",
+      "데이터 및 응용서비스 보안",
+      "IT컴플라이언스",
+      "금융"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_50791e40",
+    "name": "강대규 멘토",
+    "stacks": [
+      "Kotlin"
+    ],
+    "fields": [
+      "모바일 APP",
+      "서비스 기획",
+      "창업",
+      "기획",
+      "애자일",
+      "Android",
+      "모바일 아키텍쳐",
+      "정보보안"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "https://github.com/bigstark",
+    "apply_url": "https://github.com/bigstark"
+  },
+  {
+    "id": "m_c2491e40",
+    "name": "강대명 멘토",
+    "stacks": [
+      "C",
+      "C++",
+      "Java",
+      "Python",
+      "Go",
+      "Kotlin",
+      "Rust"
+    ],
+    "fields": [
+      "백엔드",
+      "빅데이터",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_0fe91e40",
+    "name": "강명구 멘토",
+    "stacks": [
+      "TypeScript",
+      "JavaScript"
+    ],
+    "fields": [
+      "모바일 APP",
+      "AWS",
+      "리액트 네이티브",
+      "사업운영",
+      "창업",
+      "프론트엔드",
+      "오픈소스",
+      "PM",
+      "MVP 개발",
+      "개발 프로세스",
+      "린스타트업",
+      "풀스택",
+      "React",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "게임, 운동",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_28391e40",
+    "name": "강민구 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "Docker & Kubernetes"
+    ],
+    "fields": [
+      "Agentic AI",
+      "자연어처리",
+      "데이터 사이언스",
+      "Python",
+      "ML"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_05191e40",
+    "name": "강민준 멘토",
+    "stacks": [
+      "Java",
+      "Spring",
+      "VueJS",
+      "Node.js",
+      "JavaScript",
+      "Python"
+    ],
+    "fields": [
+      "클라우드",
+      "시스템 아키텍처",
+      "백엔드",
+      "AWS",
+      "데이터베이스",
+      "SW아키텍처",
+      "시큐어코딩",
+      "클라우드 아키텍처",
+      "오픈소스",
+      "서비스 개발",
+      "Server",
+      "클라우드 컴퓨팅",
+      "스프링 백엔드",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "런닝",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sPkL6Uoi"
+  },
+  {
+    "id": "m_99c91e40",
+    "name": "정재욱 멘토 AC",
+    "stacks": [
+      "NextJs",
+      "TypeScript",
+      "React",
+      "Supabase",
+      "Node.js"
+    ],
+    "fields": [
+      "창업",
+      "액셀러레이터",
+      "투자유치",
+      "UI",
+      "UX",
+      "벤처캐피탈",
+      "AX",
+      "AI 기획",
+      "MVP 개발",
+      "비즈니스모델",
+      "사업성 분석",
+      "정부지원사업"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5a591e40",
+    "name": "김찬수 멘토 PM",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "AI 기획",
+      "서비스 기획",
+      "Chatbot",
+      "Metaverse",
+      "Platform",
+      "Entertainment",
+      "SNS",
+      "Music",
+      "모바일 APP",
+      "Web",
+      "신사업개발",
+      "개인화추천",
+      "PM",
+      "게임",
+      "프로젝트관리",
+      "UI",
+      "UX",
+      "Product",
+      "CRM",
+      "Agentic AI",
+      "K-Culture",
+      "수익화"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f7691e40",
+    "name": "윤성민 멘토",
+    "stacks": [
+      "Swift",
+      "Kotlin",
+      "Python",
+      "Django",
+      "Nest.js",
+      "Claude Code"
+    ],
+    "fields": [
+      "모바일 APP",
+      "그로스 해킹",
+      "마케팅",
+      "창업",
+      "서비스 기획",
+      "AI 기획",
+      "사업성 분석",
+      "iOS",
+      "Data-Driven"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토",
+      "마케팅",
+      "창업"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_ee991e40",
+    "name": "강석태 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "창업",
+      "신사업개발",
+      "서비스 기획",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_96f91e40",
+    "name": "강상진 멘토",
+    "stacks": [
+      "Python",
+      "Node.js",
+      "TypeScript",
+      "JavaScript"
+    ],
+    "fields": [
+      "AI",
+      "GPU",
+      "시스템 아키텍처",
+      "클라우드",
+      "AWS",
+      "서비스 개발",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "sangjinn"
+  },
+  {
+    "id": "m_4ba91e40",
+    "name": "강성욱 멘토",
+    "stacks": [
+      "SQL",
+      "Python",
+      "C#"
+    ],
+    "fields": [
+      "클라우드",
+      "데이터베이스",
+      "데이터 엔지니어링",
+      "시스템 아키텍처",
+      "클라우드 아키텍처",
+      "빅데이터",
+      "인프라",
+      "AWS",
+      "DevOps",
+      "데이터처리",
+      "데이터분석",
+      "대용량 아키텍처",
+      "IT컴플라이언스",
+      "MSA",
+      "클라우드 컴퓨팅",
+      "데이터 사이언스",
+      "SRE",
+      "Data-Driven",
+      "Infra",
+      "VectorDB",
+      "CI",
+      "CD",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "커뮤니티 운영, 데이터베이스, 개발, RC Car, 스마트팜, 새로운거 도전하기 등등",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5b491e40",
+    "name": "강성재 멘토",
+    "stacks": [
+      "C++",
+      "C#",
+      ".NET",
+      "Python",
+      "JavaScript"
+    ],
+    "fields": [
+      "클라우드",
+      "애자일",
+      "시스템 아키텍처"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "야구, 독서(매년 20권이상), 걷기",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_da191e40",
+    "name": "20220203_220731",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a9591e40",
+    "name": "강준혁 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "SQL",
+      "Spring",
+      "PostrgreSQL",
+      "AWS"
+    ],
+    "fields": [
+      "AI",
+      "빅데이터",
+      "LLM",
+      "AWS",
+      "풀스택",
+      "DevOps",
+      "백엔드",
+      "창업",
+      "데이터베이스",
+      "생성형AI",
+      "MLOps",
+      "VectorDB",
+      "Agentic AI",
+      "SEO",
+      "GraphRAG",
+      "FineTuning"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2d491e40",
+    "name": "강진범 멘토",
+    "stacks": [
+      "Python",
+      "Dart",
+      "Bash",
+      "Java",
+      "C#",
+      "Claude",
+      "Claude Code",
+      "AWS",
+      "GCP"
+    ],
+    "fields": [
+      "AI",
+      "SW아키텍처",
+      "서비스 디자인",
+      "딥러닝",
+      "응용SW",
+      "머신러닝",
+      "온톨로지",
+      "Agentic AI",
+      "Claude",
+      "AI Native",
+      "Claude Code",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5d691e40",
+    "name": "강한규 멘토",
+    "stacks": [
+      "Java",
+      "C#",
+      "Kotlin",
+      "JavaScript"
+    ],
+    "fields": [
+      "백엔드",
+      "데이터베이스",
+      "서비스 개발",
+      "Server"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "악기연주, 밴드",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_18191e40",
+    "name": "고귀한 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "C++",
+      "Terraform"
+    ],
+    "fields": [
+      "백엔드",
+      "시스템 아키텍처",
+      "인프라",
+      "클라우드 아키텍처",
+      "AWS",
+      "DevOps",
+      "CI",
+      "CD"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5d291e40",
+    "name": "고세환 멘토",
+    "stacks": [],
+    "fields": [
+      "사이버보안",
+      "IT컴플라이언스",
+      "개인정보보호",
+      "신사업개발",
+      "서비스 기획",
+      "데이터분석",
+      "AI 보안",
+      "AX",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2eb91e40",
+    "name": "곽영준 멘토",
+    "stacks": [
+      "Java",
+      "JavaScript",
+      "C++",
+      "TypeScript",
+      "Python"
+    ],
+    "fields": [
+      "응용SW",
+      "AI",
+      "머신러닝",
+      "프론트엔드",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_63a91e40",
+    "name": "권순률 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "Kotlin",
+      "SQL"
+    ],
+    "fields": [
+      "기술 사업화",
+      "데이터 엔지니어링",
+      "생성형AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_31e91e40",
+    "name": "권호민 멘토",
+    "stacks": [
+      "Python",
+      "Bash",
+      "C",
+      "C++"
+    ],
+    "fields": [
+      "Language",
+      "FineTuning",
+      "ASR",
+      "TTS",
+      "MT",
+      "NLP",
+      "Applied AI",
+      "ML",
+      "HuggingFace"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f7291e40",
+    "name": "금창민 멘토",
+    "stacks": [
+      "Claude Code"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "Infra",
+      "딥러닝",
+      "응용SW",
+      "프로젝트관리"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "운동, 음악, 언어",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_66c91e40",
+    "name": "김관영 멘토",
+    "stacks": [
+      "C",
+      "C++",
+      "Python",
+      "Go",
+      "Bash",
+      "Java",
+      "JavaScript"
+    ],
+    "fields": [
+      "프로젝트관리",
+      "클라우드",
+      "백엔드",
+      "프론트엔드",
+      "정보보안",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_20091e40",
+    "name": "김권섭 멘토",
+    "stacks": [
+      "Java",
+      "Spring",
+      "Python",
+      "SQL"
+    ],
+    "fields": [
+      "데이터 및 응용서비스 보안",
+      "핀테크",
+      "금융",
+      "결제시스템",
+      "백엔드",
+      "DevOps",
+      "데이터 엔지니어링",
+      "머신러닝",
+      "MSA",
+      "Agile"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_20891e40",
+    "name": "김대호 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "Solidity",
+      "React"
+    ],
+    "fields": [
+      "블록체인",
+      "Web3",
+      "NFT",
+      "Frontend",
+      "Web"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/oh3vci",
+    "apply_url": "https://open.kakao.com/o/sOfYU8id"
+  },
+  {
+    "id": "m_21891e40",
+    "name": "김도영 멘토",
+    "stacks": [
+      "Kotlin",
+      "Java",
+      "Spring"
+    ],
+    "fields": [
+      "백엔드",
+      "데이터처리",
+      "서비스 개발",
+      "MSA",
+      "프로젝트관리",
+      "스프링 백엔드",
+      "Backend",
+      "Claude Code",
+      "RDBMS"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "야구, AI와놀기",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/s92jvGoi"
+  },
+  {
+    "id": "m_84e91e40",
+    "name": "김동우 멘토 5714",
+    "stacks": [
+      "Python",
+      "JavaScript",
+      "Go"
+    ],
+    "fields": [
+      "AI",
+      "머신러닝",
+      "창업",
+      "음성인식",
+      "Agentic AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "러닝, 트레일러닝, 사진, 하이킹",
+    "github": "https://github.com/kimdwkimdw",
+    "apply_url": "https://github.com/kimdwkimdw"
+  },
+  {
+    "id": "m_05391e40",
+    "name": "김동우 멘토 5810",
+    "stacks": [
+      "Node.js",
+      "Python",
+      "Dart",
+      "Svelte.js",
+      "JavaScript"
+    ],
+    "fields": [
+      "백엔드",
+      "AWS",
+      "AI",
+      "LLM",
+      "DevOps",
+      "MongoDB",
+      "NoSQL",
+      "클라우드 아키텍처",
+      "창업",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_72591e40",
+    "name": "김동욱 멘토",
+    "stacks": [],
+    "fields": [
+      "무선통신",
+      "무선센서",
+      "하드웨어",
+      "사업운영"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토",
+      "피지컬AI"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_af891e40",
+    "name": "김동현 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "C",
+      "TypeScript",
+      "Node.js"
+    ],
+    "fields": [
+      "Agentic AI",
+      "Applied AI",
+      "ML",
+      "On Device AI",
+      "Edge AI",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_06491e40",
+    "name": "김민수 멘토",
+    "stacks": [
+      "TypeScript",
+      "Python",
+      "Java",
+      "Swift",
+      "HCL"
+    ],
+    "fields": [
+      "프롭테크",
+      "백엔드",
+      "프론트엔드",
+      "PM",
+      "MVP 개발",
+      "SDN",
+      "Terraform",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_73291e40",
+    "name": "김민장 멘토",
+    "stacks": [
+      "C++",
+      "Python",
+      "Rust",
+      "C"
+    ],
+    "fields": [
+      "컴파일러",
+      "AI",
+      "ML",
+      "컴퓨터아키텍쳐",
+      "GPU",
+      "시스템프로그래밍",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_84b91e40",
+    "name": "김범준 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "Node.js",
+      "SQL",
+      "YAML",
+      "Nest.js"
+    ],
+    "fields": [
+      "클라우드",
+      "백엔드",
+      "Web",
+      "SW아키텍처",
+      "프로젝트관리",
+      "프롭테크"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/BumjuneKim",
+    "apply_url": "https://github.com/BumjuneKim"
+  },
+  {
+    "id": "m_40591e40",
+    "name": "김상규 멘토 부산2팀",
+    "stacks": [
+      "Python",
+      "C",
+      "C++"
+    ],
+    "fields": [
+      "AI",
+      "의료",
+      "웨어러블 디바이스",
+      "데이터 사이언스",
+      "데이터처리",
+      "데이터분석",
+      "임베디드",
+      "IoT",
+      "딥러닝",
+      "머신러닝",
+      "에지 컴퓨팅",
+      "센서",
+      "HW",
+      "인공지능",
+      "학술논문"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sw5PRsoi"
+  },
+  {
+    "id": "m_c1391e40",
+    "name": "김상근 멘토",
+    "stacks": [
+      "Python",
+      "TypeScript"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "AI",
+      "LLM",
+      "VectorDB",
+      "Backend",
+      "Frontend",
+      "FineTuning",
+      "의료"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_63a91e40",
+    "name": "김선만 멘토",
+    "stacks": [
+      "TypeScript",
+      "JavaScript",
+      "Python",
+      "React",
+      "Claude Code"
+    ],
+    "fields": [
+      "창업",
+      "모바일 APP",
+      "Web",
+      "서비스 기획",
+      "서비스 개발",
+      "플랫폼",
+      "MVP 개발",
+      "린스타트업",
+      "풀스택",
+      "인공지능",
+      "비즈니스모델",
+      "AI Native",
+      "Claude"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "010-5362-5043",
+    "apply_url": "010-5362-5043"
+  },
+  {
+    "id": "m_f2d91e40",
+    "name": "김선우 멘토",
+    "stacks": [
+      "Java",
+      "Spring",
+      "TypeScript",
+      "React",
+      "Node.js",
+      "Go",
+      "Bash",
+      "SQL",
+      "Claude"
+    ],
+    "fields": [
+      "Backend",
+      "DevOps",
+      "시스템",
+      "클라우드 아키텍처",
+      "대용량 아키텍처",
+      "CI",
+      "CD",
+      "Infrastructure",
+      "서비스 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/knunu",
+    "apply_url": "https://open.kakao.com/o/s11Tijpi"
+  },
+  {
+    "id": "m_92e91e40",
+    "name": "김성헌 멘토",
+    "stacks": [
+      "Python",
+      "Java"
+    ],
+    "fields": [
+      "AWS",
+      "RAG",
+      "생성형AI",
+      "창업",
+      "정보보안",
+      "사업운영",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f5091e40",
+    "name": "김영웅 멘토",
+    "stacks": [
+      "Python",
+      "C#",
+      "JavaScript",
+      "React",
+      "Node.js",
+      "투자",
+      "AWS",
+      "Azure"
+    ],
+    "fields": [
+      "서비스 디자인",
+      "사업운영",
+      "UX",
+      "기획",
+      "사업화 전략",
+      "시스템 아키텍처",
+      "AI",
+      "빅데이터",
+      "창업",
+      "방송 및 스마트 미디어",
+      "모바일 APP",
+      "Web",
+      "서비스 기획",
+      "개인화추천",
+      "PM",
+      "메타버스",
+      "게임",
+      "AR",
+      "플랫폼",
+      "MVP 개발",
+      "AI 기획",
+      "UI",
+      "VR",
+      "3D AI",
+      "가상화",
+      "린스타트업",
+      "XR",
+      "센서",
+      "기술 사업화",
+      "chatGPT",
+      "학술논문",
+      "생성형AI",
+      "LLM",
+      "iOS",
+      "AX",
+      "투자유치",
+      "Product",
+      "해외진출",
+      "사업성 분석",
+      "벤처캐피탈",
+      "음악",
+      "크리에이터",
+      "애자일",
+      "클라우드"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "드라이빙",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/srtQ4o5f"
+  },
+  {
+    "id": "m_86f91e40",
+    "name": "김용웅 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "JavaScript",
+      "Terraform"
+    ],
+    "fields": [
+      "클라우드",
+      "SW아키텍처",
+      "AI",
+      "로봇",
+      "IoT",
+      "플랫폼",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "AI로 음악 만들기, 책 읽기",
+    "github": "https://github.com/lifeandsong",
+    "apply_url": "https://github.com/lifeandsong"
+  },
+  {
+    "id": "m_7ea91e40",
+    "name": "김유환 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "Supabase",
+      "ReactNative",
+      "React"
+    ],
+    "fields": [
+      "모바일 APP",
+      "서비스 기획",
+      "서비스 디자인",
+      "창업",
+      "사업화 전략"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_bde91e40",
+    "name": "김윤래 멘토",
+    "stacks": [
+      "C",
+      "C++",
+      "Python",
+      "SQL",
+      "Kotlin"
+    ],
+    "fields": [
+      "임베디드",
+      "로봇",
+      "드론",
+      "빅데이터",
+      "AI",
+      "데이터 엔지니어링",
+      "시스템 아키텍처",
+      "영상처리",
+      "딥러닝",
+      "강화학습",
+      "컴퓨터비전",
+      "웨어러블 디바이스",
+      "ARM",
+      "데이터 사이언스",
+      "3D프린팅",
+      "인공지능",
+      "LLM",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_03191e40",
+    "name": "김정우 멘토",
+    "stacks": [
+      "Go",
+      "Kotlin",
+      "Java",
+      "Python",
+      "C#"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "클라우드",
+      "애자일",
+      "정보보안",
+      "백엔드",
+      "AWS",
+      "DevOps",
+      "데이터베이스",
+      "데이터 엔지니어링",
+      "SW아키텍처",
+      "MSA",
+      "개발 프로세스"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/rokag3-gb",
+    "apply_url": "https://open.kakao.com/o/sPuRn8we"
+  },
+  {
+    "id": "m_bfd91e40",
+    "name": "김종욱 멘토",
+    "stacks": [
+      "C++",
+      "C",
+      "Java",
+      "Spring",
+      "SQL",
+      "Python"
+    ],
+    "fields": [
+      "클라우드",
+      "시스템 아키텍처",
+      "DevOps",
+      "응용SW",
+      "MSA",
+      "시스템프로그래밍",
+      "컴퓨터시스템",
+      "서버",
+      "스프링 백엔드",
+      "MongoDB",
+      "클린코드",
+      "소프트웨어 공학",
+      "플랫폼",
+      "백엔드"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "국궁, 복싱, 십자수, 마라톤, 알고리즘 문제 풀기?",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_74c91e40",
+    "name": "김종찬 멘토",
+    "stacks": [
+      "Kotlin",
+      "Swift",
+      "Dart",
+      "Python"
+    ],
+    "fields": [
+      "Android",
+      "iOS",
+      "Flutter",
+      "XR",
+      "모바일 아키텍쳐",
+      "AI Native",
+      "UX",
+      "Data-Driven",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "모터 스포츠 드라이빙, 카페 작업",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/shTI31oi"
+  },
+  {
+    "id": "m_1f291e40",
+    "name": "김준범 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "SQL",
+      "C#",
+      "PL-SQL",
+      ".NET"
+    ],
+    "fields": [
+      "응용SW",
+      "AI",
+      "시스템 아키텍처",
+      "빅데이터",
+      "데이터 엔지니어링",
+      "의료",
+      "PM",
+      "Data-Driven",
+      "Agentic AI",
+      "ESG",
+      "애자일",
+      "기획",
+      "DevOps",
+      "개인화추천",
+      "MSA",
+      "반도체SW",
+      "프로젝트관리",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_8dc91e40",
+    "name": "김준태 멘토",
+    "stacks": [
+      "Python",
+      "Rust",
+      "Go"
+    ],
+    "fields": [
+      "퀀트트레이딩",
+      "AI",
+      "백엔드",
+      "DevOps",
+      "창업"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "트레이딩",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_68391e40",
+    "name": "김준호 멘토",
+    "stacks": [
+      "Python",
+      "Pytorch"
+    ],
+    "fields": [
+      "AI",
+      "컴퓨터비전",
+      "의료AI",
+      "생성형AI",
+      "퀀트트레이딩",
+      "학술논문"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "트레이딩",
+    "github": "https://github.com/taki0112",
+    "apply_url": "https://github.com/taki0112"
+  },
+  {
+    "id": "m_e2f91e40",
+    "name": "김준홍 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "R",
+      "PostrgreSQL",
+      "Pytorch"
+    ],
+    "fields": [
+      "GenAI",
+      "Applied AI",
+      "ML",
+      "모델학습",
+      "데이터",
+      "데이터모델링",
+      "FineTuning",
+      "AI Data",
+      "RAG",
+      "AGENT",
+      "NLP",
+      "머신러닝",
+      "데이터베이스",
+      "데이터 엔지니어링",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_34291e40",
+    "name": "김준희 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "Spring"
+    ],
+    "fields": [
+      "백엔드",
+      "데이터베이스",
+      "SW아키텍처",
+      "신사업개발",
+      "대용량 아키텍처",
+      "Backend",
+      "클린코드",
+      "서버",
+      "MVP 개발",
+      "MSA"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2e791e40",
+    "name": "김태성 멘토",
+    "stacks": [
+      "JavaScript",
+      "C#",
+      "NextJs",
+      "TypeScript"
+    ],
+    "fields": [
+      "프론트엔드",
+      "서비스 개발",
+      "서버",
+      "사업운영",
+      "사업화 전략",
+      "인프라",
+      "백엔드",
+      "서비스 기획",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_4cd91e40",
+    "name": "김태완 멘토 5000",
+    "stacks": [
+      "Python",
+      "Go",
+      "JavaScript",
+      "Java"
+    ],
+    "fields": [
+      "백엔드",
+      "IoT",
+      "오픈소스",
+      "서비스 개발",
+      "AX"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "github.com/tiokim",
+    "apply_url": "github.com/tiokim"
+  },
+  {
+    "id": "m_ca891e40",
+    "name": "김태완 멘토 9978",
+    "stacks": [
+      "Python",
+      "Java",
+      "TypeScript",
+      "Rust"
+    ],
+    "fields": [
+      "클라우드",
+      "AI",
+      "LLM",
+      "MLOps",
+      "시스템 아키텍처",
+      "DevOps",
+      "강화학습",
+      "CI",
+      "CD",
+      "생성형AI",
+      "VectorDB",
+      "MoE",
+      "GraphDB",
+      "Claude Code",
+      "자연어처리"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/iamtaewan",
+    "apply_url": "https://github.com/iamtaewan"
+  },
+  {
+    "id": "m_b1e91e40",
+    "name": "김택민 멘토",
+    "stacks": [],
+    "fields": [
+      "딥러닝",
+      "개인화추천",
+      "GenAI",
+      "Large scale AI"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "요리, 여행",
+    "github": "https://github.com/tantara",
+    "apply_url": "https://github.com/tantara"
+  },
+  {
+    "id": "m_e1a91e40",
+    "name": "김한빛 멘토",
+    "stacks": [
+      "Java",
+      "JavaScript",
+      "Python",
+      "Kotlin",
+      "Dart",
+      "Ruby",
+      "TypeScript"
+    ],
+    "fields": [
+      "모바일 APP",
+      "인프라",
+      "백엔드",
+      "AWS",
+      "프론트엔드",
+      "풀스택",
+      "MVP 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "클라이밍",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d6791e40",
+    "name": "김현동 멘토",
+    "stacks": [
+      "TypeScript",
+      "JavaScript",
+      "Node.js",
+      "Python"
+    ],
+    "fields": [
+      "프론트엔드",
+      "웹표준",
+      "접근성",
+      "Web",
+      "풀스택",
+      "클라우드",
+      "시스템 아키텍처",
+      "서비스 개발",
+      "개발 프로세스",
+      "React"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b5691e40",
+    "name": "김현호 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "GCP",
+      "AWS",
+      "투자",
+      "Claude Code",
+      "Claude"
+    ],
+    "fields": [
+      "사업화 전략",
+      "AI",
+      "창업",
+      "서비스 기획",
+      "PM",
+      "MVP 개발",
+      "AI 기획",
+      "UI",
+      "UX",
+      "그로스 해킹",
+      "인공지능",
+      "생성형AI",
+      "RAG",
+      "AGENT",
+      "AX",
+      "투자유치",
+      "엔젤투자",
+      "비즈니스모델"
+    ],
+    "types": [
+      "창업",
+      "기술멘토",
+      "국내멘토",
+      "마케팅",
+      "AI Agent",
+      "비기술멘토",
+      "기획",
+      "미국GTM",
+      "UX"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sCf4thyc"
+  },
+  {
+    "id": "m_ed691e40",
+    "name": "남상수 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "TypeScript",
+      "React",
+      "SQL",
+      "JavaScript",
+      "Claude"
+    ],
+    "fields": [
+      "애자일",
+      "개발 프로세스",
+      "시스템 아키텍처",
+      "AI",
+      "풀스택",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_ee591e40",
+    "name": "조대협 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "Node.js",
+      "Spring",
+      "Rust"
+    ],
+    "fields": [
+      "애자일",
+      "백엔드",
+      "모바일 APP",
+      "시스템 아키텍처",
+      "머신러닝"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_27b91e40",
+    "name": "최재흥 멘토",
+    "stacks": [
+      "Kotlin",
+      "Dart"
+    ],
+    "fields": [
+      "애자일",
+      "기획",
+      "모바일 APP",
+      "MVP 개발",
+      "개발 프로세스",
+      "Android",
+      "Flutter",
+      "Frontend",
+      "UI",
+      "UX",
+      "스타트업"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_74891e40",
+    "name": "김동욱",
+    "stacks": [],
+    "fields": [
+      "무선통신",
+      "로봇",
+      "드론",
+      "HW"
+    ],
+    "types": [
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_51e91e40",
+    "name": "강수혁 멘토",
+    "stacks": [],
+    "fields": [
+      "사업화 전략",
+      "창업",
+      "AI",
+      "서비스 기획",
+      "PM",
+      "플랫폼",
+      "투자유치",
+      "사업운영"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_9d891e40",
+    "name": "구중회 멘토 Venture Capitalist",
+    "stacks": [
+      "The Language of Market",
+      "비즈니스 모델(BM)이라는 '컴파일러"
+    ],
+    "fields": [
+      "창업",
+      "비즈니스모델",
+      "기술 사업화",
+      "사업개발",
+      "사업성 분석"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "여행",
+    "github": "",
+    "apply_url": "open.kakao.com/me/vcistkoo"
+  },
+  {
+    "id": "m_93691e40",
+    "name": "권병민 멘토",
+    "stacks": [],
+    "fields": [
+      "K-Culture",
+      "음악",
+      "영상",
+      "방송",
+      "신사업개발",
+      "비즈니스모델",
+      "Product",
+      "사업화 전략",
+      "마케팅"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_09191e40",
+    "name": "김서현 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "사업운영",
+      "UX",
+      "서비스 기획",
+      "서비스 디자인",
+      "마케팅",
+      "창업",
+      "사업화 전략",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "문학, 미술, 공연 등 각종 콘텐츠 소비",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5c891e40",
+    "name": "김영규 멘토",
+    "stacks": [],
+    "fields": [
+      "법률",
+      "지적재산권",
+      "브랜드",
+      "특허",
+      "UX",
+      "저작권",
+      "인공지능",
+      "소프트웨어 공학",
+      "블록체인",
+      "창업",
+      "정부지원사업",
+      "IP",
+      "기술사업화"
+    ],
+    "types": [
+      "국내멘토",
+      "변리사",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_3d691e40",
+    "name": "김재철 멘토 변호사 변리사",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "특허",
+      "법률",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a0a91e40",
+    "name": "김준호 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "국내멘토",
+      "변리사"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_99c91e40",
+    "name": "김형국 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "기획",
+      "UX",
+      "서비스 디자인",
+      "서비스 기획",
+      "PM",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "주식투자, 와인, 여행",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_7a591e40",
+    "name": "노혜인 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "UI",
+      "UX",
+      "기획",
+      "서비스 디자인",
+      "웨어러블 디바이스",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_8c591e40",
+    "name": "노수진 멘토",
+    "stacks": [
+      "Claude Code"
+    ],
+    "fields": [
+      "모바일 APP",
+      "AI Native",
+      "Agentic AI",
+      "iOS",
+      "Android",
+      "Flutter"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/nsoojin",
+    "apply_url": "https://open.kakao.com/o/sz8JxBoi"
+  },
+  {
+    "id": "m_19591e40",
+    "name": "도수종 멘토",
+    "stacks": [
+      "Python",
+      "Go",
+      "GCP",
+      "AWS"
+    ],
+    "fields": [
+      "AI",
+      "MLOps",
+      "LLM",
+      "Python",
+      "Terraform",
+      "Infra",
+      "AGENT",
+      "RAG",
+      "GPU",
+      "AX",
+      "생성형AI",
+      "인공지능",
+      "CI",
+      "CD",
+      "AI 기획",
+      "DevOps",
+      "클라우드",
+      "시스템 아키텍처"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_79d91e40",
+    "name": "모리스 멘토 Investor",
+    "stacks": [],
+    "fields": [
+      "미국진출",
+      "기획",
+      "사업화 전략",
+      "피지컬AI",
+      "로보틱스",
+      "드론",
+      "투자유치",
+      "벤처캐피탈",
+      "창업"
+    ],
+    "types": [
+      "해외멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_53f91e40",
+    "name": "문지원 멘토",
+    "stacks": [
+      "비기술",
+      "C++",
+      "Python",
+      "SQL",
+      "PHP",
+      "JavaScript",
+      "Java"
+    ],
+    "fields": [
+      "ICT",
+      "신사업개발",
+      "AI 기획",
+      "애자일",
+      "마케팅",
+      "사업운영",
+      "AI",
+      "의료",
+      "서비스 개발",
+      "빅데이터",
+      "창업",
+      "모바일 APP",
+      "서비스 기획",
+      "자율주행",
+      "데이터 사이언스",
+      "UI",
+      "UX",
+      "인공지능",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_03891e40",
+    "name": "류원경 멘토",
+    "stacks": [
+      "Python",
+      "Go"
+    ],
+    "fields": [
+      "백엔드",
+      "마케팅",
+      "창업",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b6c91e40",
+    "name": "문승현 멘토",
+    "stacks": [
+      "C#",
+      ".NET",
+      "Java",
+      "Spring",
+      "TypeScript",
+      "Go"
+    ],
+    "fields": [
+      "게임",
+      "백엔드",
+      "AI",
+      "Web",
+      "데이터분석",
+      "메타버스",
+      "MSA",
+      "대용량 아키텍처",
+      "Server",
+      "서버",
+      "소프트웨어 공학"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_53991e40",
+    "name": "문지형 멘토",
+    "stacks": [
+      "Claude Code"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "창업",
+      "Agentic AI",
+      "플랫폼사업",
+      "CRM",
+      "기획"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "만들기",
+    "github": "https://github.com/moon1ite",
+    "apply_url": "https://github.com/moon1ite"
+  },
+  {
+    "id": "m_5ba91e40",
+    "name": "민종현 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "창업",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2bc91e40",
+    "name": "박동우 멘토",
+    "stacks": [
+      "Python",
+      "JavaScript",
+      "Node.js",
+      "VueJS",
+      "AWS",
+      "Claude Code",
+      "Docker & Kubernetes",
+      "Keras",
+      "Bash"
+    ],
+    "fields": [
+      "LLM",
+      "MLOps",
+      "개인화추천",
+      "클라우드 아키텍처",
+      "AWS",
+      "딥러닝",
+      "Backend",
+      "Infra",
+      "GraphRAG",
+      "AI Agent"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_89e91e40",
+    "name": "박민재 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "JavaScript",
+      "C++",
+      "SQL"
+    ],
+    "fields": [
+      "AI",
+      "창업",
+      "데이터 엔지니어링",
+      "머신러닝",
+      "개인화추천"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "디제잉, 기타🎸",
+    "github": "http://github.com/Teora",
+    "apply_url": "http://github.com/Teora"
+  },
+  {
+    "id": "m_31491e40",
+    "name": "박병선 멘토",
+    "stacks": [
+      "Python",
+      "R",
+      ".NET",
+      "PostrgreSQL",
+      "AWS",
+      "GCP",
+      "Keras",
+      "Pytorch"
+    ],
+    "fields": [
+      "AI",
+      "빅데이터",
+      "딥러닝",
+      "데이터분석",
+      "머신러닝",
+      "강화학습",
+      "개인화추천",
+      "데이터 사이언스",
+      "기술 사업화",
+      "인공지능",
+      "chatGPT",
+      "생성형AI",
+      "LLM",
+      "Python",
+      "VectorDB",
+      "RAG",
+      "AGENT",
+      "퀀트트레이딩",
+      "핀테크",
+      "AX",
+      "Agentic AI",
+      "AI Data",
+      "ML",
+      "GraphRAG",
+      "모델학습",
+      "데이터모델링",
+      "Applied AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/gda9Suoi"
+  },
+  {
+    "id": "m_cfc91e40",
+    "name": "박병진 멘토",
+    "stacks": [
+      "HCL",
+      "YAML",
+      "Node.js",
+      "Python",
+      "Bash"
+    ],
+    "fields": [
+      "인프라",
+      "백엔드",
+      "오픈소스",
+      "클라우드",
+      "애자일",
+      "시스템 아키텍처",
+      "정보보안",
+      "AWS",
+      "DevOps",
+      "창업",
+      "SW아키텍처",
+      "클라우드 아키텍처",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "육아 / 물생활 / 여행 / 운동 / 넷플릭스 / 영화",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_9e291e40",
+    "name": "박성준 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "Agentic AI",
+      "Applied AI",
+      "ML",
+      "기술창업",
+      "창업",
+      "머신러닝",
+      "NLU",
+      "NLP",
+      "학술논문",
+      "AI엔지니어링"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d8191e40",
+    "name": "박수현 멘토",
+    "stacks": [
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "C",
+      "C++"
+    ],
+    "fields": [
+      "생성형AI",
+      "영상처리",
+      "정보보안",
+      "클라우드",
+      "DevOps",
+      "chatGPT",
+      "창업",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_35691e40",
+    "name": "박순영 멘토",
+    "stacks": [
+      "Kotlin",
+      "Java",
+      "TypeScript",
+      "Python",
+      "Dart",
+      "C++",
+      "Lua"
+    ],
+    "fields": [
+      "창업",
+      "AX",
+      "풀스택",
+      "하드웨어",
+      "개인정보보호"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "러닝, 여행, 맛집/찻집(Tea/ 茶 ) 탐방, 미술관/박물관 탐방",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d9091e40",
+    "name": "박영용 멘토",
+    "stacks": [
+      "TypeScript",
+      "JavaScript",
+      "Python",
+      "AWS",
+      "Claude Code"
+    ],
+    "fields": [
+      "창업",
+      "AWS",
+      "AI",
+      "풀스택",
+      "기획",
+      "AI Native",
+      "개발 프로세스",
+      "인공지능",
+      "생성형AI",
+      "LLM",
+      "RAG",
+      "AX",
+      "Agentic AI",
+      "Claude Code",
+      "Harness",
+      "AI Agent",
+      "Node.js",
+      "의료AI",
+      "CTO 경혐",
+      "시스템",
+      "클라우드 아키텍처"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sScYBMoi"
+  },
+  {
+    "id": "m_31491e40",
+    "name": "박원형 멘토",
+    "stacks": [
+      "Kotlin",
+      "Java"
+    ],
+    "fields": [
+      "백엔드",
+      "SW아키텍처",
+      "MSA",
+      "개발 프로세스",
+      "CI",
+      "CD",
+      "스프링 백엔드",
+      "클린코드",
+      "서비스 개발",
+      "Server",
+      "SRE"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a5c91e40",
+    "name": "박은성 멘토",
+    "stacks": [
+      "Python",
+      "C#",
+      ".NET"
+    ],
+    "fields": [
+      "자율주행",
+      "로봇",
+      "컴퓨터비전",
+      "ARM",
+      "반도체SW",
+      "풀스택",
+      "센서",
+      "서버",
+      "학술논문",
+      "AGENT",
+      "TTS",
+      "기술 사업화",
+      "Python",
+      "데이터"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "야구관람, 요리",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_99391e40",
+    "name": "박재범 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "인공지능",
+      "생성형AI",
+      "Agentic AI",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_da291e40",
+    "name": "박재선 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "Spring",
+      "GCP",
+      "AWS",
+      "R-DBMS",
+      "SQL",
+      "Hadoop"
+    ],
+    "fields": [
+      "백엔드",
+      "데이터 엔지니어링",
+      "AI엔지니어링",
+      "MLOps",
+      "Google Cloud",
+      "AWS",
+      "시스템 아키텍처",
+      "빅데이터",
+      "데이터베이스",
+      "SW아키텍처",
+      "클라우드 아키텍처",
+      "금융",
+      "클라우드",
+      "데이터처리",
+      "서비스 개발",
+      "스프링 백엔드",
+      "Backend",
+      "Python",
+      "RDBMS",
+      "데이터 아키텍처",
+      "DataPlatform",
+      "실시간 데이터 처리",
+      "금융 시스템",
+      "CTO 경혐",
+      "시스템",
+      "서비스 배포",
+      "운영",
+      "BigData",
+      "Applied AI",
+      "ML",
+      "AI Agent",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "여행을 떠나서 맛있는 음식 먹고 예쁜 사진 찍고 좋은 사람들과 수다 떨기",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/s6KbvHoi"
+  },
+  {
+    "id": "m_3e991e40",
+    "name": "박정두 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "Spring",
+      "Claude Code",
+      "Kotlin",
+      "Bash",
+      "SQL",
+      "PHP"
+    ],
+    "fields": [
+      "백엔드",
+      "SW아키텍처",
+      "대용량 아키텍처",
+      "Agentic AI",
+      "시스템 아키텍처",
+      "AI",
+      "영상처리",
+      "모바일 APP",
+      "데이터처리",
+      "서비스 개발",
+      "프로젝트관리",
+      "Claude Code",
+      "영상",
+      "크리에이터",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_38b91e40",
+    "name": "박주람 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "Java",
+      "Python"
+    ],
+    "fields": [
+      "백엔드",
+      "클라우드",
+      "DevOps",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_98491e40",
+    "name": "박주형 멘토",
+    "stacks": [
+      "Java",
+      "JavaScript",
+      "React",
+      "SQL",
+      "Dart",
+      "Spring",
+      "Flutter",
+      "AWS",
+      "PostrgreSQL",
+      "Python",
+      "Solidity",
+      "Nest.js"
+    ],
+    "fields": [
+      "백엔드",
+      "AWS",
+      "DevOps",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "running , 축구",
+    "github": "https://github.com/joo-pe",
+    "apply_url": "https://github.com/joo-pe"
+  },
+  {
+    "id": "m_2fa91e40",
+    "name": "박주혜 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "LLM",
+      "온톨로지",
+      "강화학습",
+      "NLP",
+      "Agentic AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_bae91e40",
+    "name": "박병규 멘토",
+    "stacks": [],
+    "fields": [
+      "특허",
+      "ICT",
+      "법률",
+      "지식재산권",
+      "정부지원사업",
+      "기술창업",
+      "IP",
+      "AI",
+      "블록체인",
+      "상표",
+      "Agentic AI",
+      "LLM"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토",
+      "변리사"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://blog.naver.com/bgpark_ip"
+  },
+  {
+    "id": "m_c0191e40",
+    "name": "박우형 멘토",
+    "stacks": [],
+    "fields": [
+      "사업운영",
+      "기획",
+      "AI",
+      "CRM",
+      "해외진출",
+      "UX",
+      "마케팅"
+    ],
+    "types": [
+      "해외멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_02191e40",
+    "name": "박준영 멘토 2972",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_35c91e40",
+    "name": "박준영 멘토 9127",
+    "stacks": [
+      "Python",
+      "C++",
+      "C",
+      "Pytorch"
+    ],
+    "fields": [
+      "AI",
+      "딥러닝",
+      "개발 프로세스",
+      "computer vision",
+      "On-device AI",
+      "Edge AI",
+      "모델학습",
+      "영상처리",
+      "특허",
+      "SW아키텍처",
+      "머신러닝",
+      "YoloV8+"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_0e491e40",
+    "name": "박준용 멘토",
+    "stacks": [],
+    "fields": [
+      "창업",
+      "ICT",
+      "IoT",
+      "AI기후테크",
+      "UX"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b2591e40",
+    "name": "박진우 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "SQL",
+      "Bash",
+      "YAML",
+      "PostrgreSQL",
+      "GCP",
+      "AWS",
+      "Supabase",
+      "Claude Code"
+    ],
+    "fields": [
+      "AI",
+      "Agentic AI",
+      "온톨로지",
+      "Claude Code",
+      "YoloV8+",
+      "Harness",
+      "AI 기획",
+      "Agile",
+      "Scrum",
+      "PM",
+      "정보보안",
+      "블록체인",
+      "플랫폼사업",
+      "AICC",
+      "무인매장",
+      "AI기후테크",
+      "ESG",
+      "결제시스템",
+      "SEO",
+      "SERP",
+      "MLOps",
+      "데이터 사이언스",
+      "STT",
+      "TTS",
+      "음성인식",
+      "SW아키텍처",
+      "시스템 아키텍처",
+      "MVP 개발",
+      "AGENT",
+      "RAG",
+      "AX",
+      "Open Claw",
+      "ML",
+      "테스트자동화",
+      "사운드처리",
+      "기술창업",
+      "데이터분석",
+      "빅데이터",
+      "풀스택",
+      "스마트카드",
+      "정산시스템",
+      "팀구성",
+      "서비스 디자인",
+      "사업운영",
+      "UX",
+      "OpenSearch",
+      "최적화",
+      "O2O",
+      "O4O",
+      "CISA",
+      "CISSP"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "수영, 오픈소스/AI모델 리뷰/실험",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f8891e40",
+    "name": "박혜련 멘토",
+    "stacks": [
+      "C++",
+      "C#",
+      "Python",
+      "Java"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "클라우드",
+      "애자일",
+      "AI",
+      "정보보안",
+      "백엔드",
+      "AWS",
+      "DevOps",
+      "지식재산권",
+      "소프트웨어 공학",
+      "Windows C++ system programming",
+      "IoT",
+      "클라우드 아키텍처",
+      "사업화 전략",
+      "SW아키텍처",
+      "응용SW",
+      "자율주행"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "영화, 연극, 유투브 컨텐츠 소비하기",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_23691e40",
+    "name": "방진배 멘토",
+    "stacks": [
+      "Go",
+      "Python"
+    ],
+    "fields": [
+      "백엔드",
+      "시스템 아키텍처",
+      "인프라",
+      "데이터 엔지니어링"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_13891e40",
+    "name": "방한민 멘토",
+    "stacks": [
+      "C#",
+      "Go",
+      "Java",
+      "C",
+      "C++",
+      ".NET",
+      "AWS",
+      "Claude Code",
+      "Terraform",
+      "Docker & Kubernetes",
+      "Cloud-Native Tools",
+      "Azure"
+    ],
+    "fields": [
+      "멀티미디어",
+      "클라우드",
+      "SW아키텍처",
+      "시스템 아키텍처",
+      "AI",
+      "AWS",
+      "DevOps",
+      "백엔드",
+      "방송 및 스마트 미디어",
+      "인프라",
+      "클라우드 아키텍처",
+      "응용SW",
+      "메타버스",
+      "서비스 개발",
+      "대용량 아키텍처",
+      "MSA",
+      "WebRTC",
+      "CI",
+      "CD",
+      "서버",
+      "인공지능",
+      "Android",
+      "Terraform",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "차(Tea) 마시기",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_35291e40",
+    "name": "배권한 멘토",
+    "stacks": [
+      "Python",
+      "Django",
+      "Lua",
+      "Terraform",
+      "Claude Code",
+      "PostrgreSQL",
+      "YAML",
+      "Node.js",
+      "Rails",
+      "SQL"
+    ],
+    "fields": [
+      "AI",
+      "오픈소스",
+      "클라우드",
+      "SRE",
+      "백엔드",
+      "Python",
+      "대용량 아키텍처",
+      "DevOps",
+      "인프라",
+      "LLM",
+      "RAG",
+      "AGENT",
+      "AI Agent",
+      "Agentic AI",
+      "PyDanticAI",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "파이썬, local llm, PSF",
+    "github": "https://github.com/darjeeling",
+    "apply_url": "https://github.com/darjeeling"
+  },
+  {
+    "id": "m_04491e40",
+    "name": "안서형 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "창업",
+      "애자일",
+      "마케팅",
+      "사업운영",
+      "UX",
+      "사업화 전략",
+      "모바일 APP",
+      "서비스 기획",
+      "그로스 해킹",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "한강 자전거 타기, 좋아하는 사람들과 대화하기, 닌텐도 스위치 게임",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_96c91e40",
+    "name": "백진욱 멘토",
+    "stacks": [
+      "Node.js",
+      "ReactNative",
+      "PostrgreSQL",
+      "Nest.js",
+      "NextJs"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "SW아키텍처",
+      "창업",
+      "클라우드 아키텍처",
+      "서비스 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_98e91e40",
+    "name": "변선영 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "ML",
+      "MLOps",
+      "AGENT",
+      "LLM",
+      "개인화추천",
+      "FineTuning",
+      "Product",
+      "데이터 사이언스",
+      "시스템 아키텍처"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_91091e40",
+    "name": "복다훈 멘토",
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "VueJS",
+      "Node.js",
+      "ReactNative"
+    ],
+    "fields": [
+      "프론트엔드",
+      "Web",
+      "모바일 APP",
+      "응용SW",
+      "AWS",
+      "DevOps",
+      "클린코드"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d2191e40",
+    "name": "서영준 멘토",
+    "stacks": [
+      "Go",
+      "Terraform",
+      "Claude Code",
+      "YAML",
+      "C#",
+      ".NET",
+      "Docker & Kubernetes",
+      "HCL",
+      "Bash"
+    ],
+    "fields": [
+      "스타트업",
+      "K8S",
+      "테스트자동화",
+      "Claude Code",
+      "Terraform",
+      "Infra",
+      "Backend",
+      "chatGPT",
+      "클린코드",
+      "서버",
+      "CI",
+      "CD",
+      "개발 프로세스",
+      "UI",
+      "UX",
+      "대용량 아키텍처",
+      "오픈소스",
+      "응용SW",
+      "NoSQL",
+      "SW아키텍처",
+      "DevOps",
+      "시스템 아키텍처"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "유튜브 시청, 토리 놀아주기",
+    "github": "https://github.com/seoyhaein",
+    "apply_url": "https://github.com/seoyhaein"
+  },
+  {
+    "id": "m_53091e40",
+    "name": "성민지 멘토",
+    "stacks": [],
+    "fields": [
+      "시스템 아키텍처",
+      "창업",
+      "GenAI",
+      "Agentic AI",
+      "클라우드",
+      "기술사업화",
+      "정부지원사업"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_58091e40",
+    "name": "송지형 멘토",
+    "stacks": [
+      "Python",
+      "AWS",
+      "Azure"
+    ],
+    "fields": [
+      "스타트업",
+      "AI엔지니어링",
+      "Infrastructure",
+      "K8S",
+      "Claude Code",
+      "AI Native",
+      "Python",
+      "개발 프로세스",
+      "자율주행",
+      "서비스 개발",
+      "클라우드 아키텍처",
+      "SW아키텍처",
+      "인프라",
+      "DevOps",
+      "백엔드",
+      "시스템 아키텍처"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_0ce91e40",
+    "name": "신기용 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "Spring"
+    ],
+    "fields": [
+      "인프라",
+      "백엔드",
+      "MSA",
+      "대용량 아키텍처",
+      "Financial",
+      "프론트엔드"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "개발",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_adf91e40",
+    "name": "신명진 멘토",
+    "stacks": [
+      "Java",
+      "SQL"
+    ],
+    "fields": [
+      "AWS",
+      "백엔드",
+      "클라우드 아키텍처"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "수영,축구,런닝",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2fe91e40",
+    "name": "신승렬 멘토",
+    "stacks": [
+      "Python",
+      "C++",
+      "C"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "AI",
+      "빅데이터",
+      "영상처리",
+      "신사업개발",
+      "SW아키텍처",
+      "임베디드",
+      "딥러닝",
+      "ICT",
+      "IoT",
+      "로봇",
+      "드론",
+      "머신러닝",
+      "강화학습",
+      "자율주행",
+      "컴퓨터비전",
+      "센서",
+      "소프트웨어 공학",
+      "인공지능",
+      "생성형AI",
+      "클린코드"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_c8291e40",
+    "name": "신재동 멘토",
+    "stacks": [
+      "Java",
+      "Python"
+    ],
+    "fields": [
+      "Backend",
+      "클린코드",
+      "Data-Driven",
+      "서비스 개발",
+      "개인화추천",
+      "응용SW",
+      "SW아키텍처",
+      "백엔드"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "공부, 독서",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_3f591e40",
+    "name": "안범진 멘토",
+    "stacks": [
+      "Python",
+      "Pytorch"
+    ],
+    "fields": [
+      "컴퓨터비전",
+      "생성형AI",
+      "On Device AI",
+      "딥러닝",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "사진 📷, 맥주 🍺",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_3f391e40",
+    "name": "안재홍 멘토",
+    "stacks": [
+      "Kotlin",
+      "Java"
+    ],
+    "fields": [
+      "백엔드",
+      "Web",
+      "데이터베이스",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f5891e40",
+    "name": "양성민 멘토",
+    "stacks": [
+      "Clojure"
+    ],
+    "fields": [
+      "창업",
+      "벤처캐피탈",
+      "AI",
+      "드론",
+      "자율비행"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "https://github.com/kimchhickey",
+    "apply_url": "https://github.com/kimchhickey"
+  },
+  {
+    "id": "m_46b91e40",
+    "name": "오성우 멘토",
+    "stacks": [
+      "Python",
+      "Pytorch"
+    ],
+    "fields": [
+      "AI",
+      "금융",
+      "NLP",
+      "오픈소스"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토",
+      "AI Agent"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "github.com/sackoh",
+    "apply_url": "https://open.kakao.com/o/sFRQm5oi"
+  },
+  {
+    "id": "m_bad91e40",
+    "name": "오성진 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "서비스 개발",
+      "머신러닝",
+      "개인화추천",
+      "금융"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/sungjinoh",
+    "apply_url": "https://open.kakao.com/o/sq9FVHoi"
+  },
+  {
+    "id": "m_c0e91e40",
+    "name": "오승근 멘토",
+    "stacks": [
+      "Python",
+      "R",
+      "PL-SQL",
+      "Claude",
+      "AWS",
+      "C",
+      "C++",
+      "SQL",
+      "Claude Code",
+      "Docker & Kubernetes"
+    ],
+    "fields": [
+      "AI",
+      "빅데이터",
+      "기획",
+      "사업화 전략",
+      "AWS",
+      "서비스 기획",
+      "딥러닝",
+      "데이터처리",
+      "데이터분석",
+      "머신러닝",
+      "강화학습",
+      "PM",
+      "데이터 사이언스",
+      "인공지능",
+      "Data-Driven",
+      "생성형AI",
+      "RDBMS"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_72591e40",
+    "name": "오우택 멘토",
+    "stacks": [],
+    "fields": [
+      "린스타트업",
+      "AI",
+      "서비스 기획",
+      "Data-Driven",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a9a91e40",
+    "name": "오윤식 멘토",
+    "stacks": [
+      "SQL",
+      "Azure"
+    ],
+    "fields": [
+      "클라우드",
+      "빅데이터",
+      "데이터 엔지니어링",
+      "임베디드",
+      "IoT",
+      "데이터분석",
+      "클라우드 컴퓨팅"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "농구, 멘토링",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_04091e40",
+    "name": "오은석 멘토",
+    "stacks": [
+      "Python",
+      "JavaScript"
+    ],
+    "fields": [
+      "AWS",
+      "방송 및 스마트 미디어",
+      "개인화추천",
+      "웹표준",
+      "접근성",
+      "에듀테크",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_71b91e40",
+    "name": "우태강 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "머신러닝",
+      "Large-scale AI",
+      "computer vision",
+      "VectorDB",
+      "LLM",
+      "데이터 사이언스",
+      "데이터처리",
+      "시스템 아키텍처",
+      "NLP"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_abf91e40",
+    "name": "유용태 teo v",
+    "stacks": [
+      "TypeScript",
+      "React",
+      "Claude Code"
+    ],
+    "fields": [
+      "프론트엔드"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/developer-1px",
+    "apply_url": "https://github.com/developer-1px"
+  },
+  {
+    "id": "m_7c791e40",
+    "name": "유호균 멘토",
+    "stacks": [
+      "Node.js"
+    ],
+    "fields": [
+      "SRE",
+      "백엔드",
+      "DevOps",
+      "클라우드",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "크로스핏, 러닝 (10k), 독서",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_bcd91e40",
+    "name": "이가람 멘토",
+    "stacks": [
+      "Python",
+      "Pytorch",
+      "R",
+      "SQL"
+    ],
+    "fields": [
+      "AI",
+      "빅데이터",
+      "딥러닝",
+      "데이터분석",
+      "의료",
+      "머신러닝",
+      "NLP",
+      "AI 보안",
+      "데이터 사이언스",
+      "인공지능",
+      "학술논문",
+      "LLM",
+      "RAG"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "garam0103"
+  },
+  {
+    "id": "m_e7091e40",
+    "name": "유경환 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "해외멘토",
+      "비기술멘토",
+      "창업"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_39c91e40",
+    "name": "유영재 멘토",
+    "stacks": [],
+    "fields": [
+      "UX",
+      "서비스 디자인",
+      "서비스 기획",
+      "자율주행",
+      "ICT",
+      "린스타트업",
+      "LLM",
+      "학술논문",
+      "창업"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a2591e40",
+    "name": "윤성원 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "해외멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_3a491e40",
+    "name": "이광헌 멘토",
+    "stacks": [],
+    "fields": [
+      "애자일",
+      "클린코드",
+      "프로젝트관리",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_49191e40",
+    "name": "이남권 멘토",
+    "stacks": [
+      "C++",
+      "C",
+      "C#",
+      "Python",
+      "Bash"
+    ],
+    "fields": [
+      "개인정보보호",
+      "정보보안",
+      "SW아키텍처",
+      "임베디드",
+      "서비스 개발",
+      "클린코드",
+      "시스템 및 암호 보안",
+      "시큐어코딩",
+      "DevOps",
+      "데이터분석",
+      "AI 보안"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "런닝",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_18b91e40",
+    "name": "이다니엘 멘토",
+    "stacks": [
+      "Python",
+      "C",
+      "Bash",
+      "Claude Code"
+    ],
+    "fields": [
+      "NLP",
+      "LLM",
+      "RAG",
+      "Agentic AI",
+      "FineTuning"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d0791e40",
+    "name": "이동구 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "Terraform",
+      "C++"
+    ],
+    "fields": [
+      "데이터 엔지니어링",
+      "데이터모델링",
+      "데이터 아키텍처",
+      "AWS",
+      "인프라"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_4f191e40",
+    "name": "이동준 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "Go"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "클라우드",
+      "AI",
+      "빅데이터",
+      "백엔드",
+      "DevOps",
+      "데이터 엔지니어링",
+      "MSA",
+      "SW아키텍처",
+      "LLM",
+      "MLOps",
+      "AGENT",
+      "GPU",
+      "Agentic AI"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "독서, 킥복싱",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_76b91e40",
+    "name": "이동진 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "컴퓨터비전",
+      "딥러닝",
+      "머신러닝",
+      "Large scale AI",
+      "AI Data"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_60c91e40",
+    "name": "조찬희 멘토",
+    "stacks": [
+      "Python",
+      "Claude Code",
+      "C#",
+      "C++",
+      "TypeScript",
+      "React"
+    ],
+    "fields": [
+      "AI",
+      "메타버스",
+      "창업",
+      "Agentic AI",
+      "Claude Code",
+      "MVP 개발",
+      "컴퓨터비전",
+      "영상처리",
+      "사업운영",
+      "응용SW",
+      "AI 기획",
+      "서비스 개발",
+      "Frontend",
+      "Backend",
+      "Python"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "여행",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_7f691e40",
+    "name": "이상원 멘토",
+    "stacks": [
+      "Python",
+      "SQL"
+    ],
+    "fields": [
+      "AI",
+      "Agentic AI",
+      "MLOps",
+      "NLP",
+      "데이터 사이언스",
+      "생성형AI",
+      "LLM",
+      "RAG",
+      "Google Cloud",
+      "AWS",
+      "마케팅",
+      "딥러닝",
+      "데이터분석"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_84291e40",
+    "name": "이상윤 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "Spring"
+    ],
+    "fields": [
+      "백엔드",
+      "스프링 백엔드",
+      "SW아키텍처",
+      "핀테크",
+      "숙박시스템"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_ef491e40",
+    "name": "이상철 멘토",
+    "stacks": [
+      "React",
+      "Node.js"
+    ],
+    "fields": [
+      "React",
+      "Node.js",
+      "오픈소스",
+      "AI",
+      "AWS"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/1ilsang",
+    "apply_url": "https://github.com/1ilsang"
+  },
+  {
+    "id": "m_e4991e40",
+    "name": "이상현 멘토",
+    "stacks": [
+      "Java",
+      "JavaScript",
+      "Python",
+      "TypeScript",
+      "AWS",
+      "Node.js",
+      "React",
+      "Bash",
+      "Spring",
+      "VueJS",
+      "Svelte.js",
+      "Nest.js",
+      "Swift"
+    ],
+    "fields": [
+      "클라우드",
+      "AWS",
+      "서비스 개발",
+      "린스타트업",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/katoro",
+    "apply_url": "https://github.com/katoro"
+  },
+  {
+    "id": "m_25391e40",
+    "name": "이상호 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "영상처리",
+      "딥러닝",
+      "오픈소스",
+      "머신러닝",
+      "데이터 사이언스",
+      "인공지능",
+      "생성형AI",
+      "학술논문"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a5791e40",
+    "name": "이세일 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "MVP 개발",
+      "AI 기획",
+      "데이터 사이언스",
+      "해외진출"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_6a691e40",
+    "name": "이세진 멘토",
+    "stacks": [
+      "JavaScript",
+      "Flutter",
+      "ReactNative",
+      "TypeScript",
+      "Supabase"
+    ],
+    "fields": [
+      "MVP 개발",
+      "그로스 해킹",
+      "창업",
+      "마케팅",
+      "사업화 전략",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_78691e40",
+    "name": "이승학 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_77291e40",
+    "name": "이일섭 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "Java",
+      "Azure",
+      "AWS",
+      "Supabase",
+      "Claude Code"
+    ],
+    "fields": [
+      "프롭테크",
+      "금융",
+      "LLM",
+      "모델학습",
+      "RAG",
+      "Agentic AI",
+      "Harness",
+      "데이터분석",
+      "데이터처리",
+      "데이터 엔지니어링",
+      "개인화추천",
+      "딥러닝",
+      "사업화 전략",
+      "사업운영",
+      "정보보안",
+      "시스템 아키텍처",
+      "기술사업화",
+      "SEO"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/lee-monster",
+    "apply_url": "https://open.kakao.com/o/snRpDxpi"
+  },
+  {
+    "id": "m_d0b91e40",
+    "name": "이정영 멘토",
+    "stacks": [
+      "Go",
+      "TypeScript",
+      "JavaScript",
+      "Python",
+      "ReactNative",
+      "Supabase",
+      "PostrgreSQL",
+      "Node.js",
+      "NextJs"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "사업운영",
+      "빅데이터",
+      "창업",
+      "신사업개발",
+      "SW아키텍처",
+      "PM",
+      "게임",
+      "프로젝트관리",
+      "개발 프로세스",
+      "소프트웨어 공학",
+      "AGENT",
+      "RAG",
+      "로봇",
+      "AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "아이랑시간보내기 (딸천재가 되고싶은 딸바보)",
+    "github": "https://github.com/mojomoth",
+    "apply_url": "https://github.com/mojomoth"
+  },
+  {
+    "id": "m_0b991e40",
+    "name": "이제우 멘토",
+    "stacks": [
+      "Python",
+      "Go",
+      "Node.js",
+      "Unity",
+      "Docker & Kubernetes",
+      "Claude Code",
+      "AWS",
+      "GCP",
+      "Azure"
+    ],
+    "fields": [
+      "DevOps",
+      "데이터 엔지니어링",
+      "SW아키텍처",
+      "대용량 아키텍처",
+      "게임",
+      "플랫폼",
+      "K8S",
+      "Backend",
+      "데이터베이스",
+      "클라우드",
+      "개발 프로세스",
+      "NoSQL",
+      "PM",
+      "데이터분석"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "게임 개발, AI랑 놀기, 픽셀 아트, 애니메이션, 유튜브, 영화, 강아지 산책",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sSJqgGoi"
+  },
+  {
+    "id": "m_db191e40",
+    "name": "이주진 멘토",
+    "stacks": [
+      "TypeScript",
+      "Python",
+      "Claude Code"
+    ],
+    "fields": [
+      "AI",
+      "서비스 개발",
+      "기술 사업화",
+      "창업",
+      "애자일",
+      "에듀테크",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_c1391e40",
+    "name": "이지원 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "LLM",
+      "RAG",
+      "창업",
+      "모바일 APP",
+      "블록체인"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_7a591e40",
+    "name": "이지훈 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "C++"
+    ],
+    "fields": [
+      "AI",
+      "Backend",
+      "개인화추천",
+      "대용량 아키텍처",
+      "소프트웨어 공학"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/zhoonit",
+    "apply_url": "https://open.kakao.com/o/sIuz9Qoi"
+  },
+  {
+    "id": "m_5ee91e40",
+    "name": "이찬형 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "Spring"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "인프라",
+      "백엔드",
+      "Web",
+      "데이터베이스",
+      "SW아키텍처",
+      "응용SW",
+      "서비스 개발",
+      "대용량 아키텍처",
+      "MSA",
+      "Server",
+      "개발 프로세스",
+      "린스타트업",
+      "소프트웨어 공학",
+      "서버",
+      "스프링 백엔드",
+      "MVP 개발",
+      "클린코드",
+      "프로젝트관리"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "책 읽기, 운동",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_92991e40",
+    "name": "이태영 멘토 AI 덕후",
+    "stacks": [
+      "Python",
+      "Java",
+      "SQL"
+    ],
+    "fields": [
+      "클라우드",
+      "시스템 아키텍처",
+      "AI",
+      "빅데이터",
+      "AWS",
+      "사업화 전략",
+      "딥러닝",
+      "클라우드 아키텍처",
+      "머신러닝",
+      "데이터처리",
+      "AI 기획",
+      "학술논문",
+      "NLP",
+      "컴퓨터비전",
+      "인공지능",
+      "Financial",
+      "LLM",
+      "VectorDB",
+      "RAG",
+      "AGENT",
+      "MoE",
+      "데이터분석",
+      "생성형AI",
+      "GraphDB",
+      "RDBMS",
+      "Windows kernel driver",
+      "금융"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2b891e40",
+    "name": "이태우 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "JavaScript",
+      "TypeScript",
+      "Go",
+      "Spring",
+      "Rails",
+      "Django",
+      "Nest.js",
+      "Flutter",
+      "AWS"
+    ],
+    "fields": [
+      "백엔드",
+      "프론트엔드",
+      "서비스 개발",
+      "클린코드",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "수영, 만들기",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_0f191e40",
+    "name": "이태희 빵형 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "github,com/kairess",
+    "apply_url": "github,com/kairess"
+  },
+  {
+    "id": "m_03491e40",
+    "name": "이하늘 멘토",
+    "stacks": [
+      "JavaScript",
+      "Kotlin",
+      "Java"
+    ],
+    "fields": [
+      "기획",
+      "Client",
+      "Server",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_0dc91e40",
+    "name": "이한솔 멘토",
+    "stacks": [
+      "TypeScript",
+      "Dart",
+      "SQL",
+      "React",
+      "Node.js",
+      "Supabase"
+    ],
+    "fields": [
+      "프론트엔드",
+      "MVP 개발",
+      "창업",
+      "AI",
+      "서비스 디자인",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_cc891e40",
+    "name": "이현수 멘토",
+    "stacks": [
+      "Python",
+      "Pytorch",
+      "Bash",
+      "Claude"
+    ],
+    "fields": [
+      "AI",
+      "LLM",
+      "RAG",
+      "AGENT",
+      "MCP",
+      "오픈소스",
+      "딥러닝",
+      "컴퓨터비전",
+      "의료AI",
+      "AI Agent",
+      "데이터처리",
+      "Claude Code",
+      "Python",
+      "인공지능",
+      "VectorDB",
+      "Open Claw",
+      "ML"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "러닝",
+    "github": "https://github.com/sooperset",
+    "apply_url": "https://github.com/sooperset"
+  },
+  {
+    "id": "m_c4c91e40",
+    "name": "이호연 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "LLM",
+      "NLP",
+      "Speech",
+      "학술논문",
+      "특허",
+      "Large-scale AI",
+      "Applied AI",
+      "ML",
+      "FineTuning",
+      "딥러닝",
+      "머신러닝",
+      "Agentic AI",
+      "Claude",
+      "Language"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/lyeoni",
+    "apply_url": "https://github.com/lyeoni"
+  },
+  {
+    "id": "m_f9d91e40",
+    "name": "이훈재 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "computer vision",
+      "LLM",
+      "On-device AI",
+      "서비스 개발",
+      "사업화 전략",
+      "풀스택"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/comlhj1114",
+    "apply_url": "https://github.com/comlhj1114"
+  },
+  {
+    "id": "m_fbb91e40",
+    "name": "임원균 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "애자일",
+      "신사업개발",
+      "머신러닝",
+      "서비스 기획",
+      "MLOps",
+      "Backend"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d6891e40",
+    "name": "임현욱 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "클라우드",
+      "빅데이터",
+      "Google Cloud",
+      "Data Governance",
+      "AI"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_06191e40",
+    "name": "장상현 멘토",
+    "stacks": [
+      "Rust",
+      "Python",
+      "Swift",
+      "JavaScript"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "딥러닝",
+      "시스템 아키텍처",
+      "트레이딩",
+      "LLM",
+      "서브컬처",
+      "음성합성",
+      "음성인식",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "스팀게임",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_ecd91e40",
+    "name": "장시현 멘토",
+    "stacks": [
+      "Python",
+      "SQL",
+      "Go",
+      "Bash"
+    ],
+    "fields": [
+      "백엔드",
+      "AI",
+      "SRE",
+      "LLM",
+      "Web",
+      "시스템 아키텍처",
+      "데이터 엔지니어링",
+      "프로젝트관리",
+      "MLOps",
+      "Python",
+      "Backend",
+      "오픈소스"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "공부, 여행",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_71c91e40",
+    "name": "장태영 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "C"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "임베디드",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_24791e40",
+    "name": "정욱재 멘토",
+    "stacks": [
+      "Go",
+      "Python",
+      "TypeScript"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "DevOps",
+      "인프라",
+      "SW아키텍처",
+      "해외진출"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "@jeongukjae",
+    "apply_url": "@jeongukjae"
+  },
+  {
+    "id": "m_43d91e40",
+    "name": "정태희",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "데이터 엔지니어링",
+      "딥러닝",
+      "데이터처리",
+      "데이터분석",
+      "머신러닝",
+      "강화학습",
+      "NLP",
+      "컴퓨터비전",
+      "데이터 사이언스",
+      "에지 컴퓨팅",
+      "Data-Driven",
+      "인공지능",
+      "chatGPT",
+      "학술논문",
+      "생성형AI",
+      "Financial",
+      "LLM",
+      "Python",
+      "VectorDB",
+      "RAG",
+      "AGENT",
+      "GPU",
+      "Agentic AI",
+      "Yolo",
+      "YoloV8+",
+      "computer vision",
+      "Large-scale AI",
+      "AI Data",
+      "ML",
+      "STT",
+      "TTS",
+      "음성인식",
+      "FineTuning",
+      "ASR",
+      "자연어처리",
+      "모델학습",
+      "기계번역",
+      "데이터",
+      "데이터모델링",
+      "Applied AI",
+      "HuggingFace",
+      "On-device AI",
+      "GenAI",
+      "On Device AI",
+      "Edge AI",
+      "AI엔지니어링",
+      "AI Agent",
+      "미국",
+      "의료AI",
+      "최적화"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_98f91e40",
+    "name": "조경진 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "AGENT",
+      "RAG",
+      "반도체SW",
+      "Applied AI",
+      "ML"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토",
+      "AI Agent"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5e691e40",
+    "name": "윤지환 멘토",
+    "stacks": [],
+    "fields": [
+      "비즈니스모델",
+      "사업성 분석",
+      "사업화 전략",
+      "사업개발",
+      "사업운영",
+      "신사업개발",
+      "마케팅",
+      "그로스 해킹",
+      "마케팅전략"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f4d91e40",
+    "name": "이준병",
+    "stacks": [],
+    "fields": [
+      "투자유치",
+      "벤처캐피탈",
+      "사업성 분석",
+      "비즈니스모델"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "필름 카메라",
+    "github": "https://github.com/tolany",
+    "apply_url": "https://github.com/tolany"
+  },
+  {
+    "id": "m_ead91e40",
+    "name": "이창재 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "특허",
+      "상표",
+      "저작권",
+      "법률",
+      "기술 사업화",
+      "지식재산권",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_88491e40",
+    "name": "이효정 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_30891e40",
+    "name": "임성준 멘토",
+    "stacks": [],
+    "fields": [
+      "마케팅",
+      "사업운영",
+      "기획",
+      "사업화 전략",
+      "창업",
+      "신사업개발",
+      "서비스 기획",
+      "MVP 개발",
+      "그로스 해킹",
+      "린스타트업",
+      "기술 사업화",
+      "투자유치",
+      "벤처캐피탈",
+      "사업성 분석",
+      "엔젤투자",
+      "스타트업",
+      "세일즈"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f3591e40",
+    "name": "임태균 멘토",
+    "stacks": [
+      "SQL",
+      "Claude Code"
+    ],
+    "fields": [
+      "사업화 전략",
+      "기획",
+      "UX",
+      "사업운영",
+      "창업",
+      "신사업개발",
+      "서비스 기획",
+      "그로스 해킹"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "크로스핏, 트라이애슬론, 웨이트트레이닝",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_7c291e40",
+    "name": "장혁 멘토",
+    "stacks": [],
+    "fields": [
+      "창업",
+      "M&A",
+      "IPO",
+      "AI",
+      "기획"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토",
+      "창업"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_64a91e40",
+    "name": "정신재 멘토",
+    "stacks": [],
+    "fields": [
+      "UX",
+      "유저리서치",
+      "서비스 기획"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토",
+      "디자인"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_83e91e40",
+    "name": "조동인 멘토",
+    "stacks": [],
+    "fields": [
+      "액셀러레이터",
+      "MVP 개발",
+      "서비스 기획",
+      "UI",
+      "UX",
+      "사업화 전략",
+      "GTM",
+      "세일즈",
+      "마케팅"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_28391e40",
+    "name": "조항준 멘토",
+    "stacks": [
+      "비기술"
+    ],
+    "fields": [
+      "기획",
+      "UI",
+      "UX",
+      "서비스 기획",
+      "서비스 디자인",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "비기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_fee91e40",
+    "name": "진성화 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2e491e40",
+    "name": "최민섭 멘토",
+    "stacks": [
+      "Python"
+    ],
+    "fields": [
+      "AI",
+      "개인화추천",
+      "시스템",
+      "클라우드 아키텍처",
+      "기술창업",
+      "서비스 배포",
+      "운영"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_15e91e40",
+    "name": "최학열 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "SQL",
+      "R"
+    ],
+    "fields": [
+      "AI",
+      "인공지능",
+      "생성형AI",
+      "NLP",
+      "computer vision",
+      "컴퓨터비전",
+      "영상처리",
+      "Agentic AI",
+      "LLM",
+      "RAG",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_afb91e40",
+    "name": "한서우 멘토",
+    "stacks": [
+      "Python",
+      "C++"
+    ],
+    "fields": [
+      "AI",
+      "영상처리",
+      "드론",
+      "머신러닝",
+      "자율주행",
+      "컴퓨터비전",
+      "MVP 개발",
+      "AI 기획",
+      "chatGPT",
+      "인공지능",
+      "생성형AI",
+      "Python",
+      "AI Native",
+      "AI Data",
+      "ML"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "https://github.com/swhan0329",
+    "apply_url": "https://swhan0329.github.io/"
+  },
+  {
+    "id": "m_98d91e40",
+    "name": "홍윤석 멘토",
+    "stacks": [
+      "Python",
+      "Claude Code"
+    ],
+    "fields": [
+      "AI",
+      "딥러닝",
+      "게임",
+      "Agentic AI",
+      "STT",
+      "Speech",
+      "자연어처리"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토",
+      "AI Agent"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_adf91e40",
+    "name": "황민호 멘토",
+    "stacks": [
+      "Claude Code",
+      "Kotlin",
+      "Java",
+      "Python",
+      "Node.js",
+      "React",
+      "Spring"
+    ],
+    "fields": [
+      "AI",
+      "AGENT",
+      "Claude Code",
+      "AX",
+      "스프링 백엔드",
+      "오픈소스"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_9e191e40",
+    "name": "장효봉 멘토",
+    "stacks": [
+      "Kotlin",
+      "Go",
+      "SQL",
+      "Java",
+      "React",
+      "Node.js"
+    ],
+    "fields": [
+      "AI",
+      "백엔드",
+      "메타버스",
+      "게임",
+      "프론트엔드",
+      "데이터베이스",
+      "서비스 개발"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_21a91e40",
+    "name": "전가빈 멘토",
+    "stacks": [
+      "Python",
+      "Java",
+      "Kotlin",
+      "Spring",
+      "Elixir",
+      "Docker & Kubernetes"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "클라우드",
+      "AI",
+      "인프라",
+      "백엔드",
+      "DevOps",
+      "AI Native",
+      "CI",
+      "CD"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_dbd91e40",
+    "name": "전우성 멘토",
+    "stacks": [
+      "Unity",
+      "C#",
+      ".NET",
+      "Svelte"
+    ],
+    "fields": [
+      "게임",
+      "프론트엔드",
+      "백엔드",
+      "UI",
+      "UX",
+      "AI"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f8491e40",
+    "name": "정경민 멘토",
+    "stacks": [
+      "Go",
+      "Java",
+      "Python",
+      "PostrgreSQL",
+      "GCP",
+      "AWS",
+      "Elixir",
+      "Rust"
+    ],
+    "fields": [
+      "백엔드",
+      "클라우드 아키텍처",
+      "머신러닝",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "football | tennis | sports climbing | 종로(고궁&거리) 걷기",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_66b91e40",
+    "name": "정진규 멘토",
+    "stacks": [
+      "Swift",
+      "Dart",
+      "TypeScript",
+      "Supabase"
+    ],
+    "fields": [
+      "모바일 APP",
+      "서비스 개발",
+      "MVP 개발",
+      "iOS",
+      "Flutter"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b5791e40",
+    "name": "정원용 멘토",
+    "stacks": [
+      "JavaScript",
+      "Java",
+      "Python"
+    ],
+    "fields": [
+      "백엔드",
+      "프론트엔드",
+      "애자일",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d2791e40",
+    "name": "정유진 멘토",
+    "stacks": [
+      "Go",
+      "TypeScript",
+      "React",
+      "Python",
+      "SQL",
+      "C#"
+    ],
+    "fields": [
+      "시스템 아키텍처",
+      "UX",
+      "기획",
+      "백엔드",
+      "프론트엔드",
+      "MVP 개발",
+      "개발 프로세스",
+      "게임",
+      "마케팅",
+      "사업화 전략",
+      "창업",
+      "서비스 기획",
+      "개인화추천",
+      "PM",
+      "서비스 개발",
+      "MSA",
+      "린스타트업",
+      "CI",
+      "CD"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b8591e40",
+    "name": "정인호",
+    "stacks": [
+      "Python",
+      "Claude Code",
+      "Docker & Kubernetes",
+      "Bash"
+    ],
+    "fields": [
+      "금융",
+      "생성형AI",
+      "클라우드",
+      "기획",
+      "AI",
+      "영상처리",
+      "백엔드",
+      "특허",
+      "서비스 기획",
+      "Python",
+      "GraphDB"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "축구, 러닝",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_2f091e40",
+    "name": "정진우 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "AWS",
+      "창업",
+      "특허",
+      "시스템 아키텍처",
+      "클라우드",
+      "기획",
+      "인프라",
+      "백엔드",
+      "클라우드 아키텍처",
+      "딥러닝",
+      "의료",
+      "머신러닝",
+      "서비스 개발",
+      "AI 기획",
+      "CI",
+      "CD",
+      "chatGPT",
+      "생성형AI",
+      "LLM",
+      "VectorDB",
+      "RAG",
+      "AGENT",
+      "GraphDB",
+      "온톨로지",
+      "Agentic AI",
+      "Google Cloud",
+      "Claude",
+      "Claude Code",
+      "GraphRAG"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "바이브 코딩하기, 영화보기",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sVABs1oi"
+  },
+  {
+    "id": "m_db591e40",
+    "name": "정철웅 멘토",
+    "stacks": [
+      "Java",
+      "JavaScript",
+      "Bash",
+      "SQL"
+    ],
+    "fields": [
+      "Web",
+      "에듀테크",
+      "클라우드",
+      "PM",
+      "클린코드",
+      "백엔드",
+      "서비스 개발",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토",
+      "AI Agent",
+      "창업"
+    ],
+    "startup_experience": true,
+    "bio": "Billiard,  Travel",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_ac991e40",
+    "name": "제한재 멘토",
+    "stacks": [
+      "JavaScript",
+      "Python",
+      "React",
+      "TypeScript",
+      "Node.js"
+    ],
+    "fields": [
+      "프론트엔드",
+      "애자일",
+      "백엔드",
+      "클라우드",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_a3d91e40",
+    "name": "조재홍 멘토",
+    "stacks": [
+      "Kotlin",
+      "Java",
+      "C",
+      "C++",
+      "Python",
+      "Dart"
+    ],
+    "fields": [
+      "모바일 APP",
+      "백엔드",
+      "IoT",
+      "SW아키텍처",
+      "오픈소스",
+      "에듀테크",
+      "창업",
+      "애자일"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f3691e40",
+    "name": "한유일 멘토",
+    "stacks": [
+      "Java",
+      "Python",
+      "Spring",
+      "Supabase",
+      "Kotlin"
+    ],
+    "fields": [
+      "백엔드",
+      "DevOps",
+      "데이터 엔지니어링",
+      "LLM",
+      "Agentic AI"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_76091e40",
+    "name": "황연성 멘토",
+    "stacks": [
+      "Java",
+      "TypeScript",
+      "Node.js",
+      "Kotlin",
+      "HCL",
+      "Python"
+    ],
+    "fields": [
+      "백엔드",
+      "DevOps",
+      "프론트엔드",
+      "서비스 개발",
+      "MSA",
+      "CI",
+      "CD",
+      "SW아키텍처"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_19191e40",
+    "name": "장진영 멘토 6236",
+    "stacks": [
+      "Swift",
+      "Claude Code"
+    ],
+    "fields": [
+      "모바일 APP",
+      "iOS",
+      "CI",
+      "CD"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://open.kakao.com/o/sq7xkbpi"
+  },
+  {
+    "id": "m_30b91e40",
+    "name": "정승욱 멘토",
+    "stacks": [
+      "Java",
+      "Kotlin",
+      "Python"
+    ],
+    "fields": [
+      "모바일 APP",
+      "SW아키텍처",
+      "Data-Driven",
+      "클린코드",
+      "모바일 아키텍쳐",
+      "Client",
+      "UI",
+      "UX",
+      "CI",
+      "CD",
+      "Android"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_abd91e40",
+    "name": "한기용 멘토",
+    "stacks": [
+      "Python",
+      "Scala"
+    ],
+    "fields": [
+      "데이터 엔지니어링",
+      "창업",
+      "데이터분석",
+      "의료",
+      "개인화추천",
+      "빅데이터",
+      "클라우드",
+      "애자일",
+      "인공지능 시스템 아키텍쳐 개발"
+    ],
+    "types": [
+      "기술멘토",
+      "해외멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_52f91e40",
+    "name": "장진영 멘토 2116",
+    "stacks": [
+      "Unity",
+      "Unreal",
+      "Claude Code",
+      "C#",
+      "C++",
+      "Lua"
+    ],
+    "fields": [
+      "게임",
+      "메타버스",
+      "개발 프로세스",
+      "프로젝트관리"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_5c791e40",
+    "name": "한대용 멘토",
+    "stacks": [
+      "Ruby"
+    ],
+    "fields": [
+      "풀스택",
+      "서비스 개발",
+      "신사업개발",
+      "Web",
+      "창업",
+      "사업운영",
+      "MVP 개발",
+      "AI"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "자동화, 여행, 투자, 커피, 요가",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d2491e40",
+    "name": "최원섭 멘토",
+    "stacks": [
+      "Python",
+      "React",
+      "TypeScript",
+      "Django",
+      "SQL",
+      "JavaScript"
+    ],
+    "fields": [
+      "Frontend",
+      "Backend",
+      "Infra",
+      "Terraform",
+      "PM",
+      "MVP 개발",
+      "클린코드",
+      "React",
+      "Python",
+      "Django",
+      "MSA",
+      "Agile",
+      "린스타트업",
+      "창업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": true,
+    "bio": "스쿠버다이빙, 주짓수, 종합격투기, 헬스",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_f5991e40",
+    "name": "최재훈 멘토",
+    "stacks": [
+      "Java",
+      "C",
+      "Node.js",
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "VueJS"
+    ],
+    "fields": [
+      "Backend",
+      "Frontend",
+      "Agile",
+      "UI",
+      "UX",
+      "Embedded",
+      "SW아키텍처",
+      "클라우드 컴퓨팅",
+      "AWS",
+      "DevOps",
+      "IoT",
+      "AI",
+      "딥러닝",
+      "머신러닝",
+      "MSA",
+      "MLOps",
+      "데이터 엔지니어링"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_44a91e40",
+    "name": "허소영 멘토",
+    "stacks": [],
+    "fields": [
+      "해외진출",
+      "백엔드",
+      "Web",
+      "클라우드",
+      "시스템 아키텍처",
+      "Microservices",
+      "Agentic AI"
+    ],
+    "types": [
+      "해외멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": "https://brunch.co.kr/@hsy110405"
+  },
+  {
+    "id": "m_ee891e40",
+    "name": "허영무 멘토",
+    "stacks": [],
+    "fields": [
+      "GTM",
+      "세일즈",
+      "마케팅",
+      "기술경영",
+      "기술창업",
+      "기술사업화",
+      "사업개발",
+      "해외진출",
+      "회사경영",
+      "로봇",
+      "신사업개발",
+      "미국",
+      "일본",
+      "수익화"
+    ],
+    "types": [
+      "해외멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_c7791e40",
+    "name": "홍순엽 멘토 VC",
+    "stacks": [],
+    "fields": [
+      "창업",
+      "투자유치",
+      "벤처캐피탈",
+      "엔젤투자",
+      "사업운영",
+      "사업화 전략",
+      "기술 사업화",
+      "비즈니스모델",
+      "사업성 분석"
+    ],
+    "types": [
+      "국내멘토",
+      "비기술멘토"
+    ],
+    "startup_experience": true,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_d1b91e40",
+    "name": "장영원 멘토",
+    "stacks": [
+      "Go",
+      "Java",
+      "Kotlin",
+      "Python",
+      "Claude Code",
+      "Spring",
+      "R-DBMS"
+    ],
+    "fields": [
+      "Agentic AI",
+      "AI",
+      "Backend",
+      "SW아키텍처",
+      "서비스 디자인",
+      "시스템 아키텍처",
+      "정보보안",
+      "서비스 기획",
+      "시큐어코딩",
+      "대용량 아키텍처",
+      "MVP 개발",
+      "그로스 해킹",
+      "린스타트업"
+    ],
+    "types": [
+      "기술멘토",
+      "국내멘토"
+    ],
+    "startup_experience": false,
+    "bio": "Claude, Cooking",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_04c91e40",
+    "name": "전승룡 멘토",
+    "stacks": [
+      "Python",
+      "C++",
+      "C",
+      "Verilog",
+      "VHDL",
+      "Claude Code"
+    ],
+    "fields": [
+      "Physical AI",
+      "로보틱스",
+      "자율주행",
+      "컴퓨터비전",
+      "임베디드"
+    ],
+    "types": [
+      "국내멘토",
+      "기술멘토"
+    ],
+    "startup_experience": false,
+    "bio": "와인, 커피, 음악",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_24b91e40",
+    "name": "장영원 멘토",
+    "stacks": [],
+    "fields": [
+      "AI",
+      "Agentic AI",
+      "Backend",
+      "SW아키텍처",
+      "MVP 개발",
+      "애자일",
+      "서비스 디자인"
+    ],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_b1191e40",
+    "name": "신기용 멘토",
+    "stacks": [],
+    "fields": [
+      "AI"
+    ],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_79791e40",
+    "name": "정태희 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_acc91e40",
+    "name": "정태희",
+    "stacks": [],
+    "fields": [],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_14e91e40",
+    "name": "S 4e5b5c939110 ghcr io simhani1 techmoa latest java XX UseContai 6 hours ago Up 6 hours 8080 tcp techmoa app aefd6dbc1aa3 ghcr io simhani1 techmoa web dev latest docker entrypoint 6 hours ago Up 6 hours 80 tcp techmoa web dev b75f20c9c3f3 ghcr io simhani1 techmoa web latest docker entrypoint 6 hours ago Up 6 hours 80 tcp techmoa web prod 64a7c0d87903 openclaw local docker entrypoint s 2 days ago Up 6 hours healthy 0 0 0 0 18789 18790 18789 18790 tcp 18789 18790 18789 18790 tcp openclaw openclaw gateway 1 ee8ddaf45a05 prom mysqld exporter latest bin mysqld_exporte 7 weeks ago Up 6 hours 9104 tcp mysqld exporter 058ef76c881c prom prometheus latest bin prometheus c 7 weeks ago Up 6 hours 127 0 0 1 9090 9090 tcp prometheus 66d956d63604 grafana grafana latest run sh 7 weeks ago Up 6 hours 127 0 0 1 3000 3000 tcp grafana 6c7b8ef40dee mysql 9 0 docker entrypoint s 3 months ago Up 6 hours 127 0 0 1 3306 3306 tcp 33060 tcp mysql prod ed9a7057796d prom node exporter latest bin node_exporter 3 months ago Up 6 hours 127 0 0 1 9100 9100 tcp node exporter 706d32146a3f portainer portainer ce latest portainer 4 months ago Up 6 hours 127 0 0 1 9000 9000 tcp 8000 tcp 127 0 0 1 9443 9443 tcp portaine",
+    "stacks": [],
+    "fields": [],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
+  },
+  {
+    "id": "m_32b91e40",
+    "name": "AI SW마에스트로 멘토",
+    "stacks": [],
+    "fields": [],
+    "types": [],
+    "startup_experience": false,
+    "bio": "",
+    "github": "",
+    "apply_url": ""
   }
 ]
