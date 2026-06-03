@@ -4,6 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: {
     sidepanel: "./src/sidepanel.tsx",
+    viewer: "./src/viewer.tsx",
     background: "./src/background.ts",
     somaParser: "./src/somaParser.ts",
   },

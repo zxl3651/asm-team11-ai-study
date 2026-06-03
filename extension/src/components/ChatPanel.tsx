@@ -1,22 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Message, MessageCard } from "./MessageCard";
-import { GraduationCap, RotateCcw, Info, SendHorizontal, Calendar, Bot, RefreshCw, Trash2, X } from "lucide-react";
+import { GraduationCap, RotateCcw, Info, SendHorizontal, Calendar, Bot, RefreshCw, Trash2, ChevronDown } from "lucide-react";
 import {
   parseMentoringListPage,
   parseCalendarResultList,
   parseTeamPage,
   parseHistoryPage,
-  parseMentoringDetailPage
+  parseMentoringDetailPage,
+  parseMyInfoPage
 } from "../parserUtils";
 
 const API_BASE = "http://localhost:8000";
-
-const QUICK_QUESTIONS = [
-  "내 스케줄이랑 겹치지 않는 특강 추천해줘",
-  "화요일 저녁 7시에 Spring 특강 신청해도 일정 괜찮아?",
-  "React랑 Node 잘 아는 창업 멘토 알려줘",
-  "팀원 구하는 AI 분야 연수생 추천해줘",
-];
 
 function generateId(): string {
   return Math.random().toString(36).substring(2, 9);
@@ -29,14 +23,17 @@ function generateSessionId(): string {
 // ── chrome.storage.local에서 실시간 파싱 데이터 로드 ──
 
 interface SyncStatus {
+  hasUserInfo: boolean;
   hasMentorings: boolean;
   hasTeams: boolean;
   hasHistoryCalendar: boolean;
   hasSchedule: boolean;
+  userInfoTimestamp: number | null;
   mentoringTimestamp: number | null;
   teamTimestamp: number | null;
   historyCalendarTimestamp: number | null;
   scheduleTimestamp: number | null;
+  userInfoName: string;
   mentoringCount: number;
   teamCount: number;
   historyCalendarCount: number;
@@ -65,6 +62,7 @@ async function loadParsedCalendar(): Promise<any[]> {
           const schedule = result.parsedSchedule || [];
 
           const formattedHistory = history.map((item: any) => ({
+            source: "user_history",
             subjectTitle: item.title || "",
             date: item.dateStr || "",
             timeRangeStr: item.timeRangeStr || "",
@@ -112,25 +110,31 @@ async function loadSyncStatus(): Promise<SyncStatus> {
           "parsedTeamInfo",
           "parsedHistoryCalendar",
           "parsedSchedule",
+          "parsedUserInfo",
           "mentoringParseTimestamp",
           "teamParseTimestamp",
           "historyCalendarParseTimestamp",
           "scheduleParseTimestamp",
+          "userInfoParseTimestamp",
         ],
         (result) => {
           const mList = result.parsedMentorings || [];
           const tList = result.parsedTeamInfo || [];
           const hcList = result.parsedHistoryCalendar || [];
           const sList = result.parsedSchedule || [];
+          const userInfo = result.parsedUserInfo || null;
           resolve({
+            hasUserInfo: !!(userInfo && (userInfo.name || userInfo.email || userInfo.phone)),
             hasMentorings: mList.length > 0,
             hasTeams: tList.length > 0,
             hasHistoryCalendar: hcList.length > 0,
             hasSchedule: sList.length > 0,
+            userInfoTimestamp: result.userInfoParseTimestamp || null,
             mentoringTimestamp: result.mentoringParseTimestamp || null,
             teamTimestamp: result.teamParseTimestamp || null,
             historyCalendarTimestamp: result.historyCalendarParseTimestamp || null,
             scheduleTimestamp: result.scheduleParseTimestamp || null,
+            userInfoName: userInfo?.name || "",
             mentoringCount: mList.length,
             teamCount: tList.length,
             historyCalendarCount: hcList.length,
@@ -140,14 +144,17 @@ async function loadSyncStatus(): Promise<SyncStatus> {
       );
     } else {
       resolve({
+        hasUserInfo: false,
         hasMentorings: false,
         hasTeams: false,
         hasHistoryCalendar: false,
         hasSchedule: false,
+        userInfoTimestamp: null,
         mentoringTimestamp: null,
         teamTimestamp: null,
         historyCalendarTimestamp: null,
         scheduleTimestamp: null,
+        userInfoName: "",
         mentoringCount: 0,
         teamCount: 0,
         historyCalendarCount: 0,
@@ -179,7 +186,7 @@ export const ChatPanel: React.FC = () => {
       id: "welcome",
       role: "assistant",
       content:
-        "안녕하세요! 소마 메이트입니다 👋\n\n저는 소마 연수생을 위한 AI 비서예요. 멘토 추천, 연수생 찾기, 그리고 멘토링/특강 정보를 자연어로 물어보세요!\n\n**📡 실시간 데이터 수집:**\n소마 포털의 멘토링/특강 게시판, 팀매칭, 월간일정 페이지를 방문하면 자동으로 데이터를 수집합니다.\n\n**예시 질문:**\n- \"접수중인 특강 알려줘\"\n- \"내 일정이랑 안 겹치는 멘토링 추천해줘\"\n- \"우리 팀 멘토님 이름이 뭐야?\"",
+        "안녕하세요! 소마 메이트입니다 👋\n\n저는 소마 연수생의 스케쥴 관리를 위한 AI 비서예요!",
       timestamp: new Date(),
     },
   ]);
@@ -187,14 +194,17 @@ export const ChatPanel: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState<string>(generateSessionId);
   const [syncStatus, setSyncStatus] = useState<SyncStatus>({
+    hasUserInfo: false,
     hasMentorings: false,
     hasTeams: false,
     hasHistoryCalendar: false,
     hasSchedule: false,
+    userInfoTimestamp: null,
     mentoringTimestamp: null,
     teamTimestamp: null,
     historyCalendarTimestamp: null,
     scheduleTimestamp: null,
+    userInfoName: "",
     mentoringCount: 0,
     teamCount: 0,
     historyCalendarCount: 0,
@@ -202,10 +212,13 @@ export const ChatPanel: React.FC = () => {
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
   const [agentStatus, setAgentStatus] = useState<string | null>(null);
+  const [processingSteps, setProcessingSteps] = useState<string[]>([]);
+  const [isSyncStatusOpen, setIsSyncStatusOpen] = useState(true);
 
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const processingStepsRef = useRef<string[]>([]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -251,6 +264,9 @@ export const ChatPanel: React.FC = () => {
       setMessages((prev) => [...prev, userMsg]);
       setInput("");
       setIsLoading(true);
+      setAgentStatus("요청을 확인하고 있어요...");
+      processingStepsRef.current = ["요청을 확인하고 있어요..."];
+      setProcessingSteps(["요청을 확인하고 있어요..."]);
 
       try {
         const res = await fetch(`${API_BASE}/chat`, {
@@ -276,7 +292,6 @@ export const ChatPanel: React.FC = () => {
         }
 
         let buffer = "";
-        const accumulatedSteps: string[] = [];
 
         while (true) {
           const { value, done } = await reader.read();
@@ -297,17 +312,20 @@ export const ChatPanel: React.FC = () => {
               const data = JSON.parse(rawData);
               if (data.type === "status") {
                 setAgentStatus(data.message);
-                // 중복을 제거하면서 스텝 배열에 누적
-                if (!accumulatedSteps.includes(data.message)) {
-                  accumulatedSteps.push(data.message);
-                }
+                setProcessingSteps((prev) => {
+                  if (!data.message || prev[prev.length - 1] === data.message) return prev;
+                  const next = [...prev, data.message];
+                  processingStepsRef.current = next;
+                  return next;
+                });
               } else if (data.type === "complete") {
                 const assistantMsg: Message = {
                   id: generateId(),
                   role: "assistant",
                   content: data.response,
                   timestamp: new Date(),
-                  agentFlowSteps: [...accumulatedSteps],
+                  workflowMermaid: data.workflow_mermaid || undefined,
+                  processingSteps: processingStepsRef.current,
                 };
                 setMessages((prev) => [...prev, assistantMsg]);
                 setAgentStatus(null);
@@ -331,6 +349,8 @@ export const ChatPanel: React.FC = () => {
       } finally {
         setIsLoading(false);
         setAgentStatus(null);
+        processingStepsRef.current = [];
+        setProcessingSteps([]);
         inputRef.current?.focus();
       }
     },
@@ -356,8 +376,45 @@ export const ChatPanel: React.FC = () => {
     ]);
   };
 
+  const openViewerWindow = useCallback(async (payload: any) => {
+    const id = `somaViewer:${Date.now()}:${generateId()}`;
+    const url = typeof chrome !== "undefined" && chrome.runtime
+      ? chrome.runtime.getURL(`viewer.html?id=${encodeURIComponent(id)}`)
+      : `viewer.html?id=${encodeURIComponent(id)}`;
+
+    const openWindow = () => {
+      if (typeof chrome !== "undefined" && chrome.tabs?.create) {
+        chrome.tabs.create({ url, active: true });
+      } else {
+        window.open(url, "_blank", "width=1280,height=900");
+      }
+    };
+
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      chrome.storage.local.set({ [id]: payload }, openWindow);
+    } else {
+      sessionStorage.setItem(id, JSON.stringify(payload));
+      openWindow();
+    }
+  }, []);
+
+  const openTraceViewer = useCallback(
+    (message: Message) => {
+      openViewerWindow({
+        type: "trace",
+        title: "처리 흐름",
+        description: "응답 생성 과정과 실제로 선택된 LLM 분기 경로를 한 화면에서 봅니다.",
+        workflowMermaid: message.workflowMermaid || "",
+        processingSteps: message.processingSteps || [],
+        createdAt: Date.now(),
+      });
+    },
+    [openViewerWindow]
+  );
+
   // 가장 최근 동기화 시각 계산
   const latestTimestamp = Math.max(
+    syncStatus.userInfoTimestamp || 0,
     syncStatus.mentoringTimestamp || 0,
     syncStatus.teamTimestamp || 0,
     syncStatus.historyCalendarTimestamp || 0,
@@ -365,9 +422,10 @@ export const ChatPanel: React.FC = () => {
   );
 
   const hasAnyData =
-    syncStatus.hasMentorings || syncStatus.hasTeams || syncStatus.hasHistoryCalendar || syncStatus.hasSchedule;
+    syncStatus.hasUserInfo || syncStatus.hasMentorings || syncStatus.hasTeams || syncStatus.hasHistoryCalendar || syncStatus.hasSchedule;
 
   const dataCount = [
+    syncStatus.hasUserInfo,
     syncStatus.hasMentorings,
     syncStatus.hasTeams,
     syncStatus.hasHistoryCalendar,
@@ -386,6 +444,7 @@ export const ChatPanel: React.FC = () => {
             user_calendar: [],
             available_mentorings: [],
             team_info: [],
+            user_info: {},
           }),
         }).catch(() => {});
 
@@ -570,10 +629,11 @@ export const ChatPanel: React.FC = () => {
       const sYear = now.getFullYear();
       const sMonth = String(now.getMonth() + 1).padStart(2, '0');
 
-      // 1. 개인 접수 이력, 2. 월간 일정, 3. 팀 매칭, 4. 멘토링 목록을 병렬로 동시 시작!
+      // 1. 기본정보, 2. 개인 접수 이력, 3. 월간 일정, 4. 팀 매칭, 5. 멘토링 목록을 병렬로 동시 시작!
       setSyncProgress("포털 데이터 병렬 수집 시작...");
 
-      const [historyDocs, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
+      const [parsedUserInfo, historyDocs, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
+        fetchAndParse("myInfo/forUpdateMy.do?menuNo=200036", parseMyInfoPage),
         fetchAllPagesDocs("userAnswer/history.do?menuNo=200047", "개인 시간표"),
         fetchAndParse(`schedule/list.do?menuNo=200043&sYear=${sYear}&sMonth=${sMonth}`, parseCalendarResultList),
         fetchAndParse("myTeam/team.do?menuNo=200093", parseTeamPage),
@@ -660,6 +720,11 @@ export const ChatPanel: React.FC = () => {
       }
 
       const updates: any = {};
+      if (parsedUserInfo && (parsedUserInfo.name || parsedUserInfo.email || parsedUserInfo.phone)) {
+        updates.parsedUserInfo = parsedUserInfo;
+        updates.userInfoParseTimestamp = timestamp;
+        successCount++;
+      }
       if (parsedHistory) {
         updates.parsedHistoryCalendar = parsedHistory;
         updates.historyCalendarParseTimestamp = timestamp;
@@ -695,6 +760,7 @@ export const ChatPanel: React.FC = () => {
         setSyncProgress("백엔드 데이터베이스 동기화 중...");
         
         const formattedHistory = (parsedHistory || []).map((item: any) => ({
+          source: "user_history",
           id: item.id || "",
           title: item.title || "",
           url: item.url || "",
@@ -705,19 +771,6 @@ export const ChatPanel: React.FC = () => {
           isApproved: item.isApproved || false,
         }));
 
-        const formattedSchedule = (parsedSchedule || []).map((item: any) => ({
-          id: `sch_${item.date}_${item.subjectTitle.substring(0, 5)}`,
-          title: item.subjectTitle || "",
-          url: item.url || "",
-          author: "소마 센터",
-          dateStr: item.date || "",
-          timeRangeStr: "09:00 ~ 18:00",
-          status: "승인",
-          isApproved: true,
-        }));
-
-        const fullCalendar = [...formattedHistory, ...formattedSchedule];
-
         try {
           const res = await fetch(`${API_BASE}/chat`, {
             method: "POST",
@@ -725,9 +778,10 @@ export const ChatPanel: React.FC = () => {
             body: JSON.stringify({
               message: "포털 데이터 동기화를 완료했습니다.",
               session_id: sessionId,
-              user_calendar: fullCalendar,
+              user_calendar: formattedHistory,
               available_mentorings: parsedMentorings || [],
               team_info: parsedTeams || [],
+              user_info: parsedUserInfo || null,
             }),
           });
           if (res.ok) {
@@ -783,79 +837,136 @@ export const ChatPanel: React.FC = () => {
           </button>
         </div>
 
-        <div className="sync-status-box">
-          <h3>📡 포털 데이터 수집 현황</h3>
+        <div className={`sync-status-box ${isSyncStatusOpen ? "open" : "collapsed"}`}>
+          <button
+            className="sync-status-header"
+            onClick={() => setIsSyncStatusOpen((prev) => !prev)}
+            aria-expanded={isSyncStatusOpen}
+          >
+            <span>📡 포털 데이터 수집 현황</span>
+            <span className="sync-status-summary">
+              {dataCount} / 5 연동
+              <ChevronDown size={14} className={isSyncStatusOpen ? "chevron open" : "chevron"} />
+            </span>
+          </button>
           {syncProgress && (
             <div className="sync-progress">
               <div className="sync-spinner"></div>
               <span>{syncProgress}</span>
             </div>
           )}
-          <ul className="sync-status-list">
-            <li>
-              <span className="label">멘토링/특강 목록</span>
-              <span className={`value ${syncStatus.mentoringTimestamp ? "connected" : "disconnected"}`}>
-                {syncStatus.mentoringTimestamp ? `✅ 연동됨 (${syncStatus.mentoringCount}건) ${formatTimestamp(syncStatus.mentoringTimestamp)}` : "⬜ 미수집"}
-              </span>
-            </li>
-            <li>
-              <span className="label">개인 시간표 (접수내역)</span>
-              <span className={`value ${syncStatus.historyCalendarTimestamp ? "connected" : "disconnected"}`}>
-                {syncStatus.historyCalendarTimestamp ? `✅ 연동됨 (${syncStatus.historyCalendarCount}건) ${formatTimestamp(syncStatus.historyCalendarTimestamp)}` : "⬜ 미수집"}
-              </span>
-            </li>
-            <li>
-              <span className="label">센터 월간일정 (공식)</span>
-              <span className={`value ${syncStatus.scheduleTimestamp ? "connected" : "disconnected"}`}>
-                {syncStatus.scheduleTimestamp ? `✅ 연동됨 (${syncStatus.scheduleCount}건) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 미수집"}
-              </span>
-            </li>
-            <li>
-              <span className="label">소속 팀 매칭 정보</span>
-              <span className={`value ${syncStatus.teamTimestamp ? "connected" : "disconnected"}`}>
-                {syncStatus.teamTimestamp ? `✅ 연동됨 (${syncStatus.teamCount}건) ${formatTimestamp(syncStatus.teamTimestamp)}` : "⬜ 미수집"}
-              </span>
-            </li>
-          </ul>
-          {latestTimestamp > 0 && (
-            <p className="last-sync-time">
-              마지막 전체 동기화: {formatTimestamp(latestTimestamp)}
-            </p>
+          {isSyncStatusOpen && (
+            <div className="sync-status-content">
+              <ul className="sync-status-list">
+                <li>
+                  <span className="label">기본정보</span>
+                  <span className={`value ${syncStatus.userInfoTimestamp ? "connected" : "disconnected"}`}>
+                    {syncStatus.userInfoTimestamp
+                      ? `✅ 연동됨${syncStatus.userInfoName ? ` (${syncStatus.userInfoName})` : ""} ${formatTimestamp(syncStatus.userInfoTimestamp)}`
+                      : "⬜ 미수집"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">멘토링/특강 목록</span>
+                  <span className={`value ${syncStatus.mentoringTimestamp ? "connected" : "disconnected"}`}>
+                    {syncStatus.mentoringTimestamp ? `✅ 연동됨 (${syncStatus.mentoringCount}건) ${formatTimestamp(syncStatus.mentoringTimestamp)}` : "⬜ 미수집"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">개인 시간표 (접수내역)</span>
+                  <span className={`value ${syncStatus.historyCalendarTimestamp ? "connected" : "disconnected"}`}>
+                    {syncStatus.historyCalendarTimestamp ? `✅ 연동됨 (${syncStatus.historyCalendarCount}건) ${formatTimestamp(syncStatus.historyCalendarTimestamp)}` : "⬜ 미수집"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">센터 월간일정 (공식)</span>
+                  <span className={`value ${syncStatus.scheduleTimestamp ? "connected" : "disconnected"}`}>
+                    {syncStatus.scheduleTimestamp ? `✅ 연동됨 (${syncStatus.scheduleCount}건) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 미수집"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">소속 팀 매칭 정보</span>
+                  <span className={`value ${syncStatus.teamTimestamp ? "connected" : "disconnected"}`}>
+                    {syncStatus.teamTimestamp ? `✅ 연동됨 (${syncStatus.teamCount}건) ${formatTimestamp(syncStatus.teamTimestamp)}` : "⬜ 미수집"}
+                  </span>
+                </li>
+              </ul>
+              {latestTimestamp > 0 && (
+                <p className="last-sync-time">
+                  마지막 전체 동기화: {formatTimestamp(latestTimestamp)}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
 
       <div className="messages-container">
         {messages.map((msg) => (
-          <MessageCard key={msg.id} message={msg} />
+          <MessageCard
+            key={msg.id}
+            message={msg}
+            onShowTrace={openTraceViewer}
+          />
         ))}
+        {messages.length === 1 && (messages[0].id === "welcome" || messages[0].id === "welcome-new") && (
+          <div className="quick-actions-container">
+            <p className="quick-actions-title">💡 자주 묻는 질문 샘플</p>
+            <div className="quick-actions-grid">
+              <button
+                className="quick-action-card"
+                onClick={() => setInput("우리 팀 정보를 확인하고, 이번 주에 어떤 요일/시간대에 2시간 동안 팀 회의를 진행할 수 있을지 가능한 후보 시간대를 모두 찾아서 추천해줘.")}
+              >
+                <div className="quick-action-icon">👥</div>
+                <div className="quick-action-content">
+                  <span className="action-title">이번 주 팀 회의 가능 시간 찾기</span>
+                  <span className="action-desc">우리 팀원들의 일정을 파악하여 이번 주 2시간 회의 가능 시간대를 분석해 줍니다.</span>
+                </div>
+              </button>
+              <button
+                className="quick-action-card"
+                onClick={() => setInput("우리 팀의 정기 회의 시간(평일 10:00 ~ 12:00)을 내 일정에서 제외한 뒤, 이번 주 나머지 빈 시간대 중에서 내 수강 이력을 바탕으로 관심사에 부합하는 신청 가능한 특강/멘토링을 골라줘.")}
+              >
+                <div className="quick-action-icon">💡</div>
+                <div className="quick-action-content">
+                  <span className="action-title">회의 제외 빈 시간 특강 추천</span>
+                  <span className="action-desc">정기 회의 시간을 피해서 수강 이력 기반 관심사에 맞는 특강을 찾아 추천합니다.</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
         {isLoading && (
           <div className="loading-indicator">
             <div className="avatar assistant">
               <Bot size={16} />
             </div>
             <div className="loading-status-box">
-              <div className="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
+              <div className="processing-card">
+                <div className="processing-current">
+                  <div className="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  {agentStatus && <span className="agent-status-text">{agentStatus}</span>}
+                </div>
+                {processingSteps.length > 0 && (
+                  <ol className="processing-steps">
+                    {processingSteps.map((step, idx) => (
+                      <li key={`${step}-${idx}`} className={idx === processingSteps.length - 1 ? "active" : "done"}>
+                        <span className="step-index">{idx + 1}</span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
               </div>
-              {agentStatus && <span className="agent-status-text">{agentStatus}</span>}
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
-
-      {messages.length <= 2 && (
-        <div className="quick-questions">
-          {QUICK_QUESTIONS.map((q) => (
-            <button key={q} className="quick-btn" onClick={() => sendMessage(q)}>
-              {q}
-            </button>
-          ))}
-        </div>
-      )}
 
       <div className="input-area">
         <textarea

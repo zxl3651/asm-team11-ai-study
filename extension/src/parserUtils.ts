@@ -489,3 +489,114 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
     isApproved: approvedText === "OK",
   };
 }
+
+export interface ParsedMyInfo {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  techStacks: string[];
+}
+
+export function parseMyInfoPage(doc: Document): ParsedMyInfo {
+  let name = "";
+  let email = "";
+  let phone = "";
+  let role = "연수생";
+  const techStacks: string[] = [];
+
+  const clean = (value: string | null | undefined) =>
+    (value || "").replace(/\s+/g, " ").trim();
+
+  const getControlValue = (el: Element | null): string => {
+    if (!el) return "";
+    if (el instanceof HTMLSelectElement) {
+      return clean(el.selectedOptions[0]?.textContent || el.value);
+    }
+    if (el instanceof HTMLTextAreaElement) {
+      return clean(el.value);
+    }
+    if (el instanceof HTMLInputElement) {
+      if ((el.type === "checkbox" || el.type === "radio") && !el.checked) return "";
+      const label = el.id ? doc.querySelector(`label[for='${el.id}']`) : null;
+      return clean(label?.textContent || el.value);
+    }
+    return clean(el.textContent);
+  };
+
+  const getInputValueByNames = (patterns: string[]): string => {
+    const controls = Array.from(doc.querySelectorAll("input, select, textarea"));
+    const found = controls.find((control) => {
+      const nameAttr = (control.getAttribute("name") || "").toLowerCase();
+      const idAttr = (control.getAttribute("id") || "").toLowerCase();
+      return patterns.some((pattern) => {
+        const lower = pattern.toLowerCase();
+        return nameAttr.includes(lower) || idAttr.includes(lower);
+      });
+    });
+    return getControlValue(found || null);
+  };
+
+  name = getInputValueByNames(["userNm", "mberNm", "memberNm", "name", "korNm", "applcntNm"]);
+  email = getInputValueByNames(["email", "emailAddr", "emailAdres", "mail"]);
+  phone = getInputValueByNames(["mbtlnum", "moblphon", "mobile", "phone", "tel", "hp"]);
+
+  const ths = Array.from(doc.querySelectorAll("table th, label, td.tit, dt"));
+  ths.forEach((th) => {
+    const text = clean(th.textContent);
+    const td =
+      th.nextElementSibling ||
+      (th.parentElement ? Array.from(th.parentElement.children).find((child) => child !== th && ["TD", "DD"].includes(child.tagName)) : null);
+    if (!td) return;
+
+    const input = td.querySelector("input, select, textarea");
+    const value = input ? getControlValue(input) : clean(td.textContent);
+
+    if (text.includes("이름") || text.includes("성명")) {
+      if (!name) name = value;
+    } else if (text.includes("이메일") || text.includes("이메일 주소")) {
+      if (!email) email = value;
+    } else if (text.includes("휴대폰") || text.includes("전화번호") || text.includes("연락처")) {
+      if (!phone) phone = value;
+    } else if (text.includes("구분") || text.includes("역할")) {
+      role = value;
+    } else if (text.includes("기술") || text.includes("스택") || text.includes("관심")) {
+      const checkedBoxes = Array.from(td.querySelectorAll("input[type='checkbox']:checked, input[type='radio']:checked"));
+      if (checkedBoxes.length > 0) {
+        checkedBoxes.forEach((cb: any) => {
+          const lbl = doc.querySelector(`label[for='${cb.id}']`);
+          const labelText = lbl ? clean(lbl.textContent) : clean(cb.value);
+          if (labelText) techStacks.push(labelText);
+        });
+      } else if (value) {
+        value.split(/[,/·]/).forEach((s) => {
+          const trimmed = s.trim();
+          if (trimmed) techStacks.push(trimmed);
+        });
+      }
+    }
+  });
+
+  if (!email) {
+    const emails = clean(doc.body.textContent).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+    if (emails) email = emails[0];
+  }
+
+  if (!phone) {
+    const phones = clean(doc.body.textContent).match(/01[016789][-\s.]?\d{3,4}[-\s.]?\d{4}/);
+    if (phones) phone = phones[0];
+  }
+
+  if (!name) {
+    const nameTd = doc.querySelector("td.name, td#name, td.userNm, td.mberNm, span.name, strong.name");
+    if (nameTd) name = clean(nameTd.textContent);
+  }
+
+  return {
+    name,
+    email,
+    phone,
+    role,
+    techStacks: Array.from(new Set(techStacks.map(clean).filter(Boolean))),
+  };
+}

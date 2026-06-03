@@ -130,7 +130,7 @@ function main() {
 
         const updatedItem = {
           id,
-          type: detail.deliveryMethod.includes("자유") ? "mentoring" : "lecture",
+          type: (detail.title.includes("자유 멘토링") || detail.title.includes("자유멘토링")) ? "mentoring" : "lecture",
           title: detail.title,
           url: path + window.location.search,
           registrationPeriod: list[index]?.registrationPeriod || "",

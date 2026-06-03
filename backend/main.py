@@ -42,6 +42,7 @@ class ChatRequest(BaseModel):
     user_calendar: list[dict] | None = None  # 프론트엔드에서 수집한 실시간 일정표 데이터
     available_mentorings: list[dict] | None = None  # 프론트엔드가 수집한 개설 특강 목록
     team_info: list[dict] | None = None  # 프론트엔드가 수집한 팀매칭 정보
+    user_info: dict | None = None  # 프론트엔드가 수집한 기본 정보 (이름, 기술스택 등)
 
 
 class ChatResponse(BaseModel):
@@ -72,14 +73,11 @@ async def health():
 @app.post("/chat")
 async def chat(req: ChatRequest):
     queue = asyncio.Queue()
+    loop = asyncio.get_running_loop()
 
     def sync_status_callback(msg: str):
         # 비동기 이벤트 루프를 사용하여 다른 스레드에서 생성된 상태 메시지를 큐에 추가
-        try:
-            loop = asyncio.get_running_loop()
-            loop.call_soon_threadsafe(queue.put_nowait, {"type": "status", "message": msg})
-        except RuntimeError:
-            pass
+        loop.call_soon_threadsafe(queue.put_nowait, {"type": "status", "message": msg})
 
     async def event_generator():
         # contextvars에 콜백 등록
@@ -90,20 +88,30 @@ async def chat(req: ChatRequest):
         try:
             # 1. 캘린더 데이터 동기화
             if req.user_calendar is not None:
-                sync_status_callback("개인 일정표 데이터 동기화 중...")
+                sync_status_callback(f"📅 Sync: 개인 일정표 {len(req.user_calendar)}건 저장 중...")
                 db.save_user_calendar(req.user_calendar)
+                sync_status_callback("✅ Sync: 개인 일정표 저장 완료")
 
             # 2. 특강/멘토링 및 RAG 벡터 인덱싱
             if req.available_mentorings is not None:
-                sync_status_callback("특강 정보 및 RAG 벡터 인덱싱 중...")
+                sync_status_callback(f"📚 Sync: 특강/멘토링 {len(req.available_mentorings)}건 DB 저장 중...")
                 db.save_mentorings(req.available_mentorings)
+                sync_status_callback("🧬 Sync: 특강/멘토링 벡터 인덱싱 중...")
                 from vector_store import sync_mentorings_to_vector_db
-                sync_mentorings_to_vector_db(req.available_mentorings)
+                sync_mentorings_to_vector_db(db.load_mentorings())
+                sync_status_callback("✅ Sync: 특강/멘토링 저장 및 벡터 인덱싱 완료")
 
             # 3. 팀 매칭 정보 동기화
             if req.team_info is not None:
-                sync_status_callback("팀 매칭 정보 데이터 동기화 중...")
+                sync_status_callback(f"👥 Sync: 팀 매칭 정보 {len(req.team_info)}건 저장 중...")
                 db.save_team_info(req.team_info)
+                sync_status_callback("✅ Sync: 팀 매칭 정보 저장 완료")
+
+            # 4. 사용자 기본 정보 동기화
+            if req.user_info is not None:
+                sync_status_callback("🙋 Sync: 사용자 기본 정보 저장 중...")
+                db.save_user_info(req.user_info)
+                sync_status_callback("✅ Sync: 사용자 기본 정보 저장 완료")
 
             # 에이전트 실행 코드를 별도 스레드에서 구동 (LangChain 블로킹 방지)
             async def run_agent_task():
@@ -130,8 +138,12 @@ async def chat(req: ChatRequest):
                     continue
 
             # 에이전트 결과 획득 및 최종 완료 이벤트 전송
-            response_text, _ = await agent_future
-            final_data = {"type": "complete", "response": response_text}
+            response_text, _, workflow_mermaid = await agent_future
+            final_data = {
+                "type": "complete",
+                "response": response_text,
+                "workflow_mermaid": workflow_mermaid,
+            }
             yield f"data: {json.dumps(final_data, ensure_ascii=False)}\n\n"
 
         except Exception as e:
@@ -175,4 +187,3 @@ async def mentoring_search(req: MentoringSearchRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-

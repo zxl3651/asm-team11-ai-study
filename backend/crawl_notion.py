@@ -142,7 +142,7 @@ async def get_individual_links(parent_url: str) -> list[dict]:
 def parse_with_llm(client: OpenAI, raw_text: str, prompt: str) -> dict | None:
     full_prompt = f"{prompt}\n\n페이지 텍스트:\n---\n{raw_text[:4000]}\n---"
     response = client.chat.completions.create(
-        model="solar-pro",
+        model="solar-pro3",
         messages=[{"role": "user", "content": full_prompt}],
         temperature=0,
     )

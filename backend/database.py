@@ -1,6 +1,12 @@
 import sqlite3
 import json
 from pathlib import Path
+from data_validation import (
+    validate_calendar_event,
+    validate_mentoring,
+    validate_team,
+    validate_user_info,
+)
 
 DB_FILE = Path(__file__).parent / "data" / "soma.db"
 
@@ -33,6 +39,14 @@ class SomaDB:
                     raw_json TEXT
                 )
             """)
+            self._ensure_columns(conn, "mentorings", {
+                "startAt": "TEXT",
+                "endAt": "TEXT",
+                "qualityStatus": "TEXT DEFAULT 'valid'",
+                "validationErrors": "TEXT DEFAULT '[]'",
+                "validationWarnings": "TEXT DEFAULT '[]'",
+                "canonicalText": "TEXT DEFAULT ''",
+            })
             # 2. 개인 시간표 테이블
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS user_calendar (
@@ -47,6 +61,15 @@ class SomaDB:
                     raw_json TEXT
                 )
             """)
+            self._ensure_columns(conn, "user_calendar", {
+                "source": "TEXT DEFAULT 'user_history'",
+                "startAt": "TEXT",
+                "endAt": "TEXT",
+                "qualityStatus": "TEXT DEFAULT 'valid'",
+                "validationErrors": "TEXT DEFAULT '[]'",
+                "validationWarnings": "TEXT DEFAULT '[]'",
+                "canonicalText": "TEXT DEFAULT ''",
+            })
             # 3. 팀 매칭 테이블
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS team_info (
@@ -60,6 +83,12 @@ class SomaDB:
                     raw_json TEXT
                 )
             """)
+            self._ensure_columns(conn, "team_info", {
+                "qualityStatus": "TEXT DEFAULT 'valid'",
+                "validationErrors": "TEXT DEFAULT '[]'",
+                "validationWarnings": "TEXT DEFAULT '[]'",
+                "canonicalText": "TEXT DEFAULT ''",
+            })
             # 4. 대화 기록 테이블 (영속 기억)
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS chat_messages (
@@ -72,18 +101,45 @@ class SomaDB:
                     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # 5. 사용자 기본 정보 테이블
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS user_info (
+                    id TEXT PRIMARY KEY,
+                    name TEXT,
+                    email TEXT,
+                    phone TEXT,
+                    role TEXT,
+                    techStacks TEXT,
+                    raw_json TEXT
+                )
+            """)
+            self._ensure_columns(conn, "user_info", {
+                "qualityStatus": "TEXT DEFAULT 'valid'",
+                "validationErrors": "TEXT DEFAULT '[]'",
+                "validationWarnings": "TEXT DEFAULT '[]'",
+                "canonicalText": "TEXT DEFAULT ''",
+            })
             conn.commit()
+
+    def _ensure_columns(self, conn: sqlite3.Connection, table: str, columns: dict[str, str]):
+        cursor = conn.execute(f"PRAGMA table_info({table})")
+        existing = {row["name"] for row in cursor.fetchall()}
+        for column, definition in columns.items():
+            if column not in existing:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
     # ── 멘토링 데이터 CRUD ──
     def save_mentorings(self, items: list[dict]):
         with self._get_conn() as conn:
             conn.execute("DELETE FROM mentorings")
             for item in items:
+                quality = validate_mentoring(item)
                 conn.execute("""
                     INSERT OR REPLACE INTO mentorings (
                         id, type, title, author, dateStr, timeRangeStr, status, 
-                        location, deliveryMethod, isOnline, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        location, deliveryMethod, isOnline, raw_json,
+                        startAt, endAt, qualityStatus, validationErrors, validationWarnings, canonicalText
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     str(item.get("id", "")),
                     item.get("type", ""),
@@ -95,7 +151,13 @@ class SomaDB:
                     item.get("location", ""),
                     item.get("deliveryMethod", ""),
                     1 if item.get("isOnline") else 0,
-                    json.dumps(item, ensure_ascii=False)
+                    json.dumps({**item, **quality}, ensure_ascii=False),
+                    quality["startAt"],
+                    quality["endAt"],
+                    quality["qualityStatus"],
+                    json.dumps(quality["validationErrors"], ensure_ascii=False),
+                    json.dumps(quality["validationWarnings"], ensure_ascii=False),
+                    quality["canonicalText"],
                 ))
             conn.commit()
 
@@ -110,10 +172,12 @@ class SomaDB:
         with self._get_conn() as conn:
             conn.execute("DELETE FROM user_calendar")
             for item in items:
+                quality = validate_calendar_event(item)
                 conn.execute("""
                     INSERT OR REPLACE INTO user_calendar (
-                        id, title, url, author, dateStr, timeRangeStr, status, isApproved, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        id, title, url, author, dateStr, timeRangeStr, status, isApproved, raw_json, source,
+                        startAt, endAt, qualityStatus, validationErrors, validationWarnings, canonicalText
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     str(item.get("id", "")),
                     item.get("title", ""),
@@ -123,7 +187,14 @@ class SomaDB:
                     item.get("timeRangeStr", ""),
                     item.get("status", ""),
                     1 if item.get("isApproved") else 0,
-                    json.dumps(item, ensure_ascii=False)
+                    json.dumps({**item, **quality}, ensure_ascii=False),
+                    item.get("source", "user_history"),
+                    quality["startAt"],
+                    quality["endAt"],
+                    quality["qualityStatus"],
+                    json.dumps(quality["validationErrors"], ensure_ascii=False),
+                    json.dumps(quality["validationWarnings"], ensure_ascii=False),
+                    quality["canonicalText"],
                 ))
             conn.commit()
 
@@ -138,11 +209,13 @@ class SomaDB:
         with self._get_conn() as conn:
             conn.execute("DELETE FROM team_info")
             for item in items:
+                quality = validate_team(item)
                 conn.execute("""
                     INSERT OR REPLACE INTO team_info (
                         teamName, leader, members, mentorName, projectName, 
-                        ictCategoryLarge, ictCategoryMedium, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        ictCategoryLarge, ictCategoryMedium, raw_json,
+                        qualityStatus, validationErrors, validationWarnings, canonicalText
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     item.get("teamName", ""),
                     item.get("leader", ""),
@@ -151,7 +224,11 @@ class SomaDB:
                     item.get("projectName", ""),
                     item.get("ictCategoryLarge", ""),
                     item.get("ictCategoryMedium", ""),
-                    json.dumps(item, ensure_ascii=False)
+                    json.dumps({**item, **quality}, ensure_ascii=False),
+                    quality["qualityStatus"],
+                    json.dumps(quality["validationErrors"], ensure_ascii=False),
+                    json.dumps(quality["validationWarnings"], ensure_ascii=False),
+                    quality["canonicalText"],
                 ))
             conn.commit()
 
@@ -196,6 +273,65 @@ class SomaDB:
         with self._get_conn() as conn:
             conn.execute("DELETE FROM chat_messages WHERE session_id = ?", (session_id,))
             conn.commit()
+
+    # ── 사용자 기본 정보 CRUD ──
+    def save_user_info(self, item: dict | None):
+        with self._get_conn() as conn:
+            conn.execute("DELETE FROM user_info")
+            if item:
+                quality = validate_user_info(item)
+                conn.execute("""
+                    INSERT OR REPLACE INTO user_info (
+                        id, name, email, phone, role, techStacks, raw_json,
+                        qualityStatus, validationErrors, validationWarnings, canonicalText
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    "me",
+                    item.get("name", ""),
+                    item.get("email", ""),
+                    item.get("phone", ""),
+                    item.get("role", ""),
+                    ",".join(item.get("techStacks", [])) if isinstance(item.get("techStacks"), list) else str(item.get("techStacks", "")),
+                    json.dumps({**item, **quality}, ensure_ascii=False),
+                    quality["qualityStatus"],
+                    json.dumps(quality["validationErrors"], ensure_ascii=False),
+                    json.dumps(quality["validationWarnings"], ensure_ascii=False),
+                    quality["canonicalText"],
+                ))
+            conn.commit()
+
+    def get_data_readiness(self) -> dict:
+        with self._get_conn() as conn:
+            def counts(table: str) -> dict:
+                row = conn.execute(
+                    f"""
+                    SELECT
+                        COUNT(*) AS total,
+                        SUM(CASE WHEN qualityStatus = 'valid' THEN 1 ELSE 0 END) AS valid,
+                        SUM(CASE WHEN qualityStatus = 'partial' THEN 1 ELSE 0 END) AS partial,
+                        SUM(CASE WHEN qualityStatus = 'invalid' THEN 1 ELSE 0 END) AS invalid
+                    FROM {table}
+                    """
+                ).fetchone()
+                return {
+                    "total": row["total"] or 0,
+                    "valid": row["valid"] or 0,
+                    "partial": row["partial"] or 0,
+                    "invalid": row["invalid"] or 0,
+                }
+
+            return {
+                "user_info": counts("user_info"),
+                "user_calendar": counts("user_calendar"),
+                "mentorings": counts("mentorings"),
+                "team_info": counts("team_info"),
+            }
+
+    def load_user_info(self) -> dict | None:
+        with self._get_conn() as conn:
+            cursor = conn.execute("SELECT raw_json FROM user_info")
+            row = cursor.fetchone()
+            return json.loads(row["raw_json"]) if row else None
 
 # 싱글톤 인스턴스 노출
 db = SomaDB()

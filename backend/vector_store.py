@@ -63,6 +63,8 @@ def sync_mentorings_to_vector_db(items: list[dict]):
     metadatas = []
 
     for item in items:
+        if item.get("qualityStatus") == "invalid":
+            continue
         # 1. 고유 ID
         ids.append(str(item.get("id", "")))
         
@@ -72,9 +74,9 @@ def sync_mentorings_to_vector_db(items: list[dict]):
         location = item.get("location", "")
         delivery = item.get("deliveryMethod", "")
         status = item.get("status", "")
-        desc = item.get("description", "")
-        date_str = item.get("dateStr", "")
-        time_str = item.get("timeRangeStr", "")
+        desc = item.get("canonicalText") or item.get("description", "")
+        date_str = item.get("startAt") or item.get("dateStr", "")
+        time_str = item.get("endAt") or item.get("timeRangeStr", "")
         
         doc_text = f"""분류: {item.get('type', 'lecture')}
 제목: {title}
@@ -98,6 +100,10 @@ def sync_mentorings_to_vector_db(items: list[dict]):
         })
 
     # ChromaDB에 벌크 업서트 수행
+    if not ids:
+        print("[SoMa Mate VectorStore] 유효한 데이터가 없어 ChromaDB 업서트를 건너뜁니다.")
+        return
+
     collection.upsert(
         ids=ids,
         documents=documents,
