@@ -253,20 +253,15 @@ export const ChatPanel: React.FC = () => {
       setIsLoading(true);
 
       try {
-        // 실시간 파싱 데이터 로드
-        const currentMentorings = await loadParsedMentorings();
-        const currentCalendar = await loadParsedCalendar();
-        const currentTeamInfo = await loadParsedTeamInfo();
-
         const res = await fetch(`${API_BASE}/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: trimmed,
             session_id: sessionId,
-            user_calendar: currentCalendar,
-            available_mentorings: currentMentorings,
-            team_info: currentTeamInfo,
+            user_calendar: null,
+            available_mentorings: null,
+            team_info: null,
           }),
         });
 
@@ -281,6 +276,8 @@ export const ChatPanel: React.FC = () => {
         }
 
         let buffer = "";
+        const accumulatedSteps: string[] = [];
+
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
@@ -300,12 +297,17 @@ export const ChatPanel: React.FC = () => {
               const data = JSON.parse(rawData);
               if (data.type === "status") {
                 setAgentStatus(data.message);
+                // 중복을 제거하면서 스텝 배열에 누적
+                if (!accumulatedSteps.includes(data.message)) {
+                  accumulatedSteps.push(data.message);
+                }
               } else if (data.type === "complete") {
                 const assistantMsg: Message = {
                   id: generateId(),
                   role: "assistant",
                   content: data.response,
                   timestamp: new Date(),
+                  agentFlowSteps: [...accumulatedSteps],
                 };
                 setMessages((prev) => [...prev, assistantMsg]);
                 setAgentStatus(null);
@@ -688,6 +690,58 @@ export const ChatPanel: React.FC = () => {
             resolve();
           });
         });
+
+        // 📡 백엔드 데이터베이스 및 ChromaDB RAG 연동 (단 1회 수행)
+        setSyncProgress("백엔드 데이터베이스 동기화 중...");
+        
+        const formattedHistory = (parsedHistory || []).map((item: any) => ({
+          id: item.id || "",
+          title: item.title || "",
+          url: item.url || "",
+          author: item.author || "",
+          dateStr: item.dateStr || "",
+          timeRangeStr: item.timeRangeStr || "",
+          status: item.status || "",
+          isApproved: item.isApproved || false,
+        }));
+
+        const formattedSchedule = (parsedSchedule || []).map((item: any) => ({
+          id: `sch_${item.date}_${item.subjectTitle.substring(0, 5)}`,
+          title: item.subjectTitle || "",
+          url: item.url || "",
+          author: "소마 센터",
+          dateStr: item.date || "",
+          timeRangeStr: "09:00 ~ 18:00",
+          status: "승인",
+          isApproved: true,
+        }));
+
+        const fullCalendar = [...formattedHistory, ...formattedSchedule];
+
+        try {
+          const res = await fetch(`${API_BASE}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: "포털 데이터 동기화를 완료했습니다.",
+              session_id: sessionId,
+              user_calendar: fullCalendar,
+              available_mentorings: parsedMentorings || [],
+              team_info: parsedTeams || [],
+            }),
+          });
+          if (res.ok) {
+            const reader = res.body?.getReader();
+            if (reader) {
+              while (true) {
+                const { done } = await reader.read();
+                if (done) break;
+              }
+            }
+          }
+        } catch (syncErr) {
+          console.error("[SoMa Mate] 백엔드 연동 동기화 실패:", syncErr);
+        }
       }
     } catch (err) {
       console.error("Background sync error:", err);

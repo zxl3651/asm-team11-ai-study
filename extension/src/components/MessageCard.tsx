@@ -9,6 +9,7 @@ export interface Message {
   role: MessageRole;
   content: string;
   timestamp: Date;
+  agentFlowSteps?: string[];
 }
 
 interface MessageCardProps {
@@ -37,7 +38,24 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
         ) : isUser ? (
           <p>{message.content}</p>
         ) : (
-          <ReactMarkdown>{message.content}</ReactMarkdown>
+          <>
+            {message.agentFlowSteps && message.agentFlowSteps.length > 0 && (
+              <details className="agent-flow-details" open>
+                <summary className="agent-flow-summary">
+                  <span>⚙️ Agent Flow ({message.agentFlowSteps.length} steps)</span>
+                </summary>
+                <ul className="agent-flow-list">
+                  {message.agentFlowSteps.map((step, idx) => (
+                    <li key={idx} className="agent-flow-step">
+                      <span className="step-num">{idx + 1}</span>
+                      <span className="step-text">{step}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </>
         )}
         <span className="timestamp">
           {message.timestamp.toLocaleTimeString("ko-KR", {
