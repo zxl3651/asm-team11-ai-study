@@ -270,7 +270,7 @@ def search_mentorings(
     domains: list[str] | None = None,
     stacks: list[str] | None = None,
     goals: list[str] | None = None,
-    status: str = "접수중",
+    status: str | None = None,
     query: str | None = None,
     date_query: str | None = None,
     start_date: str | None = None,
@@ -279,8 +279,8 @@ def search_mentorings(
     """멘토링 및 특강을 조건에 맞게 검색합니다."""
     items = [item for item in _load_mentorings() if item.get("qualityStatus", "valid") != "invalid"]
     
-    # ─── 과거 일정 및 이미 등록된 일정 필터링 ───
-    if not query:
+    # ─── 신청 가능한 후보 추천일 때만 과거 일정 및 이미 등록된 일정 필터링 ───
+    if status == "접수중":
         from datetime import datetime
         from database import db
         
@@ -494,128 +494,79 @@ def search_trainees(
     return {"total": len(results), "trainees": results[:20]}
 
 
-# 유저 일정 조회 목업 데이터 파일
 USER_CALENDAR_FILE = DATA_DIR / "user_calendar.json"
 TEAM_INFO_FILE = DATA_DIR / "team_info.json"
 
-MOCK_MEMBER_CALENDARS = {
-    "강자은": [
-        {
-            "id": "mock_je_1",
-            "title": "불편한 대화를 잘 하려면",
-            "author": "한기용",
-            "dateStr": "2026-06-01(월)",
-            "timeRangeStr": "10:30:00 ~ 12:30:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-01T10:30:00",
-            "endAt": "2026-06-01T12:30:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_je_2",
-            "title": "팀 고래 멘토링",
-            "author": "한기용",
-            "dateStr": "2026-06-02(화)",
-            "timeRangeStr": "13:00:00 ~ 14:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-02T13:00:00",
-            "endAt": "2026-06-02T14:00:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_je_3",
-            "title": "클라우드 서비스 배포 실무 특강",
-            "author": "홍길동",
-            "dateStr": "2026-06-03(수)",
-            "timeRangeStr": "14:00:00 ~ 16:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-03T14:00:00",
-            "endAt": "2026-06-03T16:00:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_je_4",
-            "title": "고래팀 프로젝트 기획 피드백 멘토링",
-            "author": "한기용",
-            "dateStr": "2026-06-04(목)",
-            "timeRangeStr": "19:00:00 ~ 21:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-04T19:00:00",
-            "endAt": "2026-06-04T21:00:00",
-            "qualityStatus": "valid"
-        }
-    ],
-    "장선우": [
-        {
-            "id": "mock_sw_1",
-            "title": "팀 고래 멘토링",
-            "author": "한기용",
-            "dateStr": "2026-06-02(화)",
-            "timeRangeStr": "13:00:00 ~ 14:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-02T13:00:00",
-            "endAt": "2026-06-02T14:00:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_sw_2",
-            "title": "대규모 서비스 DB 설계 및 튜닝 특강",
-            "author": "강성욱",
-            "dateStr": "2026-06-03(수)",
-            "timeRangeStr": "10:00:00 ~ 12:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-03T10:00:00",
-            "endAt": "2026-06-03T12:00:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_sw_3",
-            "title": "고래팀 자유멘토링을 통한 아이디어 확장해보기",
-            "author": "한대용",
-            "dateStr": "2026-06-04(목)",
-            "timeRangeStr": "20:00:00 ~ 21:30:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-04T20:00:00",
-            "endAt": "2026-06-04T21:30:00",
-            "qualityStatus": "valid"
-        },
-        {
-            "id": "mock_sw_4",
-            "title": "스타트업 인프라 아키텍처 설계 멘토링",
-            "author": "박순영",
-            "dateStr": "2026-06-05(금)",
-            "timeRangeStr": "14:00:00 ~ 17:00:00",
-            "status": "접수완료",
-            "isApproved": True,
-            "source": "user_history",
-            "startAt": "2026-06-05T14:00:00",
-            "endAt": "2026-06-05T17:00:00",
-            "qualityStatus": "valid"
-        }
-    ]
-}
-
-def _load_calendar_for_user(user_name: str | None) -> list[dict]:
+def _get_current_user_name() -> str | None:
     from database import db
     user_info = db.load_user_info()
-    current_user_name = user_info.get("name", "김민수") if user_info else "김민수"
-    if not user_name or user_name == current_user_name or user_name == "me":
-        return db.load_user_calendar()
-    return MOCK_MEMBER_CALENDARS.get(user_name, [])
+    return user_info.get("name") if user_info else None
+
+def _calendar_owner_for_query(user_name: str | None) -> str | None:
+    if not user_name or user_name == "me":
+        return _get_current_user_name()
+    return user_name
+
+def _participant_names_from_mentoring(item: dict) -> list[str]:
+    raw_names = (
+        item.get("participantNames")
+        or item.get("participants")
+        or item.get("applicantNames")
+        or item.get("appliedUserNames")
+        or []
+    )
+    if isinstance(raw_names, str):
+        raw_names = [part.strip() for part in raw_names.replace("·", ",").replace("/", ",").split(",")]
+    if not isinstance(raw_names, list):
+        return []
+    names = []
+    for name in raw_names:
+        clean_name = str(name or "").strip()
+        if clean_name and clean_name not in names:
+            names.append(clean_name)
+    return names
+
+def _mentoring_registration_events_for_user(owner_name: str | None) -> list[dict]:
+    if not owner_name:
+        return []
+    from database import db
+    events = []
+    for item in db.load_mentorings():
+        participant_names = _participant_names_from_mentoring(item)
+        if owner_name not in participant_names:
+            continue
+        if not item.get("startAt") or not item.get("endAt"):
+            continue
+        event = {
+            "source": "mentoring_registration",
+            "id": item.get("id", ""),
+            "title": item.get("title", ""),
+            "url": item.get("url", ""),
+            "author": item.get("author", ""),
+            "dateStr": item.get("dateStr", ""),
+            "timeRangeStr": item.get("timeRangeStr", ""),
+            "status": item.get("status", ""),
+            "isApproved": item.get("isApproved", False),
+            "startAt": item.get("startAt"),
+            "endAt": item.get("endAt"),
+            "qualityStatus": item.get("qualityStatus", "valid"),
+            "participantNames": participant_names,
+            "ownerName": owner_name,
+        }
+        events.append(event)
+    return events
+
+def _has_calendar_access(user_name: str | None) -> bool:
+    from database import db
+    # 멘토링/특강 목록 데이터가 동기화되어 있으면, 모든 연수생의 특강/멘토링 일정을 조회할 수 있습니다.
+    # (상세 페이지에서 파싱된 participantNames 기반)
+    readiness = db.get_data_readiness()
+    return int(readiness.get("mentorings", {}).get("total", 0)) > 0
+
+def _load_calendar_for_user(user_name: str | None) -> list[dict]:
+    owner_name = _calendar_owner_for_query(user_name)
+    mentoring_events = _mentoring_registration_events_for_user(owner_name)
+    return mentoring_events
 
 def _load_user_calendar() -> list[dict]:
     return _load_calendar_for_user(None)
@@ -651,7 +602,7 @@ class MentoringSearchInput(BaseModel):
     domains: list[str] | None = Field(default=None, description="관심 분야 목록. 예: ['클라우드', '백엔드', 'ML/AI']")
     stacks: list[str] | None = Field(default=None, description="기술 스택 목록. 예: ['Python', 'AWS']")
     goals: list[str] | None = Field(default=None, description="목표 목록. '취업' 또는 '창업'")
-    status: str = Field(default="접수중", description="접수 상태 필터. '접수중', '마감', '전체' 중 하나.")
+    status: str = Field(default="전체", description="접수 상태 필터. '접수중', '마감', '전체' 중 하나.")
     query: str | None = Field(default=None, description="특정 검색어 필터 (예: 특정 ID '9944' 혹은 제목 키워드)")
     date_query: str | None = Field(default=None, description="특정 날짜 필터 (예: '2026-06-06' 혹은 '6월 6일')")
     start_date: str | None = Field(default=None, description="조회 시작 날짜 (ISO 형식, 예: '2026-06-01')")
@@ -663,7 +614,7 @@ def search_mentorings_tool(
     domains: list[str] | None = None,
     stacks: list[str] | None = None,
     goals: list[str] | None = None,
-    status: str = "접수중",
+    status: str = "전체",
     query: str | None = None,
     date_query: str | None = None,
     start_date: str | None = None,
@@ -712,9 +663,10 @@ def get_user_calendar_tool(
     end_date: str | None = None,
     user_name: str | None = None,
 ) -> str:
-    """특정 연수생의 개인 시간표(접수 완료된 특강 및 멘토링 일정) 목록을 반환합니다.
-    user_name을 지정하여 다른 팀원의 일정을 개별적으로 조회할 수 있습니다."""
+    """연수생의 특강/멘토링 일정을 반환합니다.
+    저장된 개인 접수내역과 멘토링/특강 상세의 신청자 명단(participantNames)을 함께 사용합니다."""
     report_status(f"{user_name or '사용자'} 일정을 불러오고 있어요...")
+    has_access = _has_calendar_access(user_name)
     calendar = _load_calendar_for_user(user_name)
     
     # 날짜 범위 필터 적용
@@ -745,10 +697,15 @@ def get_user_calendar_tool(
     ]
     report_status(f"활성 일정 {len(active_calendar)}건을 확인했어요...")
     result = {
+        "calendar_owner": user_name or _get_current_user_name() or "me",
+        "data_available": has_access,
+        "data_source": "portal_synced_calendar_or_mentoring_registrations" if has_access else "unavailable",
         "total_active": len(active_calendar),
         "total_including_cancelled": len(calendar),
         "calendar": active_calendar
     }
+    if not has_access:
+        result["warning"] = "현재 포털 동기화 데이터에 멘토링/특강 목록이 동기화되지 않아 일정을 조회할 수 없습니다."
     return json.dumps(result, ensure_ascii=False, indent=2)
 
 
@@ -761,6 +718,15 @@ class FreeSlotsInput(BaseModel):
     exclude_weekends: bool = Field(default=False, description="주말 제외 여부")
     user_name: str | None = Field(default=None, description="조회할 단일 연수생의 이름 (기본값은 로그인된 본인)")
     user_names: list[str] | None = Field(default=None, description="조회할 연수생들의 이름 목록 (팀 일정 조율 시 예: ['강자은', '장선우', '김민수'])")
+    team_name: str | None = Field(default=None, description="팀 공통 멘토링/특강 일정을 찾기 위한 팀명. 예: '고래'")
+    include_team_shared_mentorings: bool = Field(default=True, description="팀명과 일치하는 멘토링/특강 목록 항목을 팀 공통 차단 일정으로 포함할지 여부")
+    recurring_busy_blocks: list[dict] | None = Field(
+        default=None,
+        description=(
+            "반복 차단 시간 목록. 예: [{'weekdays':['월','화','수','목','금'], "
+            "'start':'10:00', 'end':'12:00', 'title':'팀 정기 회의'}]"
+        ),
+    )
 
 @tool("get_free_slots", args_schema=FreeSlotsInput)
 def get_free_slots_tool(
@@ -772,9 +738,14 @@ def get_free_slots_tool(
     exclude_weekends: bool = False,
     user_name: str | None = None,
     user_names: list[str] | None = None,
+    team_name: str | None = None,
+    include_team_shared_mentorings: bool = True,
+    recurring_busy_blocks: list[dict] | None = None,
 ) -> str:
     """지정한 연수생(들)의 캘린더에서 조건에 맞는 빈 요일 및 시간대 슬롯을 분석하여 반환합니다.
-    user_names에 여러 명의 이름을 전달하여 팀원 전체의 공동 가용 시간대(공통 빈 슬롯)를 한번에 찾을 수 있습니다."""
+    user_names에 여러 명의 이름을 전달하면 팀원 전체 공동 가용 시간대를 계산하려고 시도합니다.
+    단, 현재 저장소에 없는 팀원 개인 일정은 조회할 수 없습니다.
+    team_name이 있으면 멘토링/특강 목록에서 팀명과 일치하는 팀 공통 일정을 차단 시간에 포함합니다."""
     names = user_names if user_names else []
     if not names:
         if user_name:
@@ -793,7 +764,11 @@ def get_free_slots_tool(
         return json.dumps({"error": f"날짜 형식이 잘못되었습니다: {str(e)}"}, ensure_ascii=False)
         
     blocked_events = []
+    calendar_coverage = []
+    missing_user_names = []
+    team_shared_events = []
     for name in names:
+        has_access = _has_calendar_access(name)
         calendar = _load_calendar_for_user(name)
         active_calendar = [
             item for item in calendar
@@ -803,6 +778,14 @@ def get_free_slots_tool(
             and "취소" not in item.get("status", "")
             and "반려" not in item.get("status", "")
         ]
+        calendar_coverage.append({
+            "user_name": name,
+            "data_available": has_access,
+            "data_source": "portal_synced_current_user" if has_access else "unavailable",
+            "active_event_count": len(active_calendar),
+        })
+        if not has_access:
+            missing_user_names.append(name)
         for item in active_calendar:
             start_at_str = item.get("startAt")
             end_at_str = item.get("endAt")
@@ -814,11 +797,123 @@ def get_free_slots_tool(
                     blocked_events.append((s_dt, e_dt, title, name))
                 except Exception:
                     pass
+
+    if include_team_shared_mentorings and team_name:
+        def normalize_text(value: str) -> str:
+            return "".join(ch for ch in str(value or "").lower() if not ch.isspace())
+
+        team_key = normalize_text(team_name)
+        team_patterns = {
+            team_key,
+            normalize_text(f"팀 {team_name}"),
+            normalize_text(f"{team_name}팀"),
+        }
+        from database import db
+        for item in db.load_mentorings():
+            title = item.get("title", "")
+            normalized_title = normalize_text(title)
+            if not team_key or not any(pattern and pattern in normalized_title for pattern in team_patterns):
+                continue
+            start_at_str = item.get("startAt")
+            end_at_str = item.get("endAt")
+            if not start_at_str or not end_at_str:
+                continue
+            try:
+                s_dt = datetime.fromisoformat(start_at_str)
+                e_dt = datetime.fromisoformat(end_at_str)
+            except Exception:
+                continue
+            if s_dt.date() > e_date or e_dt.date() < s_date:
+                continue
+            event_title = title or "팀 공통 멘토링/특강"
+            blocked_events.append((s_dt, e_dt, event_title, "team_shared"))
+            team_shared_events.append({
+                "id": item.get("id", ""),
+                "title": event_title,
+                "date": s_dt.date().isoformat(),
+                "start": s_dt.strftime("%H:%M"),
+                "end": e_dt.strftime("%H:%M"),
+                "source": "mentorings_by_team_name",
+            })
+
+    weekday_aliases = {
+        "월": 0, "월요일": 0, "mon": 0, "monday": 0, 0: 0,
+        "화": 1, "화요일": 1, "tue": 1, "tuesday": 1, 1: 1,
+        "수": 2, "수요일": 2, "wed": 2, "wednesday": 2, 2: 2,
+        "목": 3, "목요일": 3, "thu": 3, "thursday": 3, 3: 3,
+        "금": 4, "금요일": 4, "fri": 4, "friday": 4, 4: 4,
+        "토": 5, "토요일": 5, "sat": 5, "saturday": 5, 5: 5,
+        "일": 6, "일요일": 6, "sun": 6, "sunday": 6, 6: 6,
+    }
+
+    def parse_hhmm(value: str):
+        parts = str(value or "").strip().split(":")
+        if len(parts) < 2:
+            raise ValueError("HH:MM 형식이 아닙니다.")
+        return int(parts[0]), int(parts[1])
+
+    for block in recurring_busy_blocks or []:
+        raw_weekdays = block.get("weekdays") or block.get("days") or []
+        if isinstance(raw_weekdays, str):
+            if raw_weekdays in ("평일", "weekdays"):
+                raw_weekdays = ["월", "화", "수", "목", "금"]
+            else:
+                raw_weekdays = [part.strip() for part in raw_weekdays.split(",") if part.strip()]
+        weekday_set = {
+            weekday_aliases.get(str(day).lower(), weekday_aliases.get(day))
+            for day in raw_weekdays
+        }
+        weekday_set.discard(None)
+        title = block.get("title") or block.get("label") or "차단 일정"
+        try:
+            start_hour, start_min = parse_hhmm(block.get("start") or block.get("start_time"))
+            end_hour, end_min = parse_hhmm(block.get("end") or block.get("end_time"))
+        except Exception:
+            continue
+
+        current = s_date
+        while current <= e_date:
+            if current.weekday() in weekday_set:
+                blocked_events.append((
+                    datetime(current.year, current.month, current.day, start_hour, start_min),
+                    datetime(current.year, current.month, current.day, end_hour, end_min),
+                    title,
+                    "fixed_block",
+                ))
+            current += timedelta(days=1)
+
+    if missing_user_names and not team_shared_events:
+        return json.dumps({
+            "error": "team_member_calendar_unavailable",
+            "message": "요청한 팀원 중 일부의 개인 일정 데이터가 없어 팀 전체 공통 빈 시간을 확정 계산할 수 없습니다.",
+            "missing_user_names": missing_user_names,
+            "calendar_coverage": calendar_coverage,
+            "schedule": [],
+            "meeting_windows": [],
+            "visual_schedule_block": "",
+        }, ensure_ascii=False, indent=2)
+
+    availability_scope = "team" if len(names) > 1 and not missing_user_names else "current_user_only"
+    if len(names) > 1 and missing_user_names and team_shared_events:
+        availability_scope = "team_shared_mentorings_only"
+    scope_warning = None
+    if availability_scope == "current_user_only":
+        scope_warning = (
+            "이 결과는 로그인한 본인 개인 일정 기준입니다. "
+            "팀원 전체 공통 가능 시간으로 확정하려면 모든 팀원의 개인 일정 데이터가 필요합니다."
+        )
+    elif availability_scope == "team_shared_mentorings_only":
+        scope_warning = (
+            "이 결과는 저장된 팀 공통 멘토링/특강 일정과 현재 확보된 개인 일정만 반영했습니다. "
+            f"개인 일정 데이터가 없는 팀원({', '.join(missing_user_names)})의 개별 특강/멘토링 접수 내역은 반영되지 않았습니다."
+        )
                     
     blocked_intervals = [(e[0], e[1]) for e in blocked_events]
     
     free_slots = []
     current_day = s_date
+    meeting_window_delta = timedelta(hours=meeting_duration_hours)
+    meeting_window_step = timedelta(minutes=30)
     while current_day <= e_date:
         if exclude_weekends and current_day.weekday() in (5, 6):
             current_day += timedelta(days=1)
@@ -835,33 +930,47 @@ def get_free_slots_tool(
                 day_blocked.append((overlap_start, overlap_end))
                 
         day_blocked.sort(key=lambda x: x[0])
-        
+
         current_time = day_start
-        day_free = []
+        day_free_intervals = []
         for b_start, b_end in day_blocked:
             if b_start > current_time:
                 duration = (b_start - current_time).total_seconds() / 3600.0
                 if duration >= meeting_duration_hours:
-                    day_free.append({
-                        "start": current_time.strftime("%H:%M"),
-                        "end": b_start.strftime("%H:%M"),
-                        "duration_hours": duration
-                    })
+                    day_free_intervals.append((current_time, b_start, duration))
             current_time = max(current_time, b_end)
             
         if day_end > current_time:
             duration = (day_end - current_time).total_seconds() / 3600.0
             if duration >= meeting_duration_hours:
-                day_free.append({
-                    "start": current_time.strftime("%H:%M"),
-                    "end": day_end.strftime("%H:%M"),
-                    "duration_hours": duration
+                day_free_intervals.append((current_time, day_end, duration))
+
+        day_free = []
+        day_meeting_windows = []
+        for free_start, free_end, duration in day_free_intervals:
+            day_free.append({
+                "start": free_start.strftime("%H:%M"),
+                "end": free_end.strftime("%H:%M"),
+                "duration_hours": duration
+            })
+
+            window_start = free_start
+            while window_start + meeting_window_delta <= free_end:
+                window_end = window_start + meeting_window_delta
+                day_meeting_windows.append({
+                    "date": current_day.isoformat(),
+                    "weekday": ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"][current_day.weekday()],
+                    "start": window_start.strftime("%H:%M"),
+                    "end": window_end.strftime("%H:%M"),
+                    "duration_hours": meeting_duration_hours,
                 })
+                window_start += meeting_window_step
                 
         free_slots.append({
             "date": current_day.isoformat(),
             "weekday": ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"][current_day.weekday()],
-            "free_slots": day_free
+            "free_slots": day_free,
+            "meeting_windows": day_meeting_windows,
         })
         current_day += timedelta(days=1)
         
@@ -895,39 +1004,74 @@ def get_free_slots_tool(
             slot_start = datetime(day.year, day.month, day.day, sh, sm)
             slot_end = slot_start + timedelta(minutes=30)
             
-            overlap_event = None
+            overlapping_events = []
             for s_dt, e_dt, title, user_name in blocked_events:
                 if max(slot_start, s_dt) < min(slot_end, e_dt):
-                    overlap_event = (title, user_name)
-                    break
+                    overlapping_events.append((title, user_name))
                     
-            if not overlap_event:
+            if not overlapping_events:
                 slot_values.append("가능")
             else:
-                title, user_name = overlap_event
-                title_clean = title.replace(",", " ").replace(":", " ").strip()
-                if len(title_clean) > 8:
-                    title_clean = title_clean[:7] + ".."
+                # Group by title to de-duplicate and find attendees
+                from collections import defaultdict
+                title_to_users = defaultdict(list)
+                for title, user in overlapping_events:
+                    if user not in title_to_users[title]:
+                        title_to_users[title].append(user)
                 
-                if "회의" in title or "멘토링" in title:
-                    if "고래" in title or "팀" in title:
-                        slot_values.append("회의")
+                formatted_groups = []
+                for title, users in title_to_users.items():
+                    title_clean = title.replace(",", " ").replace(":", " ").strip()
+                    display_users = [u for u in users if u not in ("fixed_block", "team_shared")]
+                    if display_users:
+                        user_suffix = f" ({', '.join(display_users)})"
                     else:
-                        slot_values.append(f"멘토링:{title_clean}")
-                elif "특강" in title:
-                    slot_values.append(f"특강:{title_clean}")
+                        if "team_shared" in users:
+                            user_suffix = " (팀공통)"
+                        else:
+                            user_suffix = ""
+                    formatted_groups.append((title_clean, user_suffix, title))
+                
+                if len(formatted_groups) == 1:
+                    title_clean, user_suffix, original_title = formatted_groups[0]
+                    first_user = title_to_users[original_title][0]
+                    
+                    if "회의" in original_title or "멘토링" in original_title:
+                        if "고래" in original_title or "팀" in original_title:
+                            slot_values.append(f"회의:{title_clean}{user_suffix}")
+                        else:
+                            slot_values.append(f"멘토링:{title_clean}{user_suffix}")
+                    elif "특강" in original_title or first_user != "fixed_block":
+                        slot_values.append(f"특강:{title_clean}{user_suffix}")
+                    else:
+                        slot_values.append(f"불가:{title_clean}{user_suffix}")
                 else:
-                    slot_values.append("불가")
+                    # Multiple different events overlapping in the same slot: fallback to a combined description
+                    combined_desc = " / ".join(f"{t}{u}" for t, u, _ in formatted_groups)
+                    slot_values.append(f"불가:{combined_desc}")
                     
         lines.append(f"{slot_time}: " + ",".join(slot_values))
         
     visual_schedule_block = "```schedule\n" + "\n".join(lines) + "\n```"
     
+    all_meeting_windows = [
+        window
+        for day in free_slots
+        for window in day.get("meeting_windows", [])
+    ]
+
     result = {
         "start_date": start_date,
         "end_date": end_date,
         "meeting_duration_hours": meeting_duration_hours,
+        "availability_scope": availability_scope,
+        "scope_warning": scope_warning,
+        "calendar_coverage": calendar_coverage,
+        "missing_user_names": missing_user_names,
+        "team_shared_events": team_shared_events,
+        "recurring_busy_blocks": recurring_busy_blocks or [],
         "schedule": free_slots,
+        "meeting_windows": all_meeting_windows,
         "visual_schedule_block": visual_schedule_block
     }
     return json.dumps(result, ensure_ascii=False, indent=2)
@@ -939,9 +1083,21 @@ def get_team_info_tool() -> str:
     사용자의 팀명, 팀원, 전담 멘토, 프로젝트 개발 기술 스택이나 도메인 등의 정보를 물어볼 때 이 툴을 호출하여 참조하세요."""
     report_status("소속 팀 정보를 불러오고 있어요...")
     team_info = [item for item in _load_team_info() if item.get("qualityStatus", "valid") != "invalid"]
-    report_status(f"팀 매칭 정보 {len(team_info)}건을 확인했어요...")
+    current_user_name = _get_current_user_name()
+    current_user_team = []
+    if current_user_name:
+        current_user_team = [
+            item for item in team_info
+            if item.get("leader") == current_user_name
+            or current_user_name in (item.get("members") or [])
+        ]
+    if current_user_team:
+        team_info = current_user_team
+    report_status(f"소속 팀 정보 {len(team_info)}건을 확인했어요...")
     result = {
         "total": len(team_info),
+        "current_user_name": current_user_name,
+        "scope": "current_user_team" if current_user_team else "all_available_teams",
         "team_info": team_info
     }
     return json.dumps(result, ensure_ascii=False, indent=2)

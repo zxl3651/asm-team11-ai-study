@@ -56,17 +56,30 @@ def sync_mentorings_to_vector_db(items: list[dict]):
     
     if not items:
         print("[SoMa Mate VectorStore] 동기화할 데이터가 없어 ChromaDB 컬렉션을 비웠습니다.")
-        return
+        return {
+            "input_count": 0,
+            "valid_vector_count": 0,
+            "unique_id_count": 0,
+            "collection_count": collection.count(),
+        }
 
     ids = []
     documents = []
     metadatas = []
+    seen_ids = set()
+    duplicate_ids = set()
 
     for item in items:
         if item.get("qualityStatus") == "invalid":
             continue
         # 1. 고유 ID
-        ids.append(str(item.get("id", "")))
+        item_id = str(item.get("id", "")).strip()
+        if not item_id:
+            item_id = f"missing-id:{len(ids)}"
+        if item_id in seen_ids:
+            duplicate_ids.add(item_id)
+        seen_ids.add(item_id)
+        ids.append(item_id)
         
         # 2. 임베딩용 텍스트 문서 구성
         title = item.get("title", "")
@@ -91,7 +104,7 @@ def sync_mentorings_to_vector_db(items: list[dict]):
         
         # 3. 메타데이터 (필터링 및 후처리용)
         metadatas.append({
-            "id": str(item.get("id", "")),
+            "id": item_id,
             "type": item.get("type", ""),
             "status": status,
             "isOnline": 1 if "온라인" in delivery or item.get("isOnline") else 0,
@@ -102,14 +115,38 @@ def sync_mentorings_to_vector_db(items: list[dict]):
     # ChromaDB에 벌크 업서트 수행
     if not ids:
         print("[SoMa Mate VectorStore] 유효한 데이터가 없어 ChromaDB 업서트를 건너뜁니다.")
-        return
+        return {
+            "input_count": len(items),
+            "valid_vector_count": 0,
+            "unique_id_count": 0,
+            "duplicate_id_count": 0,
+            "collection_count": collection.count(),
+        }
 
     collection.upsert(
         ids=ids,
         documents=documents,
         metadatas=metadatas
     )
-    print(f"[SoMa Mate VectorStore] ChromaDB에 {len(ids)}건의 멘토링 벡터가 성공적으로 동기화되었습니다.")
+    collection_count = collection.count()
+    stats = {
+        "input_count": len(items),
+        "valid_vector_count": len(ids),
+        "unique_id_count": len(seen_ids),
+        "duplicate_id_count": len(duplicate_ids),
+        "collection_count": collection_count,
+    }
+    print(
+        "[SoMa Mate VectorStore] ChromaDB 동기화 완료: "
+        f"입력 {stats['input_count']}건, 벡터 대상 {stats['valid_vector_count']}건, "
+        f"고유 ID {stats['unique_id_count']}건, 실제 컬렉션 {stats['collection_count']}건"
+    )
+    if collection_count != len(seen_ids):
+        print(
+            "[SoMa Mate VectorStore] 경고: ChromaDB 실제 컬렉션 수가 고유 ID 수와 다릅니다. "
+            f"중복 ID {stats['duplicate_id_count']}건 여부를 확인하세요."
+        )
+    return stats
 
 def search_vector_mentorings(query: str, n_results: int = 15) -> list[dict]:
     """사용자 질의와 의미론적으로 가장 유사한 멘토링/특강 리스트를 검색한다."""

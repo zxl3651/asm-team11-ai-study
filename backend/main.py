@@ -10,9 +10,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from agent import create_agent_graph, run_agent
-from tools import search_mentors, search_mentorings, USER_CALENDAR_FILE, REALTIME_MENTORINGS_FILE, DATA_DIR
-
-TEAM_INFO_FILE = DATA_DIR / "team_info.json"
+from tools import search_mentors, search_mentorings
 
 load_dotenv()
 
@@ -45,6 +43,13 @@ class ChatRequest(BaseModel):
     user_info: dict | None = None  # 프론트엔드가 수집한 기본 정보 (이름, 기술스택 등)
 
 
+class PortalSyncRequest(BaseModel):
+    user_calendar: list[dict] | None = None
+    available_mentorings: list[dict] | None = None
+    team_info: list[dict] | None = None
+    user_info: dict | None = None
+
+
 class ChatResponse(BaseModel):
     response: str
     session_id: str
@@ -62,12 +67,98 @@ class MentoringSearchRequest(BaseModel):
     domains: list[str] | None = None
     stacks: list[str] | None = None
     goals: list[str] | None = None
-    status: str = "접수중"
+    status: str = "전체"
 
 
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "SoMa Mate API"}
+
+
+@app.get("/sync/status")
+async def sync_status():
+    from database import db
+
+    return {
+        "status": "ok",
+        "readiness": db.get_data_readiness(),
+        "mentorings": db.get_mentoring_stats(),
+        "user_calendar": db.get_user_calendar_stats(),
+    }
+
+
+def _sync_portal_data(req: PortalSyncRequest | ChatRequest, status_callback=None) -> dict:
+    from database import db
+
+    def report(msg: str):
+        if status_callback:
+            status_callback(msg)
+
+    changed_sections: list[str] = []
+    counts: dict[str, int] = {}
+    details: dict[str, dict] = {}
+
+    if req.user_calendar is not None:
+        counts["user_calendar"] = len(req.user_calendar)
+        calendar_owner = (req.user_info or {}).get("name") if req.user_info else None
+        if not calendar_owner:
+            current_user_info = db.load_user_info()
+            calendar_owner = current_user_info.get("name") if current_user_info else None
+        report(f"Sync: 개인 일정표 {len(req.user_calendar)}건 저장 중...")
+        db.save_user_calendar(req.user_calendar, owner_name=calendar_owner)
+        details["user_calendar"] = db.get_user_calendar_stats()
+        changed_sections.append("user_calendar")
+        report("Sync: 개인 일정표 저장 완료")
+
+    if req.available_mentorings is not None:
+        counts["available_mentorings"] = len(req.available_mentorings)
+        report(f"Sync: 특강/멘토링 {len(req.available_mentorings)}건 DB 저장 중...")
+        db.save_mentorings(req.available_mentorings)
+        details["available_mentorings"] = db.get_mentoring_stats()
+        report("Sync: 특강/멘토링 벡터 인덱싱 중...")
+        from vector_store import sync_mentorings_to_vector_db
+        details["vector_store"] = sync_mentorings_to_vector_db(db.load_mentorings())
+        changed_sections.append("available_mentorings")
+        report("Sync: 특강/멘토링 저장 및 벡터 인덱싱 완료")
+
+    if req.team_info is not None:
+        counts["team_info"] = len(req.team_info)
+        report(f"Sync: 팀 매칭 정보 {len(req.team_info)}건 저장 중...")
+        db.save_team_info(req.team_info)
+        changed_sections.append("team_info")
+        report("Sync: 팀 매칭 정보 저장 완료")
+
+    if req.user_info is not None:
+        counts["user_info"] = 1 if req.user_info else 0
+        report("Sync: 사용자 기본 정보 저장 중...")
+        db.save_user_info(req.user_info)
+        changed_sections.append("user_info")
+        report("Sync: 사용자 기본 정보 저장 완료")
+
+    return {
+        "status": "ok",
+        "changed_sections": changed_sections,
+        "counts": counts,
+        "details": details,
+    }
+
+
+@app.post("/sync")
+async def sync_portal_data(req: PortalSyncRequest):
+    return await asyncio.to_thread(_sync_portal_data, req)
+
+
+@app.delete("/sync")
+async def clear_synced_portal_data():
+    from database import db
+
+    def clear_all():
+        db.clear_all_portal_data()
+        from vector_store import sync_mentorings_to_vector_db
+        sync_mentorings_to_vector_db([])
+
+    await asyncio.to_thread(clear_all)
+    return {"status": "ok", "message": "동기화된 포털 데이터를 모두 삭제했습니다."}
 
 
 @app.post("/chat")
@@ -86,32 +177,8 @@ async def chat(req: ChatRequest):
         token = status_callback_var.set(sync_status_callback)
 
         try:
-            # 1. 캘린더 데이터 동기화
-            if req.user_calendar is not None:
-                sync_status_callback(f"📅 Sync: 개인 일정표 {len(req.user_calendar)}건 저장 중...")
-                db.save_user_calendar(req.user_calendar)
-                sync_status_callback("✅ Sync: 개인 일정표 저장 완료")
-
-            # 2. 특강/멘토링 및 RAG 벡터 인덱싱
-            if req.available_mentorings is not None:
-                sync_status_callback(f"📚 Sync: 특강/멘토링 {len(req.available_mentorings)}건 DB 저장 중...")
-                db.save_mentorings(req.available_mentorings)
-                sync_status_callback("🧬 Sync: 특강/멘토링 벡터 인덱싱 중...")
-                from vector_store import sync_mentorings_to_vector_db
-                sync_mentorings_to_vector_db(db.load_mentorings())
-                sync_status_callback("✅ Sync: 특강/멘토링 저장 및 벡터 인덱싱 완료")
-
-            # 3. 팀 매칭 정보 동기화
-            if req.team_info is not None:
-                sync_status_callback(f"👥 Sync: 팀 매칭 정보 {len(req.team_info)}건 저장 중...")
-                db.save_team_info(req.team_info)
-                sync_status_callback("✅ Sync: 팀 매칭 정보 저장 완료")
-
-            # 4. 사용자 기본 정보 동기화
-            if req.user_info is not None:
-                sync_status_callback("🙋 Sync: 사용자 기본 정보 저장 중...")
-                db.save_user_info(req.user_info)
-                sync_status_callback("✅ Sync: 사용자 기본 정보 저장 완료")
+            if any(field is not None for field in (req.user_calendar, req.available_mentorings, req.team_info, req.user_info)):
+                _sync_portal_data(req, sync_status_callback)
 
             # 에이전트 실행 코드를 별도 스레드에서 구동 (LangChain 블로킹 방지)
             async def run_agent_task():

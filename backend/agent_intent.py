@@ -63,9 +63,9 @@ def readiness_block_reason(intent: str, readiness: dict) -> str:
         data = readiness.get(name, {})
         return int(data.get("total", 0) or 0)
 
-    # 1. 스케줄 조율인데 두 핵심 데이터가 모두 없는 경우
-    if intent == "schedule_check" and total_count("user_calendar") == 0 and total_count("mentorings") == 0:
-        return "개인 시간표와 멘토링/특강 목록 데이터가 모두 없어 일정 분석을 진행할 수 없습니다."
+    # 1. 스케줄 조율인데 멘토링/특강 데이터가 전혀 없는 경우
+    if intent == "schedule_check" and total_count("mentorings") == 0:
+        return "멘토링/특강 목록 데이터가 없어 일정 분석을 진행할 수 없습니다."
 
     # 2. 특강 추천인데 특강 데이터가 전혀 없는 경우
     if intent == "lecture_recommendation" and total_count("mentorings") == 0:
@@ -89,12 +89,6 @@ def readiness_warning_context(intent: str, readiness: dict) -> str:
 
     warnings = []
     if intent == "schedule_check":
-        if total_count("user_calendar") == 0:
-            warnings.append(
-                "사용자의 개인 시간표(일정) 데이터가 아직 포털로부터 동기화되지 않았습니다. "
-                "따라서 사용자의 개인 일정을 고려한 충돌 방지나 정확한 시간대 조율을 보장할 수 없으므로, "
-                "답변 시작 시 '현재 개인 시간표가 동기화되지 않아 고정 일정을 제외하지 못한 상태입니다.'라는 취지의 안내 문구를 꼭 포함하세요."
-            )
         if total_count("mentorings") == 0:
             warnings.append(
                 "포털로부터 특강/멘토링 목록 데이터가 아직 동기화되지 않았습니다. "
@@ -102,13 +96,11 @@ def readiness_warning_context(intent: str, readiness: dict) -> str:
                 "답변 시 '현재 특강/멘토링 목록이 동기화되지 않아 겹침 여부를 확인할 수 없습니다.'라는 안내 문구를 꼭 포함하세요."
             )
     elif intent == "lecture_recommendation":
-        if total_count("user_calendar") == 0:
-            warnings.append(
-                "개인 일정(수강 이력) 데이터가 동기화되지 않았지만, 답변을 포기하지 마세요. "
-                "사용자의 기본정보에 있는 기술 스택(예: Python, React 등)과 질문 키워드를 활용하여 "
-                "특강 제목/설명과 매칭시키고, 관심사에 부합하는 후보를 능동적으로 추천하세요. "
-                "답변 시 '이전 수강 기록 대신 기술 스택 프로필 기반으로 추천합니다.'를 짧게 안내하세요."
-            )
+        # 개인 수강 이력(개인 접수 이력)을 수집하지 않는 대신, 기술 스택 기반 매칭 안내
+        warnings.append(
+            "사용자의 기본정보에 있는 기술 스택(예: Python, React 등)과 질문 키워드를 활용하여 "
+            "특강 제목/설명과 매칭시키고, 관심사에 부합하는 후보를 능동적으로 추천하세요."
+        )
             
     return "\n".join(warnings) if warnings else ""
 

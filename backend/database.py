@@ -62,6 +62,7 @@ class SomaDB:
                 )
             """)
             self._ensure_columns(conn, "user_calendar", {
+                "ownerName": "TEXT DEFAULT ''",
                 "source": "TEXT DEFAULT 'user_history'",
                 "startAt": "TEXT",
                 "endAt": "TEXT",
@@ -167,19 +168,52 @@ class SomaDB:
             rows = cursor.fetchall()
             return [json.loads(row["raw_json"]) for row in rows]
 
-    # ── 개인 시간표 CRUD ──
-    def save_user_calendar(self, items: list[dict]):
+    def get_mentoring_stats(self) -> dict:
         with self._get_conn() as conn:
-            conn.execute("DELETE FROM user_calendar")
+            total = conn.execute("SELECT COUNT(*) AS count FROM mentorings").fetchone()["count"] or 0
+            with_location = conn.execute(
+                "SELECT COUNT(*) AS count FROM mentorings WHERE COALESCE(location, '') <> ''"
+            ).fetchone()["count"] or 0
+            with_delivery = conn.execute(
+                "SELECT COUNT(*) AS count FROM mentorings WHERE COALESCE(deliveryMethod, '') <> ''"
+            ).fetchone()["count"] or 0
+            by_status_rows = conn.execute(
+                "SELECT status, COUNT(*) AS count FROM mentorings GROUP BY status ORDER BY count DESC"
+            ).fetchall()
+            return {
+                "total": total,
+                "with_location": with_location,
+                "with_delivery_method": with_delivery,
+                "by_status": {row["status"] or "알수없음": row["count"] for row in by_status_rows},
+            }
+
+    # ── 개인 시간표 CRUD ──
+    def save_user_calendar(self, items: list[dict], owner_name: str | None = None):
+        with self._get_conn() as conn:
+            normalized_owner = (owner_name or "").strip()
+            if normalized_owner:
+                conn.execute("DELETE FROM user_calendar WHERE ownerName = ? OR ownerName = ''", (normalized_owner,))
+            else:
+                conn.execute("DELETE FROM user_calendar WHERE ownerName = ''")
             for item in items:
                 quality = validate_calendar_event(item)
+                original_id = str(item.get("id", ""))
+                db_id = f"{normalized_owner}:{original_id}" if normalized_owner else original_id
+                raw_json = {
+                    **item,
+                    **quality,
+                    "id": original_id,
+                    "originalId": original_id,
+                    "ownerName": normalized_owner,
+                }
                 conn.execute("""
                     INSERT OR REPLACE INTO user_calendar (
-                        id, title, url, author, dateStr, timeRangeStr, status, isApproved, raw_json, source,
+                        id, ownerName, title, url, author, dateStr, timeRangeStr, status, isApproved, raw_json, source,
                         startAt, endAt, qualityStatus, validationErrors, validationWarnings, canonicalText
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
-                    str(item.get("id", "")),
+                    db_id,
+                    normalized_owner,
                     item.get("title", ""),
                     item.get("url", ""),
                     item.get("author", ""),
@@ -187,7 +221,7 @@ class SomaDB:
                     item.get("timeRangeStr", ""),
                     item.get("status", ""),
                     1 if item.get("isApproved") else 0,
-                    json.dumps({**item, **quality}, ensure_ascii=False),
+                    json.dumps(raw_json, ensure_ascii=False),
                     item.get("source", "user_history"),
                     quality["startAt"],
                     quality["endAt"],
@@ -198,11 +232,50 @@ class SomaDB:
                 ))
             conn.commit()
 
-    def load_user_calendar(self) -> list[dict]:
+    def load_user_calendar(self, owner_name: str | None = None) -> list[dict]:
         with self._get_conn() as conn:
-            cursor = conn.execute("SELECT raw_json FROM user_calendar")
+            if owner_name is None:
+                cursor = conn.execute("SELECT raw_json FROM user_calendar")
+            else:
+                normalized_owner = owner_name.strip()
+                cursor = conn.execute("SELECT raw_json FROM user_calendar WHERE ownerName = ?", (normalized_owner,))
             rows = cursor.fetchall()
             return [json.loads(row["raw_json"]) for row in rows]
+
+    def has_user_calendar_for_owner(self, owner_name: str | None) -> bool:
+        normalized_owner = (owner_name or "").strip()
+        if not normalized_owner:
+            return False
+        with self._get_conn() as conn:
+            count = conn.execute(
+                "SELECT COUNT(*) AS count FROM user_calendar WHERE ownerName = ?",
+                (normalized_owner,),
+            ).fetchone()["count"] or 0
+            return count > 0
+
+    def get_user_calendar_stats(self) -> dict:
+        with self._get_conn() as conn:
+            total = conn.execute("SELECT COUNT(*) AS count FROM user_calendar").fetchone()["count"] or 0
+            by_source_rows = conn.execute(
+                "SELECT source, COUNT(*) AS count FROM user_calendar GROUP BY source ORDER BY count DESC"
+            ).fetchall()
+            by_owner_rows = conn.execute(
+                "SELECT ownerName, COUNT(*) AS count FROM user_calendar GROUP BY ownerName ORDER BY count DESC"
+            ).fetchall()
+            by_owner_source_rows = conn.execute(
+                "SELECT ownerName, source, COUNT(*) AS count FROM user_calendar GROUP BY ownerName, source"
+            ).fetchall()
+            by_owner_source: dict[str, dict[str, int]] = {}
+            for row in by_owner_source_rows:
+                owner = row["ownerName"] or "unknown"
+                source = row["source"] or "unknown"
+                by_owner_source.setdefault(owner, {})[source] = row["count"]
+            return {
+                "total": total,
+                "by_source": {row["source"] or "unknown": row["count"] for row in by_source_rows},
+                "by_owner": {row["ownerName"] or "unknown": row["count"] for row in by_owner_rows},
+                "by_owner_source": by_owner_source,
+            }
 
     # ── 팀 매칭 CRUD ──
     def save_team_info(self, items: list[dict]):
@@ -272,6 +345,15 @@ class SomaDB:
     def clear_chat_history(self, session_id: str):
         with self._get_conn() as conn:
             conn.execute("DELETE FROM chat_messages WHERE session_id = ?", (session_id,))
+            conn.commit()
+
+    def clear_all_portal_data(self):
+        with self._get_conn() as conn:
+            conn.execute("DELETE FROM user_calendar")
+            conn.execute("DELETE FROM mentorings")
+            conn.execute("DELETE FROM team_info")
+            conn.execute("DELETE FROM user_info")
+            conn.execute("DELETE FROM chat_messages")
             conn.commit()
 
     # ── 사용자 기본 정보 CRUD ──
