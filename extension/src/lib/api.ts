@@ -8,12 +8,14 @@ export interface ChatMessage {
 
 export async function sendChat(
   message: string,
-  history: ChatMessage[]
+  history: ChatMessage[],
+  somaUser: string
 ): Promise<string> {
   const res = await fetch(`${BASE_URL}/api/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, history }),
+    // 소마 로그인으로 확인된 신원(soma_user)을 본문에 함께 보냄. 백엔드 '문지기'가 검사.
+    body: JSON.stringify({ message, history, soma_user: somaUser }),
   });
   if (!res.ok) throw new Error(`서버 오류: ${res.status}`);
   const data = (await res.json()) as { answer: string };
