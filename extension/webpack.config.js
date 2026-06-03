@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     sidepanel: "./src/sidepanel.tsx",
     background: "./src/background.ts",
+    somaParser: "./src/somaParser.ts",
   },
   output: {
     path: path.resolve(__dirname, "dist"),

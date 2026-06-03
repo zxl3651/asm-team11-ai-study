@@ -124,37 +124,66 @@ npm run dev      # 파일 변경 감지 자동 빌드
 | 메서드 | 경로 | 설명 |
 |--------|------|------|
 | GET | `/health` | 서버 상태 확인 |
-| POST | `/chat` | AI 채팅 (Agentic 루프) |
+| POST | `/chat` | AI 채팅 (LangGraph Agentic 루프) |
 | DELETE | `/chat/{session_id}` | 대화 세션 초기화 |
 | POST | `/mentors/search` | 멘토 직접 검색 |
 | POST | `/mentorings/search` | 멘토링/특강 직접 검색 |
 
-**채팅 요청 예시:**
+**채팅 요청 예시 (실시간 캘린더 동기화 지원):**
 ```json
 POST /chat
 {
-  "message": "Python 잘하는 창업 멘토 추천해줘",
-  "session_id": "user_001"
+  "message": "내 스케줄 안 겹치는 특강 추천해줘",
+  "session_id": "user_001",
+  "user_calendar": [
+    {
+      "id": "MC001",
+      "title": "알고리즘 특강",
+      "dateStr": "2026-06-15(월)",
+      "timeRangeStr": "19:00 ~ 21:00",
+      "location": "부산 센터"
+    }
+  ],
+  "available_mentorings": [
+    {
+      "id": "MR001",
+      "type": "lecture",
+      "title": "React 아키텍처 특강",
+      "dateStr": "2026-06-15(월)",
+      "timeRangeStr": "19:00 ~ 21:00",
+      "application_url": "https://soma.ict.or.kr/..."
+    }
+  ]
 }
 ```
 
 ---
 
-## Agentic Workflow 동작 방식
+## Agentic Workflow 동작 방식 (LangGraph StateGraph)
+
+소마 메이트의 의사결정 코어는 **LangGraph**를 도입하여 분기 및 피드백 루프를 상태 머신(State Machine)으로 제어합니다.
 
 ```
-사용자 메시지
-     ↓
-[LLM] 어떤 도구가 필요한지 판단
-     ↓
-[Tool] search_mentors / search_mentorings / search_trainees 실행
-     ↓
-[LLM] 검색 결과를 바탕으로 자연어 응답 생성
-     ↓ (필요시 최대 5회 반복)
-최종 답변 반환
+                  사용자 메시지 (+시간표 컨텍스트)
+                                ↓
+                      ┌─> [Model Node (LLM)]
+                      │         ↓
+         (도구 호출 필요?) ──{Conditional Router}
+                      │         │
+                     (Yes)     (No)
+                      │         │
+                      ▼         ▼
+               [Action Node]   [END] (최종 답변 반환)
+             (Tools 실행 결과)
+                      │
+                      └─────────┘
 ```
 
-도구 3가지: `search_mentors`, `search_mentorings`, `search_trainees`
+* **보유 도구 (4가지)**:
+  1. `search_mentors`: 관심 스택, 목표, 분야별 멘토 추천
+  2. `search_mentorings`: 현재 접수 중인 멘토링/특강 목록 검색
+  3. `search_trainees`: 역할/스택/팀빌딩 상태별 동료 연수생 검색
+  4. `get_user_calendar`: 연수생의 실시간 개인 시간표 조회 (일정 중복 필터링용)
 
 ---
 

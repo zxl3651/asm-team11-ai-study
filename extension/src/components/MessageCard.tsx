@@ -1,5 +1,6 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { Bot, User, AlertCircle } from "lucide-react";
 
 export type MessageRole = "user" | "assistant" | "system";
 
@@ -21,12 +22,19 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
   return (
     <div className={`message-card ${isUser ? "user" : isSystem ? "system" : "assistant"}`}>
       {!isUser && !isSystem && (
-        <div className="avatar">
-          <span>🤖</span>
+        <div className="avatar assistant">
+          <Bot size={16} />
         </div>
       )}
       <div className="message-bubble">
-        {isUser ? (
+        {isSystem ? (
+          <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+            <AlertCircle size={16} style={{ flexShrink: 0, marginTop: "2px" }} />
+            <div style={{ flex: 1 }}>
+              <ReactMarkdown>{message.content}</ReactMarkdown>
+            </div>
+          </div>
+        ) : isUser ? (
           <p>{message.content}</p>
         ) : (
           <ReactMarkdown>{message.content}</ReactMarkdown>
@@ -40,7 +48,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
       </div>
       {isUser && (
         <div className="avatar user-avatar">
-          <span>👤</span>
+          <User size={16} />
         </div>
       )}
     </div>

@@ -23,3 +23,4 @@ node_modules/
 # 크롤링 임시파일
 backend/data/*_progress.json
 .claude/
+extension/dist
