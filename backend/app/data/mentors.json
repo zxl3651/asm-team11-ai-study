@@ -1,0 +1,32 @@
+[
+  {
+    "id": "m1",
+    "name": "김백엔드",
+    "stacks": ["Java", "Spring", "AWS", "MSA"],
+    "fields": ["대규모 트래픽", "클라우드", "백엔드"],
+    "goals": ["취업"],
+    "startup_experience": false,
+    "bio": "네이버 서버 개발 10년. 대규모 트래픽 처리와 Spring 기반 MSA 멘토링.",
+    "apply_url": "https://swm.example/mentor/m1"
+  },
+  {
+    "id": "m2",
+    "name": "이창업",
+    "stacks": ["React", "Node", "TypeScript"],
+    "fields": ["창업", "프론트엔드", "프로덕트"],
+    "goals": ["창업"],
+    "startup_experience": true,
+    "bio": "스타트업 2회 창업/엑싯. React/Node 풀스택 + 초기 프로덕트 빌딩 멘토링.",
+    "apply_url": "https://swm.example/mentor/m2"
+  },
+  {
+    "id": "m3",
+    "name": "박데이터",
+    "stacks": ["Python", "PyTorch", "RAG", "LLM"],
+    "fields": ["AI", "데이터", "검색"],
+    "goals": ["취업", "창업"],
+    "startup_experience": true,
+    "bio": "AI 리서치 엔지니어. LLM/RAG 기반 서비스 설계 멘토링.",
+    "apply_url": "https://swm.example/mentor/m3"
+  }
+]
