@@ -201,20 +201,7 @@ export const ChatPanel: React.FC = () => {
     scheduleCount: 0,
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
-  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
 
-  useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null);
-      }, 3500);
-      return () => clearTimeout(timer);
-    }
-  }, [notification]);
-
-  const showToast = useCallback((message: string, type: "success" | "error" | "info" = "success") => {
-    setNotification({ message, type });
-  }, []);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -234,19 +221,7 @@ export const ChatPanel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const initSync = async () => {
-      await refreshSyncStatus();
-      
-      // 만약 캐시된 데이터가 하나도 없으면 백그라운드 자동 동기화 1회 시도
-      const status = await loadSyncStatus();
-      const hasAny = status.hasMentorings || status.hasTeams || status.hasHistoryCalendar || status.hasSchedule;
-      if (!hasAny) {
-        console.log("[SoMa Mate] 캐시 데이터 없음. 백그라운드 동기화 자동 시작...");
-        triggerBackgroundSync(true); // silent 모드로 실행
-      }
-    };
-    
-    initSync();
+    refreshSyncStatus();
 
     // chrome.storage 변경 감지 (Content Script 파싱 완료 시 자동 갱신)
     if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.onChanged) {
@@ -376,7 +351,6 @@ export const ChatPanel: React.FC = () => {
         }).catch(() => {});
 
         refreshSyncStatus();
-        showToast("모든 포털 수집 데이터가 초기화되었습니다.", "success");
       });
     }
   };
@@ -677,19 +651,9 @@ export const ChatPanel: React.FC = () => {
             resolve();
           });
         });
-        if (!silent) {
-          showToast(`동기화 성공! ${successCount}개 영역의 포털 데이터가 자동 연동되었습니다.`, "success");
-        }
-      } else {
-        if (!silent) {
-          showToast("동기화 실패: 로그인 세션이 만료되었거나 포털 페이지에 접근할 수 없습니다.", "error");
-        }
       }
     } catch (err) {
       console.error("Background sync error:", err);
-      if (!silent) {
-        showToast("동기화 중 오류가 발생했습니다.", "error");
-      }
     } finally {
       if (!silent) setIsLoading(false);
       setSyncProgress(null);
@@ -699,14 +663,6 @@ export const ChatPanel: React.FC = () => {
 
   return (
     <div className="chat-panel">
-      {notification && (
-        <div className={`toast-notification ${notification.type}`}>
-          <span className="toast-content">{notification.message}</span>
-          <button className="toast-close" onClick={() => setNotification(null)}>
-            <X size={14} />
-          </button>
-        </div>
-      )}
       <header className="chat-header">
         <div className="header-left">
           <div className="logo-container">
