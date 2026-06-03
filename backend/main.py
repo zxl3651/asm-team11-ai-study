@@ -83,7 +83,8 @@ async def chat(req: ChatRequest):
 
     async def event_generator():
         # contextvars에 콜백 등록
-        from tools import status_callback_var, db
+        from tools import status_callback_var
+        from database import db
         token = status_callback_var.set(sync_status_callback)
 
         try:
