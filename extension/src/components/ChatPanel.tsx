@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Message, MessageCard } from "./MessageCard";
-import { GraduationCap, RotateCcw, Info, SendHorizontal, Calendar, Bot, RefreshCw, Trash2, ChevronDown } from "lucide-react";
+import { GraduationCap, RotateCcw, SendHorizontal, Bot, RefreshCw, Trash2, ChevronDown, Users, SearchCheck, Network } from "lucide-react";
 import {
   parseMentoringListPage,
   parseCalendarResultList,
@@ -40,6 +40,11 @@ interface SyncStatus {
   serverUserInfoCount: number | null;
   serverMentoringCount: number | null;
   serverTeamCount: number | null;
+  syncRunStatus: string;
+  syncListCount: number;
+  syncDetailSuccessCount: number;
+  syncDetailFailCount: number;
+  syncVectorDocumentCount: number;
 }
 
 async function loadParsedMentorings(): Promise<any[]> {
@@ -107,6 +112,7 @@ async function loadSyncStatus(): Promise<SyncStatus> {
             const serverStatus = await loadServerStatus();
             const readiness = serverStatus?.readiness || {};
             const participantStats = serverStatus?.participant_registrations || {};
+            const syncRun = serverStatus?.sync_run || {};
             const mList = result.parsedMentorings || [];
             const tList = result.parsedTeamInfo || [];
             const sList = result.parsedSchedule || [];
@@ -134,6 +140,11 @@ async function loadSyncStatus(): Promise<SyncStatus> {
               serverUserInfoCount,
               serverMentoringCount,
               serverTeamCount,
+              syncRunStatus: syncRun.status || "empty",
+              syncListCount: syncRun.list_count ?? 0,
+              syncDetailSuccessCount: syncRun.detail_success_count ?? 0,
+              syncDetailFailCount: syncRun.detail_fail_count ?? 0,
+              syncVectorDocumentCount: syncRun.vector_document_count ?? 0,
             });
           })();
         }
@@ -158,6 +169,11 @@ async function loadSyncStatus(): Promise<SyncStatus> {
         serverUserInfoCount: null,
         serverMentoringCount: null,
         serverTeamCount: null,
+        syncRunStatus: "empty",
+        syncListCount: 0,
+        syncDetailSuccessCount: 0,
+        syncDetailFailCount: 0,
+        syncVectorDocumentCount: 0,
       });
     }
   });
@@ -217,8 +233,14 @@ export const ChatPanel: React.FC = () => {
     serverUserInfoCount: null,
     serverMentoringCount: null,
     serverTeamCount: null,
+    syncRunStatus: "empty",
+    syncListCount: 0,
+    syncDetailSuccessCount: 0,
+    syncDetailFailCount: 0,
+    syncVectorDocumentCount: 0,
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
+  const [syncSteps, setSyncSteps] = useState<string[]>([]);
   const [agentStatus, setAgentStatus] = useState<string | null>(null);
   const [processingSteps, setProcessingSteps] = useState<string[]>([]);
   const [isSyncStatusOpen, setIsSyncStatusOpen] = useState(true);
@@ -486,6 +508,14 @@ export const ChatPanel: React.FC = () => {
 
   const triggerBackgroundSync = async (silent = false) => {
     if (!silent) setIsLoading(true);
+    setSyncSteps([]);
+    const recordSyncStep = (message: string) => {
+      setSyncProgress(message);
+      setSyncSteps((prev) => {
+        if (prev[prev.length - 1] === message) return prev;
+        return [...prev, message];
+      });
+    };
     try {
       const origins = ["https://www.swmaestro.ai", "https://swmaestro.org"];
       const centers = ["/busan", ""]; // 부산 센터 / 서울 본원
@@ -559,7 +589,7 @@ export const ChatPanel: React.FC = () => {
         let connector = pathSuffix.includes("?") ? "&" : "?";
         let page1Suffix = `${pathSuffix}${connector}pageIndex=1`;
         
-        setSyncProgress(`${label} 첫 페이지 분석 중...`);
+        recordSyncStep(`${label} 첫 페이지 분석 중...`);
         let page1Doc: Document | null = null;
         let matchedOrigin = "";
         let matchedCenter = "";
@@ -619,7 +649,7 @@ export const ChatPanel: React.FC = () => {
             pagesToFetch.push(p);
           }
 
-          setSyncProgress(`${label} 수집 중... (0 / ${pagesToFetch.length} 페이지 완료)`);
+          recordSyncStep(`${label} 수집 중... (0 / ${pagesToFetch.length} 페이지 완료)`);
 
           const fetchPageDoc = async (pageIdx: number) => {
             const url = `${matchedOrigin}${matchedCenter}/sw/mypage/${pathSuffix}${connector}pageIndex=${pageIdx}`;
@@ -644,7 +674,7 @@ export const ChatPanel: React.FC = () => {
               return fetchPageDoc(p);
             },
             (completed, total) => {
-              setSyncProgress(`${label} 수집 중... (${completed} / ${total} 페이지 완료)`);
+              recordSyncStep(`${label} 수집 중... (${completed} / ${total} 페이지 완료)`);
             }
           );
 
@@ -661,7 +691,7 @@ export const ChatPanel: React.FC = () => {
       const sMonth = String(now.getMonth() + 1).padStart(2, '0');
 
       // 1. 기본정보, 2. 월간 일정, 3. 팀 매칭, 4. 멘토링 목록을 병렬로 동시 시작!
-      setSyncProgress("포털 데이터 병렬 수집 시작...");
+      recordSyncStep("포털 데이터 병렬 수집 시작...");
 
       const [parsedUserInfo, parsedSchedule, parsedTeams, mentoringDocs] = await Promise.all([
         fetchAndParse("myInfo/forUpdateMy.do?menuNo=200036", parseMyInfoPage),
@@ -691,7 +721,10 @@ export const ChatPanel: React.FC = () => {
           seenDetailKeys.add(key);
           return true;
         });
-        const detailedMentorings = [...parsedMentorings];
+        const detailedMentorings = parsedMentorings.map((item: any) => ({
+          ...item,
+          detailStatus: item.url ? "pending" : "skipped",
+        }));
 
         const buildDetailUrlCandidates = (item: any): string[] => {
           const url = item.url || "";
@@ -717,12 +750,37 @@ export const ChatPanel: React.FC = () => {
         };
 
         if (mentoringDetailTargets.length > 0) {
-          setSyncProgress(`멘토링 상세정보 전체 업데이트 중... (0 / ${mentoringDetailTargets.length}건 완료)`);
+          recordSyncStep(`멘토링 상세정보 전체 업데이트 중... (0 / ${mentoringDetailTargets.length}건 완료)`);
 
           const results = await runConcurrentPool(
             mentoringDetailTargets,
             30,
             async (item) => {
+              let lastError = "";
+              const buildParticipantPageUrl = (baseUrl: string, pageIndex: number): string => {
+                try {
+                  const parsed = new URL(baseUrl, window.location.origin);
+                  parsed.searchParams.set("pageIndex", String(pageIndex));
+                  return parsed.toString();
+                } catch {
+                  const separator = baseUrl.includes("?") ? "&" : "?";
+                  if (baseUrl.includes("pageIndex=")) {
+                    return baseUrl.replace(/([?&]pageIndex=)\d+/, `$1${pageIndex}`);
+                  }
+                  return `${baseUrl}${separator}pageIndex=${pageIndex}`;
+                }
+              };
+              const mergeUniqueNames = (baseNames: string[], extraNames: string[]) => {
+                const seen = new Set(baseNames);
+                extraNames.forEach((name) => {
+                  if (name && !seen.has(name)) {
+                    seen.add(name);
+                    baseNames.push(name);
+                  }
+                });
+                return baseNames;
+              };
+
               for (const targetUrl of buildDetailUrlCandidates(item)) {
                 try {
                   const res = await fetch(targetUrl, { credentials: "include" });
@@ -731,23 +789,45 @@ export const ChatPanel: React.FC = () => {
                     if (!html.includes("loginForm") && !html.includes("member/user/login.do")) {
                       const doc = new DOMParser().parseFromString(html, "text/html");
                       const detail = parseMentoringDetailPage(doc);
-                      return { id: item.id, url: item.url, detail };
+                      const participantNames = [...(detail.participantNames || [])];
+                      const pageCount = Math.min(detail.participantPageCount || 1, 100);
+                      for (let page = 2; page <= pageCount; page++) {
+                        const pageUrl = buildParticipantPageUrl(targetUrl, page);
+                        try {
+                          const pageRes = await fetch(pageUrl, { credentials: "include" });
+                          if (!pageRes.ok) continue;
+                          const pageHtml = await pageRes.text();
+                          if (pageHtml.includes("loginForm") || pageHtml.includes("member/user/login.do")) continue;
+                          const pageDoc = new DOMParser().parseFromString(pageHtml, "text/html");
+                          const pageDetail = parseMentoringDetailPage(pageDoc);
+                          mergeUniqueNames(participantNames, pageDetail.participantNames || []);
+                        } catch (pageErr) {
+                          console.warn(`[SoMa Mate] 신청자 추가 페이지 Fetch 실패: ${pageUrl}`, pageErr);
+                        }
+                      }
+                      detail.participantNames = participantNames;
+                      return { id: item.id, url: item.url, detail, status: "success", error: "" };
                     }
+                    lastError = "로그인 페이지로 리다이렉트됨";
+                  } else {
+                    lastError = `HTTP ${res.status}`;
                   }
                 } catch (e) {
+                  lastError = e instanceof Error ? e.message : String(e);
                   console.warn(`[SoMa Mate] 멘토링 상세 Fetch 실패: ${targetUrl}`, e);
                 }
               }
-              return null;
+              return { id: item.id, url: item.url, detail: null, status: "failed", error: lastError || "상세 페이지 수집 실패" };
             },
             (completed, total) => {
-              setSyncProgress(`멘토링 상세정보 전체 업데이트 중... (${completed} / ${total}건 완료)`);
+              recordSyncStep(`멘토링 상세정보 전체 업데이트 중... (${completed} / ${total}건 완료)`);
             }
           );
 
           let detailSuccessCount = 0;
+          let detailFailCount = 0;
           results.forEach(res => {
-            if (res) {
+            if (res && res.status === "success" && res.detail) {
               detailSuccessCount++;
               const idx = detailedMentorings.findIndex((m: any) => (res.id && m.id === res.id) || m.url === res.url);
               if (idx > -1) {
@@ -765,10 +845,23 @@ export const ChatPanel: React.FC = () => {
                   timeRangeStr: res.detail.timeRangeStr || original.timeRangeStr,
                   description: res.detail.title || original.title,
                   participantNames: res.detail.participantNames || original.participantNames || [],
+                  detailStatus: "success",
+                  detailError: "",
+                };
+              }
+            } else if (res) {
+              detailFailCount++;
+              const idx = detailedMentorings.findIndex((m: any) => (res.id && m.id === res.id) || m.url === res.url);
+              if (idx > -1) {
+                detailedMentorings[idx] = {
+                  ...detailedMentorings[idx],
+                  detailStatus: "failed",
+                  detailError: res.error || "상세 페이지 수집 실패",
                 };
               }
             }
           });
+          recordSyncStep(`멘토링 상세정보 수집 완료: 성공 ${detailSuccessCount}건 / 실패 ${detailFailCount}건`);
           console.info(
             `[SoMa Mate] 멘토링/특강 목록 ${parsedMentorings.length}건 중 상세 ${detailSuccessCount}/${mentoringDetailTargets.length}건 업데이트`
           );
@@ -811,7 +904,7 @@ export const ChatPanel: React.FC = () => {
         });
 
         // 백엔드 데이터베이스 및 ChromaDB RAG 연동 (단 1회 수행)
-        setSyncProgress("백엔드 데이터베이스 동기화 중...");
+        recordSyncStep("백엔드 데이터베이스 정규화 저장 중...");
         
         try {
           const res = await fetch(`${API_BASE}/sync`, {
@@ -828,8 +921,12 @@ export const ChatPanel: React.FC = () => {
             throw new Error(`Backend sync failed: ${res.status}`);
           }
           const syncResult = await res.json();
+          const participantLinks = syncResult?.details?.participant_registrations?.registration_link_count ?? 0;
+          const vectorCount = syncResult?.details?.vector_store?.collection_count ?? 0;
+          recordSyncStep(`백엔드 정규화 완료: 신청 연결 ${participantLinks}건 / 벡터 ${vectorCount}건`);
           console.info("[SoMa Mate] 백엔드 동기화 결과:", syncResult);
         } catch (syncErr) {
+          recordSyncStep("백엔드 동기화 실패");
           console.error("[SoMa Mate] 백엔드 연동 동기화 실패:", syncErr);
         }
       }
@@ -902,6 +999,26 @@ export const ChatPanel: React.FC = () => {
           )}
           {isSyncStatusOpen && (
             <div className="sync-status-content">
+              {syncSteps.length > 0 && (
+                <div className="process-section">
+                  <div className="process-section-title">동기화 처리 과정</div>
+                  <ol className="process-step-list">
+                    {syncSteps.map((step, index) => (
+                      <li key={`${step}-${index}`}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              {processingSteps.length > 0 && (
+                <div className="process-section">
+                  <div className="process-section-title">질문 처리 과정</div>
+                  <ol className="process-step-list">
+                    {processingSteps.map((step, index) => (
+                      <li key={`${step}-${index}`}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
               <ul className="sync-status-list">
                 <li>
                   <span className="label">기본정보</span>
@@ -924,10 +1041,28 @@ export const ChatPanel: React.FC = () => {
                   </span>
                 </li>
                 <li>
+                  <span className="label">상세 페이지 수집</span>
+                  <span className={`value ${syncStatus.syncDetailSuccessCount > 0 ? "connected" : "disconnected"}`}>
+                    {syncStatus.syncListCount > 0
+                      ? `✅ 성공 ${syncStatus.syncDetailSuccessCount}건 / 실패 ${syncStatus.syncDetailFailCount}건`
+                      : "⬜ 미수집"}
+                  </span>
+                </li>
+                <li>
                   <span className="label">참여자별 신청 연결</span>
                   <span className={`value ${syncStatus.participantRegistrationLinkCount > 0 ? "connected" : "disconnected"}`}>
                     {syncStatus.participantRegistrationLinkCount > 0
                       ? `✅ 생성됨 (${syncStatus.participantCount}명 / ${syncStatus.participantRegistrationLinkCount}건)`
+                      : syncStatus.syncDetailSuccessCount > 0
+                        ? "⚠️ 0건 (신청자 명단 파싱 필요)"
+                      : "⬜ 미생성"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">벡터 인덱스</span>
+                  <span className={`value ${syncStatus.syncVectorDocumentCount > 0 ? "connected" : "disconnected"}`}>
+                    {syncStatus.syncVectorDocumentCount > 0
+                      ? `✅ 생성됨 (${syncStatus.syncVectorDocumentCount}건)`
                       : "⬜ 미생성"}
                   </span>
                 </li>
@@ -966,33 +1101,6 @@ export const ChatPanel: React.FC = () => {
             onShowTrace={openTraceViewer}
           />
         ))}
-        {messages.length === 1 && (messages[0].id === "welcome" || messages[0].id === "welcome-new") && (
-          <div className="quick-actions-container">
-            <p className="quick-actions-title">💡 자주 묻는 질문 샘플</p>
-            <div className="quick-actions-grid">
-              <button
-                className="quick-action-card"
-                onClick={() => setInput("우리 팀 정보를 확인하고, 팀원 각자가 신청·참여 중인 멘토링/특강 일정을 모두 고려해서 이번 주에 팀원 전원이 2시간 동안 회의할 수 있는 후보 시간대를 모두 찾아줘.")}
-              >
-                <div className="quick-action-icon">👥</div>
-                <div className="quick-action-content">
-                  <span className="action-title">팀 멘토링/특강 일정 기반 회의 시간</span>
-                  <span className="action-desc">팀원별 멘토링·특강 접수 일정을 충돌 조건으로 포함해 2시간 공통 회의 후보를 찾습니다.</span>
-                </div>
-              </button>
-              <button
-                className="quick-action-card"
-                onClick={() => setInput("멘토링/특강 신청자 명단에서 내가 이미 신청한 일정을 제외하고, 평일 10:00~12:00 고정 회의 시간도 피해서 이번 주에 신청 가능한 특강/멘토링을 추천해줘.")}
-              >
-                <div className="quick-action-icon">💡</div>
-                <div className="quick-action-content">
-                  <span className="action-title">신청자 명단 기반 특강 추천</span>
-                  <span className="action-desc">멘토링·특강 신청자 명단을 기준으로 이미 신청한 일정과 고정 회의 시간을 제외합니다.</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        )}
         {isLoading && (
           <div className="loading-indicator">
             <div className="avatar assistant">
@@ -1023,6 +1131,42 @@ export const ChatPanel: React.FC = () => {
           </div>
         )}
         <div ref={messagesEndRef} />
+      </div>
+
+      <div className="quick-actions-container">
+        <p className="quick-actions-title">자주 묻는 질문 샘플</p>
+        <div className="quick-actions-grid">
+          <button
+            className="quick-action-card"
+            onClick={() => setInput("우리 팀 정보를 확인하고, 팀원 각자가 신청·참여 중인 멘토링/특강 일정을 모두 고려해서 이번 주에 팀원 전원이 2시간 동안 회의할 수 있는 후보 시간대를 모두 찾아줘.")}
+          >
+            <div className="quick-action-icon"><Users size={16} /></div>
+            <div className="quick-action-content">
+              <span className="action-title">팀 회의 시간 찾기</span>
+              <span className="action-desc">팀원별 멘토링·특강 신청 일정을 기준으로 공통 빈 시간을 계산합니다.</span>
+            </div>
+          </button>
+          <button
+            className="quick-action-card"
+            onClick={() => setInput("멘토링/특강 신청자 명단에서 내가 이미 신청한 일정을 제외하고, 평일 10:00~12:00 고정 회의 시간도 피해서 이번 주에 신청 가능한 특강/멘토링을 추천해줘.")}
+          >
+            <div className="quick-action-icon"><SearchCheck size={16} /></div>
+            <div className="quick-action-content">
+              <span className="action-title">빈 시간 특강 추천</span>
+              <span className="action-desc">이미 신청한 일정과 고정 회의 시간을 제외하고 신청 가능한 후보를 찾습니다.</span>
+            </div>
+          </button>
+          <button
+            className="quick-action-card"
+            onClick={() => setInput("우리 팀원들이 이번 주에 각각 어떤 멘토링/특강을 신청했는지 신청자 명단 기준으로 정리하고, 일정 충돌이 많은 시간대를 알려줘.")}
+          >
+            <div className="quick-action-icon"><Network size={16} /></div>
+            <div className="quick-action-content">
+              <span className="action-title">팀 신청 일정 분석</span>
+              <span className="action-desc">정규화된 신청자-특강 연결을 바탕으로 팀원별 바쁜 시간을 요약합니다.</span>
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className="input-area">

@@ -59,6 +59,25 @@ def _has_tool_call(messages: list[BaseMessage], tool_name: str) -> bool:
     return False
 
 
+def _tool_call_signature(tool_call: dict) -> str:
+    return json.dumps({
+        "name": tool_call.get("name"),
+        "args": tool_call.get("args") or {},
+    }, ensure_ascii=False, sort_keys=True)
+
+
+def _has_repeated_tool_call(messages: list[BaseMessage], latest_message: AIMessage) -> bool:
+    previous_signatures = set()
+    for msg in messages[:-1]:
+        if isinstance(msg, AIMessage):
+            for tool_call in getattr(msg, "tool_calls", []) or []:
+                previous_signatures.add(_tool_call_signature(tool_call))
+    for tool_call in getattr(latest_message, "tool_calls", []) or []:
+        if _tool_call_signature(tool_call) in previous_signatures:
+            return True
+    return False
+
+
 def _team_member_names_from_tool_messages(messages: list[BaseMessage]) -> list[str]:
     for msg in reversed(messages):
         if not isinstance(msg, ToolMessage):
@@ -147,6 +166,7 @@ def _tool_call_message(name: str, args: dict) -> dict:
 
 def _fixed_meeting_recommendation_tool_message(messages: list[BaseMessage]) -> AIMessage:
     start_date, end_date = _current_week_range_from_messages(messages)
+    user_query = extract_user_message(messages)
     fixed_block = {
         "weekdays": ["월", "화", "수", "목", "금"],
         "start": "10:00",
@@ -165,6 +185,7 @@ def _fixed_meeting_recommendation_tool_message(messages: list[BaseMessage]) -> A
                 "start_date": start_date,
                 "end_date": end_date,
                 "status": "접수중",
+                "query": user_query,
             }),
             _tool_call_message("get_free_slots", {
                 "user_name": "me",
@@ -202,7 +223,15 @@ def _team_free_slots_tool_message(messages: list[BaseMessage]) -> AIMessage:
         args["include_team_shared_mentorings"] = True
     return AIMessage(
         content="",
-        tool_calls=[_tool_call_message("get_free_slots", args)],
+        tool_calls=[
+            _tool_call_message("get_team_participant_schedule", {
+                "team_name": team_name,
+                "user_names": team_member_names,
+                "start_date": start_date,
+                "end_date": end_date,
+            }),
+            _tool_call_message("get_free_slots", args),
+        ],
     )
 
 
@@ -270,9 +299,13 @@ def _fixed_recommendation_answer_from_tools(messages: list[BaseMessage]) -> str:
     candidates.sort(key=lambda entry: entry[0])
     selected = candidates[:7]
     lines = [
-        "추천 가능한 특강/멘토링",
+        "제외 기준",
         "",
-        "이미 신청한 일정과 평일 10:00~12:00 고정 회의 시간에 겹치는 후보를 제외했습니다.",
+        "- 정규화된 신청자 명단 기준으로 이미 신청한 멘토링/특강은 제외했습니다.",
+        "- 평일 10:00~12:00 고정 회의 시간과 겹치는 후보는 제외했습니다.",
+        "- 접수중이고 잔여 인원이 있는 이번 주 후보만 남겼습니다.",
+        "",
+        "추천 후보",
     ]
     if not selected:
         lines.extend([
@@ -288,6 +321,13 @@ def _fixed_recommendation_answer_from_tools(messages: list[BaseMessage]) -> str:
                 f"- {item.get('dateStr', '날짜 미기재')} {item.get('timeRangeStr', '시간 미기재')} · "
                 f"{item.get('title', '제목 미기재')} · {author} · {remaining_text}"
             )
+        lines.extend([
+            "",
+            "추천 근거",
+            "",
+            "- 일정 충돌 여부는 구조화된 시작/종료 시각 기준으로 판단했습니다.",
+            "- 관심사 매칭은 질문 키워드와 벡터 검색 후보를 보조 근거로 사용했습니다.",
+        ])
     visual_schedule_block = _latest_visual_schedule_block(messages)
     if visual_schedule_block:
         lines.extend(["", "주간 가용 시간 시각화", "", visual_schedule_block])
@@ -297,6 +337,7 @@ def _fixed_recommendation_answer_from_tools(messages: list[BaseMessage]) -> str:
 def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
     payloads = _json_tool_payloads(messages)
     free_slots_result = next((payload for payload in reversed(payloads) if "meeting_windows" in payload), {})
+    team_schedule_payload = next((payload for payload in reversed(payloads) if payload.get("by_member") and payload.get("members")), {})
     team_payload = next((payload for payload in reversed(payloads) if payload.get("team_info")), {})
     team = (team_payload.get("team_info") or [{}])[0]
 
@@ -315,6 +356,23 @@ def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
     for item in coverage:
         coverage_lines.append(f"- {item.get('user_name')}: 신청 일정 {item.get('active_event_count', 0)}건")
 
+    member_schedule_lines = []
+    by_member = team_schedule_payload.get("by_member") or {}
+    if isinstance(by_member, dict):
+        for member_name, events in by_member.items():
+            event_list = events or []
+            if not event_list:
+                member_schedule_lines.append(f"- {member_name}: 신청 일정 0건")
+                continue
+            compact_events = []
+            for event in event_list[:3]:
+                compact_events.append(
+                    f"{event.get('dateStr', '날짜 미기재')} {event.get('timeRangeStr', '시간 미기재')} {event.get('title', '제목 미기재')}"
+                )
+            more_count = max(0, len(event_list) - len(compact_events))
+            suffix = f" 외 {more_count}건" if more_count else ""
+            member_schedule_lines.append(f"- {member_name}: {len(event_list)}건 · {' / '.join(compact_events)}{suffix}")
+
     windows = free_slots_result.get("meeting_windows") or []
     lines = [
         "팀 정보",
@@ -328,12 +386,15 @@ def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
         "계산 기준",
         "",
         "- 개인 접수내역이나 브라우저 개인 시간표는 사용하지 않았습니다.",
-        "- 멘토링/특강 상세 신청자 명단에서 팀원 이름이 확인된 일정만 불가 시간으로 처리했습니다.",
+        "- 정규화된 멘토링/특강 신청자 명단에서 팀원 이름이 확인된 일정만 불가 시간으로 처리했습니다.",
+        "- 어느 한 명이라도 신청한 멘토링/특강이 있는 시간은 팀 회의 불가 시간으로 계산했습니다.",
     ]
-    if coverage_lines:
-        lines.extend(["", "팀원별 반영된 신청 일정", "", *coverage_lines])
+    if member_schedule_lines:
+        lines.extend(["", "팀원별 신청 일정 반영", "", *member_schedule_lines])
+    elif coverage_lines:
+        lines.extend(["", "팀원별 신청 일정 반영", "", *coverage_lines])
 
-    lines.extend(["", "2시간 팀 회의 가능 후보"])
+    lines.extend(["", "가능 후보"])
     if not windows:
         lines.extend(["", "이번 주 조건에서 2시간 연속으로 모두 비는 후보를 찾지 못했습니다."])
     else:
@@ -553,7 +614,7 @@ def create_agent_graph(api_key: str):
                     if isinstance(msg, AIMessage)
                     for tool_call in (getattr(msg, "tool_calls", []) or [])
                 }
-                allowed_names = {"get_team_info"} if "get_team_info" not in called else {"get_free_slots"}
+                allowed_names = {"get_team_info"} if "get_team_info" not in called else {"get_team_participant_schedule", "get_free_slots"}
                 allowed_tools = [tool for tool in LATEST_TOOLS if tool.name in allowed_names]
             response = llm.bind_tools(allowed_tools).invoke(model_messages)
         if _contains_raw_tool_call_text(response.content):
@@ -684,8 +745,10 @@ def create_agent_graph(api_key: str):
     def should_continue(state: AgentState):
         last_message = state["messages"][-1]
         if hasattr(last_message, "tool_calls") and last_message.tool_calls:
-            # 병렬 호출 1회는 tool_rounds=1이므로 5회까지 허용하면 충분한 여유
-            if int(state.get("tool_rounds", 0) or 0) >= 5:
+            # 병렬 호출 1회는 tool_rounds=1입니다. PRD에 맞춰 최대 4회까지만 허용합니다.
+            if int(state.get("tool_rounds", 0) or 0) >= 4:
+                return "tool_failed"
+            if isinstance(last_message, AIMessage) and _has_repeated_tool_call(state["messages"], last_message):
                 return "tool_failed"
             if int(state.get("tool_error_count", 0) or 0) >= 3:
                 return "tool_failed"

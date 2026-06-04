@@ -353,6 +353,7 @@ export interface MentoringDetail {
   totalCount: number;
   isApproved: boolean;
   participantNames: string[];
+  participantPageCount: number;
 }
 
 function getTopValue(container: Document | HTMLElement, label: string): string | null {
@@ -407,6 +408,7 @@ function extractParticipantNames(doc: Document, maxExpectedCount: number): strin
   const excluded = new Set([
     "작성자", "모집인원", "개설 승인", "진행방식", "강의날짜", "장소", "모집 명",
     "신청", "취소", "상태", "승인", "이름", "소속", "연수생", "멘토",
+    "신청완료", "접수완료", "승인완료", "취소완료", "신청취소", "미승인",
     "로그아웃", "공지사항", "등록일", "마이페이지", "멘토링", "특강", "접수내역",
     "모집안내", "링크드인", "교육과정", "연수센터", "전체메뉴",
     "목록", "블로그", "사업소개", "소마기술력", "소마사람들", "안녕하세요",
@@ -417,28 +419,130 @@ function extractParticipantNames(doc: Document, maxExpectedCount: number): strin
   const names = new Set<string>();
 
   const addName = (value: string | null | undefined) => {
-    const cleanValue = (value || "").replace(/\s+/g, " ").trim();
+    const cleanValue = (value || "")
+      .replace(/^(이름|성명|신청자|참여자|연수생|멘토)\s*[:：]\s*/, "")
+      .replace(/\s+/g, " ")
+      .trim();
     if (!cleanValue || excluded.has(cleanValue)) return;
     if (namePattern.test(cleanValue)) {
       names.add(cleanValue);
     }
   };
 
-  const candidateContainers = Array.from(doc.querySelectorAll("table, tbody, ul, ol, .boardlist, .tbl-ovx"))
-    .filter((el) => {
+  const addNamesFromText = (value: string | null | undefined) => {
+    const text = (value || "").replace(/\s+/g, " ").trim();
+    if (!text) return;
+    text
+      .split(/[,/·|()\[\]{}<>\s]+/)
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .forEach(addName);
+  };
+
+  const isReasonableContainer = (el: Element) => {
       const text = (el.textContent || "").replace(/\s+/g, " ").trim();
       if (text.length > 5000) return false;
-      return keywords.some((keyword) => text.includes(keyword));
+      return true;
+  };
+
+  const candidateContainers = Array.from(doc.querySelectorAll("table, tbody, ul, ol, .boardlist, .tbl-ovx"))
+    .filter((el) => {
+      if (!isReasonableContainer(el)) return false;
+      const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      const hasKeyword = keywords.some((keyword) => text.includes(keyword));
+      const hasNameHeader = Array.from(el.querySelectorAll("th, td, dt, strong, span")).some((cell) => {
+        const cellText = (cell.textContent || "").replace(/\s+/g, " ").trim();
+        return ["이름", "성명", "신청자", "참여자", "연수생"].some((keyword) => cellText === keyword || cellText.includes(keyword));
+      });
+      return hasKeyword || hasNameHeader;
     });
 
+  const scopedContainers: Element[] = [];
+  const addScopedContainer = (el: Element | null) => {
+    if (!el || !isReasonableContainer(el)) return;
+    if (!scopedContainers.includes(el)) scopedContainers.push(el);
+  };
+
+  const appliedSummaryEl = doc.querySelector(".total-normal.mt50");
+  if (appliedSummaryEl) {
+    let sibling = appliedSummaryEl.nextElementSibling;
+    let scanned = 0;
+    while (sibling && scanned < 6) {
+      if (sibling.matches("table, tbody, ul, ol, .boardlist, .tbl-ovx")) {
+        addScopedContainer(sibling);
+      }
+      sibling.querySelectorAll?.("table, tbody, ul, ol, .boardlist, .tbl-ovx").forEach(addScopedContainer);
+      sibling = sibling.nextElementSibling;
+      scanned++;
+    }
+
+    const parent = appliedSummaryEl.parentElement;
+    if (parent) {
+      parent.querySelectorAll("table, tbody, ul, ol, .boardlist, .tbl-ovx").forEach(addScopedContainer);
+    }
+  }
+
+  scopedContainers.forEach((container) => {
+    if (!candidateContainers.includes(container)) {
+      candidateContainers.push(container);
+    }
+  });
+
   for (const container of candidateContainers) {
-    container.querySelectorAll("a.sui, a[href*='user'], a[href*='member'], span.name, td.name, strong.name").forEach((el) => {
+    const tables = container.matches("table")
+      ? [container]
+      : Array.from(container.querySelectorAll("table"));
+    tables.forEach((table) => {
+      const headers = Array.from(table.querySelectorAll("thead th"));
+      const traineeIndex = headers.findIndex((header) => {
+        const text = (header.textContent || "").replace(/\s+/g, " ").trim();
+        return ["연수생", "이름", "성명", "신청자", "참여자"].some((keyword) => text === keyword || text.includes(keyword));
+      });
+      if (traineeIndex < 0) return;
+
+      table.querySelectorAll("tbody tr").forEach((row) => {
+        const cells = Array.from(row.querySelectorAll("td"));
+        const nameCell = cells[traineeIndex];
+        if (!nameCell) return;
+        addName(nameCell.querySelector("a")?.textContent || nameCell.textContent);
+      });
+    });
+
+    container.querySelectorAll("a.sui, a[href*='user'], a[href*='member'], a[href*='popuser'], a[href^='javascript: popuser'], td.popuser a, span.name, td.name, strong.name").forEach((el) => {
       addName(el.textContent);
     });
 
     container.querySelectorAll("td, span.name, strong.name").forEach((el) => {
       const text = (el.textContent || "").replace(/\s+/g, " ").trim();
-      text.split(/[,/·|]/).forEach(addName);
+      addNamesFromText(text);
+    });
+
+    container.querySelectorAll("tr").forEach((row) => {
+      const cells = Array.from(row.querySelectorAll("th, td"));
+      if (cells.length === 0) return;
+      const rowText = (row.textContent || "").replace(/\s+/g, " ").trim();
+      if (rowText.length > 600) return;
+
+      const table = row.closest("table");
+      const headers = table ? Array.from(table.querySelectorAll("thead th")) : [];
+      const traineeIndex = headers.findIndex((header) => {
+        const text = (header.textContent || "").replace(/\s+/g, " ").trim();
+        return ["연수생", "이름", "성명", "신청자", "참여자"].some((keyword) => text === keyword || text.includes(keyword));
+      });
+      if (traineeIndex >= 0 && cells[traineeIndex]) {
+        addName(cells[traineeIndex].querySelector("a")?.textContent || cells[traineeIndex].textContent);
+        return;
+      }
+
+      const labelIndex = cells.findIndex((cell) => {
+        const text = (cell.textContent || "").replace(/\s+/g, " ").trim();
+        return ["이름", "성명", "신청자", "참여자", "연수생"].some((keyword) => text === keyword || text.includes(keyword));
+      });
+      if (labelIndex >= 0 && cells[labelIndex + 1]) {
+        addNamesFromText(cells[labelIndex + 1].textContent);
+      } else {
+        cells.forEach((cell) => addNamesFromText(cell.textContent));
+      }
     });
   }
 
@@ -464,6 +568,25 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
   const timeStr = getTopValue(doc, "강의날짜");
   const appliedCount = getAppliedCount(appliedSummary);
   const totalCount = getPeopleCount(capacityText);
+  const participantPageCount = (() => {
+    const appliedSummaryEl = doc.querySelector(".total-normal.mt50");
+    const scope = appliedSummaryEl?.nextElementSibling || doc;
+    const endPageAttr = scope.querySelector("a[data-endpage]")?.getAttribute("data-endpage");
+    if (endPageAttr) {
+      const parsed = parseInt(endPageAttr, 10);
+      if (parsed > 0) return parsed;
+    }
+
+    let maxPage = 1;
+    scope.querySelectorAll("a[href*='pageIndex=']").forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const match = href.match(/pageIndex=(\d+)/);
+      if (!match) return;
+      const page = parseInt(match[1], 10) || 1;
+      if (page > maxPage) maxPage = page;
+    });
+    return maxPage;
+  })();
 
   return {
     title: getTopValue(doc, "모집 명") || "",
@@ -477,6 +600,7 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
     totalCount,
     isApproved: approvedText === "OK",
     participantNames: extractParticipantNames(doc, Math.max(appliedCount, totalCount)),
+    participantPageCount,
   };
 }
 

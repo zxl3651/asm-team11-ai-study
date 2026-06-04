@@ -82,6 +82,7 @@ async def sync_status():
     return {
         "status": "ok",
         "readiness": db.get_data_readiness(),
+        "sync_run": db.get_sync_run_stats(),
         "mentorings": db.get_mentoring_stats(),
         "participant_registrations": db.get_participant_registration_stats(),
         "user_calendar": db.get_user_calendar_stats(),
@@ -117,9 +118,19 @@ def _sync_portal_data(req: PortalSyncRequest | ChatRequest, status_callback=None
         db.save_mentorings(req.available_mentorings)
         details["available_mentorings"] = db.get_mentoring_stats()
         details["participant_registrations"] = db.get_participant_registration_stats()
+        details["sync_run"] = db.get_sync_run_stats()
         report("Sync: 특강/멘토링 벡터 인덱싱 중...")
-        from vector_store import sync_mentorings_to_vector_db
-        details["vector_store"] = sync_mentorings_to_vector_db(db.load_mentorings())
+        try:
+            from vector_store import sync_mentorings_to_vector_db
+            details["vector_store"] = sync_mentorings_to_vector_db(db.load_mentorings())
+            db.update_vector_document_count(int(details["vector_store"].get("collection_count", 0) or 0))
+            details["sync_run"] = db.get_sync_run_stats()
+        except Exception as vector_err:
+            details["vector_store"] = {
+                "status": "error",
+                "message": str(vector_err),
+            }
+            report(f"Sync: 벡터 인덱싱 실패 - {vector_err}")
         changed_sections.append("available_mentorings")
         report("Sync: 특강/멘토링 저장 및 벡터 인덱싱 완료")
 

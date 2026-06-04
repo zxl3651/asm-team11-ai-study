@@ -78,6 +78,7 @@ def sync_mentorings_to_vector_db(items: list[dict]):
             item_id = f"missing-id:{len(ids)}"
         if item_id in seen_ids:
             duplicate_ids.add(item_id)
+            continue
         seen_ids.add(item_id)
         ids.append(item_id)
         
@@ -91,13 +92,14 @@ def sync_mentorings_to_vector_db(items: list[dict]):
         date_str = item.get("startAt") or item.get("dateStr", "")
         time_str = item.get("endAt") or item.get("timeRangeStr", "")
         
-        doc_text = f"""분류: {item.get('type', 'lecture')}
+        doc_text = f"""구분: {item.get('type', 'lecture')}
 제목: {title}
 작성자/멘토: {author}
 일정: {date_str} {time_str}
 장소: {location}
 진행방식: {delivery}
 상태: {status}
+정원: {item.get('currentParticipants', item.get('current_participants', 0))}/{item.get('maxParticipants', item.get('max_participants', 0))}
 상세 설명: {desc}"""
         
         documents.append(doc_text)

@@ -508,74 +508,17 @@ def _calendar_owner_for_query(user_name: str | None) -> str | None:
     return user_name
 
 def _participant_names_from_mentoring(item: dict) -> list[str]:
-    raw_names = (
-        item.get("participantNames")
-        or item.get("participants")
-        or item.get("applicantNames")
-        or item.get("appliedUserNames")
-        or []
-    )
-    if isinstance(raw_names, str):
-        raw_names = [part.strip() for part in raw_names.replace("·", ",").replace("/", ",").split(",")]
-    if not isinstance(raw_names, list):
-        return []
-    excluded_names = {
-        "로그아웃", "공지사항", "등록일", "마이페이지", "멘토링", "특강", "접수내역",
-        "모집안내", "링크드인", "교육과정", "연수센터", "전체메뉴", "신청", "취소",
-        "상태", "승인", "이름", "소속", "연수생", "멘토",
-        "목록", "블로그", "사업소개", "소마기술력", "소마사람들", "안녕하세요",
-        "알림마당", "연혁", "월간일정", "유튜브", "이용약관", "인스타그램",
-        "주요성과", "참여후기", "창업기업", "팀매칭", "페이스북", "회원정보", "거짓",
-    }
-    names = []
-    for name in raw_names:
-        clean_name = str(name or "").strip()
-        if clean_name and clean_name not in excluded_names and clean_name not in names:
-            names.append(clean_name)
-    max_expected = (
-        item.get("maxParticipants")
-        or item.get("max_participants")
-        or item.get("totalCount")
-        or item.get("appliedCount")
-        or 0
-    )
-    try:
-        max_expected = int(max_expected)
-    except Exception:
-        max_expected = 0
-    if max_expected > 0 and len(names) > max_expected + 5:
-        return []
-    return names
+    from database import clean_participant_names
+    return clean_participant_names(item)
 
 def _mentoring_registration_events_for_user(owner_name: str | None) -> list[dict]:
     if not owner_name:
         return []
     from database import db
-    events = []
-    for item in db.load_mentorings():
-        participant_names = _participant_names_from_mentoring(item)
-        if owner_name not in participant_names:
-            continue
-        if not item.get("startAt") or not item.get("endAt"):
-            continue
-        event = {
-            "source": "mentoring_registration",
-            "id": item.get("id", ""),
-            "title": item.get("title", ""),
-            "url": item.get("url", ""),
-            "author": item.get("author", ""),
-            "dateStr": item.get("dateStr", ""),
-            "timeRangeStr": item.get("timeRangeStr", ""),
-            "status": item.get("status", ""),
-            "isApproved": item.get("isApproved", False),
-            "startAt": item.get("startAt"),
-            "endAt": item.get("endAt"),
-            "qualityStatus": item.get("qualityStatus", "valid"),
-            "participantNames": participant_names,
-            "ownerName": owner_name,
-        }
-        events.append(event)
-    return events
+    return [
+        item for item in db.load_participant_registrations(owner_name)
+        if item.get("startAt") and item.get("endAt")
+    ]
 
 def _has_calendar_access(user_name: str | None) -> bool:
     from database import db
@@ -684,6 +627,18 @@ class ParticipantRegistrationInput(BaseModel):
     end_date: str | None = Field(default=None, description="조회 종료 날짜 (ISO 형식, 예: '2026-06-07')")
 
 
+class TeamParticipantScheduleInput(BaseModel):
+    team_name: str | None = Field(default=None, description="조회할 팀명. 생략하면 로그인 사용자의 팀을 사용")
+    user_names: list[str] | None = Field(default=None, description="직접 지정할 팀원 이름 목록")
+    start_date: str | None = Field(default=None, description="조회 시작 날짜 (ISO 형식, 예: '2026-06-01')")
+    end_date: str | None = Field(default=None, description="조회 종료 날짜 (ISO 형식, 예: '2026-06-07')")
+
+
+class VectorMentoringSearchInput(BaseModel):
+    query: str = Field(description="의미 검색에 사용할 자연어 질의")
+    n_results: int = Field(default=15, description="반환할 벡터 검색 후보 수")
+
+
 def _filter_registration_events(
     events: list[dict],
     start_date: str | None = None,
@@ -737,6 +692,80 @@ def get_participant_registrations_tool(
     if not active_events:
         result["warning"] = "멘토링/특강 상세 신청자 명단에서 해당 참여자의 신청 내역을 찾지 못했습니다."
     return json.dumps(result, ensure_ascii=False, indent=2)
+
+
+@tool("get_team_participant_schedule", args_schema=TeamParticipantScheduleInput)
+def get_team_participant_schedule_tool(
+    team_name: str | None = None,
+    user_names: list[str] | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+) -> str:
+    """팀원별 멘토링/특강 신청 일정을 정규화된 참여자 연결 테이블 기준으로 조회합니다."""
+    from database import db
+
+    resolved_team = None
+    members = [name for name in (user_names or []) if str(name or "").strip()]
+    if not members:
+        if team_name:
+            members = db.load_team_members(team_name)
+            resolved_team = next((team for team in db.load_team_info() if team.get("teamName") == team_name), None)
+        else:
+            resolved_team = db.load_current_user_team()
+            if resolved_team:
+                team_name = resolved_team.get("teamName")
+                members = resolved_team.get("members") or db.load_team_members(team_name)
+
+    report_status(f"{team_name or '팀'} 팀원별 신청 일정을 확인하고 있어요...")
+    by_member = {}
+    busy_events = []
+    for member in members:
+        events = _filter_registration_events(
+            _mentoring_registration_events_for_user(member),
+            start_date=start_date,
+            end_date=end_date,
+        )
+        active_events = [
+            item for item in events
+            if item.get("qualityStatus", "valid") != "invalid"
+            and "취소" not in item.get("status", "")
+            and "반려" not in item.get("status", "")
+        ]
+        by_member[member] = active_events
+        for item in active_events:
+            busy_events.append({
+                "participantName": member,
+                "mentoringId": item.get("mentoringId") or item.get("id"),
+                "title": item.get("title", ""),
+                "startAt": item.get("startAt"),
+                "endAt": item.get("endAt"),
+                "status": item.get("status", ""),
+                "source": "mentoring_detail_participant_names",
+            })
+
+    return json.dumps({
+        "team_name": team_name,
+        "members": members,
+        "data_source": "normalized_mentoring_participants",
+        "member_count": len(members),
+        "total_busy_events": len(busy_events),
+        "by_member": by_member,
+        "busy_events": busy_events,
+    }, ensure_ascii=False, indent=2)
+
+
+@tool("vector_search_mentorings", args_schema=VectorMentoringSearchInput)
+def vector_search_mentorings_tool(query: str, n_results: int = 15) -> str:
+    """ChromaDB 벡터 스토어에서 자연어 질의와 의미적으로 가까운 멘토링/특강 후보를 조회합니다."""
+    report_status("벡터 스토어에서 의미 기반 후보를 조회하고 있어요...")
+    from vector_store import search_vector_mentorings
+    results = search_vector_mentorings(query, n_results=n_results)
+    return json.dumps({
+        "query": query,
+        "data_source": "chroma_vector_store",
+        "total": len(results),
+        "items": results,
+    }, ensure_ascii=False, indent=2)
 
 @tool("get_user_calendar", args_schema=CalendarSearchInput)
 def get_user_calendar_tool(
@@ -1165,8 +1194,10 @@ def get_team_info_tool() -> str:
 LATEST_TOOLS = [
     search_mentors_tool,
     search_mentorings_tool,
+    vector_search_mentorings_tool,
     search_trainees_tool,
     get_participant_registrations_tool,
+    get_team_participant_schedule_tool,
     get_user_calendar_tool,
     get_team_info_tool,
     get_free_slots_tool,

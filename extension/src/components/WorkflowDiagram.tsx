@@ -37,7 +37,9 @@ export const WorkflowDiagram: React.FC<WorkflowDiagramProps> = ({ definition }) 
         return mermaid.render(`workflow-${id}`, definition);
       })
       .then(({ svg }) => {
-        if (!cancelled) setSvg(svg);
+        if (!cancelled) {
+          setSvg(svg.replace("<svg", '<svg class="workflow-svg"'));
+        }
       })
       .catch((err) => {
         if (!cancelled) setError(err instanceof Error ? err.message : "처리 경로를 렌더링할 수 없습니다.");

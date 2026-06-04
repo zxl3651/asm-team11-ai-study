@@ -24,7 +24,7 @@ def build_workflow_mermaid(
     has_tools = bool(called_tools)
 
     lines = [
-        "flowchart TD",
+        "flowchart LR",
         '  IN(["Input: 사용자 채팅 요청"])',
         '  RESTORE["대화 기억 복원"]',
         '  USERCTX["사용자 기본정보 확인"]',
@@ -33,13 +33,16 @@ def build_workflow_mermaid(
         '  BLOCK["필요 데이터 미수집 안내"]',
         '  LLM{"도구 실행 계획 선택"}',
         '  DIRECT["직접 답변 경로"]',
-        '  CAL["사용자 일정 조회"]',
-        '  MENTORINGS["멘토링/특강 검색"]',
+        '  REGISTRY["정규화 신청자 연결"]',
+        '  USERREG["개인 신청 일정"]',
+        '  TEAM["팀 매칭 정보 조회"]',
+        '  TEAMREG["팀원별 신청 일정"]',
+        '  SLOTS["공통 빈 시간 계산"]',
+        '  MENTORINGS["DB 후보 조회"]',
+        '  VECTOR["벡터 후보 탐색"]',
+        '  RERANK["리랭킹"]',
         '  MENTORS["멘토 검색"]',
         '  TRAINEES["연수생 검색"]',
-        '  TEAM["팀 매칭 정보 조회"]',
-        '  RAG["벡터 검색 / 조건 필터링 / 리랭킹"]',
-        '  SCHEDULE["일정 충돌 검토"]',
         '  EVIDENCE{"근거 검증"}',
         '  MERGE["조회 결과 통합"]',
         '  ANSWER["답변 생성"]',
@@ -49,18 +52,22 @@ def build_workflow_mermaid(
         "  READY -->|필수 데이터 부족| BLOCK --> ANSWER",
         "  READY -->|처리 가능| LLM",
         "  LLM -->|도구 없이 답변| DIRECT --> ANSWER",
-        "  LLM -->|일정 확인 필요| CAL --> SCHEDULE --> EVIDENCE",
-        "  LLM -->|특강/멘토링 추천| MENTORINGS --> RAG --> EVIDENCE",
+        "  LLM -->|팀 회의 조율| TEAM --> REGISTRY --> TEAMREG --> SLOTS --> EVIDENCE",
+        "  LLM -->|개인 일정 제외| REGISTRY --> USERREG --> SLOTS",
+        "  LLM -->|특강/멘토링 추천| MENTORINGS --> VECTOR --> RERANK --> EVIDENCE",
         "  LLM -->|멘토 후보 추천| MENTORS --> EVIDENCE",
         "  LLM -->|동료/팀원 탐색| TRAINEES --> EVIDENCE",
-        "  LLM -->|우리 팀 질문| TEAM --> EVIDENCE",
         "  EVIDENCE --> MERGE --> ANSWER --> OUT",
         "",
         "  classDef active fill:#dcfce7,stroke:#16a34a,stroke-width:3px,color:#052e16;",
         "  classDef base fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#334155;",
         "  classDef decision fill:#eef2ff,stroke:#6366f1,stroke-width:2px,color:#312e81;",
+        "  classDef store fill:#ecfeff,stroke:#0891b2,stroke-width:2px,color:#164e63;",
+        "  classDef rag fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#7c2d12;",
         "  class IN,RESTORE,USERCTX,INTENT,READY,ANSWER,OUT active;",
-        "  class DIRECT,BLOCK,LLM,CAL,MENTORINGS,MENTORS,TRAINEES,TEAM,RAG,SCHEDULE,EVIDENCE,MERGE base;",
+        "  class DIRECT,BLOCK,LLM,USERREG,TEAMREG,SLOTS,MENTORS,TRAINEES,TEAM,EVIDENCE,MERGE base;",
+        "  class REGISTRY store;",
+        "  class MENTORINGS,VECTOR,RERANK rag;",
         "  class INTENT,READY,LLM,EVIDENCE decision;",
     ]
 
@@ -69,10 +76,18 @@ def build_workflow_mermaid(
         active_nodes.append("BLOCK")
     else:
         active_nodes.append("LLM")
-    if "get_user_calendar" in used_tools:
-        active_nodes.extend(["CAL", "SCHEDULE", "EVIDENCE", "MERGE"])
+    if "get_user_calendar" in used_tools or "get_participant_registrations" in used_tools:
+        active_nodes.extend(["REGISTRY", "USERREG", "SLOTS", "EVIDENCE", "MERGE"])
+    if "get_team_participant_schedule" in used_tools:
+        active_nodes.extend(["REGISTRY", "TEAMREG", "EVIDENCE", "MERGE"])
+    if "get_free_slots" in used_tools:
+        active_nodes.extend(["SLOTS", "EVIDENCE", "MERGE"])
     if "search_mentorings" in used_tools:
-        active_nodes.extend(["MENTORINGS", "RAG", "EVIDENCE", "MERGE"])
+        active_nodes.extend(["MENTORINGS", "EVIDENCE", "MERGE"])
+        if intent == "lecture_recommendation":
+            active_nodes.extend(["VECTOR", "RERANK"])
+    if "vector_search_mentorings" in used_tools:
+        active_nodes.extend(["VECTOR", "RERANK", "EVIDENCE", "MERGE"])
     if "search_mentors" in used_tools:
         active_nodes.extend(["MENTORS", "EVIDENCE", "MERGE"])
     if "search_trainees" in used_tools:
