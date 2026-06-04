@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소마 메이트</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <div class="header-logo">🎓</div>
+          <div class="header-info">
+            <h1>소마 메이트</h1>
+            <span class="header-status">
+              <span class="status-dot"></span>
+              AI 비서 활성
+            </span>
+          </div>
+        </div>
+        <button id="clearBtn" class="header-btn" title="대화 초기화">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 메시지 영역 -->
+    <div id="chatArea" class="chat-area">
+      <!-- 환영 메시지 -->
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-icon">🎓</div>
+        <h2>안녕하세요!</h2>
+        <p>소마 메이트는 SW마에스트로 부산 연수생을 위한<br>AI 정보 탐색 비서입니다.</p>
+        <div class="welcome-chips">
+          <button class="chip" data-query="자바 스프링 사용하는 멘토 3명 알려줘">🧑‍🏫 멘토 추천: 자바 스프링 사용하는 멘토 3명 알려줘</button>
+          <button class="chip" data-query="클라우드 관련 멘토링 뭐 있어?">📚 멘토링 조회: 클라우드 관련 멘토링 뭐 있어?</button>
+          <button class="chip" data-query="이번 주 특강 알려줘">🎤 특강 조회: 이번 주 특강 알려줘</button>
+          <button class="chip" data-query="프론트 구하는 팀 있어?">👥 팀 매칭: 프론트 구하는 팀 있어?</button>
+        </div>
+      </div>
+
+      <!-- 메시지들이 여기에 추가됨 -->
+    </div>
+
+    <!-- 입력 영역 -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea
+          id="messageInput"
+          placeholder="질문을 입력하세요."
+          rows="1"
+        ></textarea>
+        <button id="sendBtn" class="send-btn" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
