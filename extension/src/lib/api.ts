@@ -21,3 +21,15 @@ export async function sendChat(
   const data = (await res.json()) as { answer: string };
   return data.answer;
 }
+
+// 확장이 세션으로 파싱한 '로그인 필요' 데이터(특강/멘토링·팀매칭)를 백엔드 캐시에 올린다.
+export async function postContext(payload: {
+  sessions?: unknown[];
+  teams?: unknown[];
+}): Promise<void> {
+  await fetch(`${BASE_URL}/api/context`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}

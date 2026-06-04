@@ -1,0 +1,1934 @@
+[
+  {
+    "id": "t_370a01ba",
+    "name": "김민진",
+    "stacks": [
+      "AI",
+      "CV",
+      "ML",
+      "DL"
+    ],
+    "email": "minjin0313b@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "강자은",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "기획"
+    ],
+    "email": "lovelynike@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "강정민",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "MySQL",
+      "Redis"
+    ],
+    "email": "wjdals980424@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "강형준 백엔드 풀스택 가능",
+    "stacks": [
+      "백엔드",
+      "하네스 엔지니어링"
+    ],
+    "email": "popora99@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "강효승",
+    "stacks": [
+      "AI",
+      "Data Engineering",
+      "백엔드",
+      "Azure"
+    ],
+    "email": "kanghyoseung@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "권상재",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Redis",
+      "MySQL"
+    ],
+    "email": "sjsj00718@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "김도원",
+    "stacks": [
+      "백엔드",
+      "AI",
+      "Python",
+      "FastAPI"
+    ],
+    "email": "powerdowon@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "김동연",
+    "stacks": [
+      "백엔드",
+      "Docker",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "MySQL"
+    ],
+    "email": "kimyeon30@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김동완",
+    "stacks": [
+      "백엔드",
+      "MSA",
+      "Java",
+      "Spring Boot"
+    ],
+    "email": "dongwan123456789@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "김동인",
+    "stacks": [
+      "백엔드",
+      "프론트엔드",
+      "Spring Boot",
+      "Next.js",
+      "기획"
+    ],
+    "email": "bluebird.happier@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김동학",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "AWS"
+    ],
+    "email": "kdh19583@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김민석",
+    "stacks": [
+      "App",
+      "iOS",
+      "Swift",
+      "기획",
+      "수익화"
+    ],
+    "email": "alstjr7437@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김민수",
+    "stacks": [
+      "백엔드",
+      "프론트엔드",
+      "AI",
+      "크롤링",
+      "풀스택"
+    ],
+    "email": "alstn113@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "김민호",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "FastAPI"
+    ],
+    "email": "kimminho001108@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김상호",
+    "stacks": [
+      "창업",
+      "기획",
+      "Java",
+      "C",
+      "C++",
+      "Python",
+      "ML",
+      "DL",
+      "MySQL",
+      "Git"
+    ],
+    "email": "zxzxas1004@dankook.ac.kr"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "김서영",
+    "stacks": [
+      "백엔드",
+      "임베디드",
+      "IoT",
+      "Java",
+      "Spring Boot"
+    ],
+    "email": "sierra3144@naer.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "김세현",
+    "stacks": [
+      "프론트엔드",
+      "디자인",
+      "기획",
+      "Next.js",
+      "React",
+      "Nest.js",
+      "창업",
+      "Agent"
+    ],
+    "email": "rla6170@naver.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "김수민",
+    "stacks": [
+      "프론트엔드",
+      "풀스택",
+      "Next.js",
+      "MySQL",
+      "Python",
+      "Android"
+    ],
+    "email": "kimsumin3517@gmail.com"
+  },
+  {
+    "id": "t_362a01ba",
+    "name": "김윤홍",
+    "stacks": [
+      "프론트엔드",
+      "디자인",
+      "Flutter",
+      "iOS",
+      "Swift",
+      "App",
+      "Android",
+      "React"
+    ],
+    "email": "dbsghdz1.dev@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김응현",
+    "stacks": [
+      "창업",
+      "백엔드",
+      "Spring Boot",
+      "교육"
+    ],
+    "email": "keh1058@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김인성",
+    "stacks": [
+      "기획",
+      "풀스택",
+      "백엔드",
+      "창업"
+    ],
+    "email": "rlarladlstjd@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김재욱",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "Next.js",
+      "AI",
+      "LLM"
+    ],
+    "email": "kjyook01@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "김재환",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "MySQL",
+      "DevOps",
+      "기획"
+    ],
+    "email": "ma2582m@naver.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "김정현",
+    "stacks": [
+      "풀스택",
+      "AI",
+      "Spring Boot",
+      "React",
+      "Edge AI",
+      "C",
+      "C++",
+      "Java",
+      "MySQL",
+      "Python"
+    ],
+    "email": "kimjh597@naver.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "김종호",
+    "stacks": [
+      "백엔드",
+      "프론트엔드",
+      "AWS",
+      "MySQL"
+    ],
+    "email": "stukimjongho@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김진",
+    "stacks": [
+      "AI",
+      "Data Science",
+      "Python",
+      "기획"
+    ],
+    "email": "jinjinjara1022@naver.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "김창규",
+    "stacks": [
+      "백엔드",
+      "AI",
+      "Spring Boot",
+      "LangGraph",
+      "FastAPI"
+    ],
+    "email": "89606590659@naver.com"
+  },
+  {
+    "id": "t_358a01ba",
+    "name": "김창영",
+    "stacks": [
+      "C",
+      "C++"
+    ],
+    "email": "sbnow85463@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김채빈",
+    "stacks": [
+      "백엔드",
+      "기획",
+      "디자인",
+      "Java",
+      "Spring Boot"
+    ],
+    "email": "coqls0531@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김태민",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "MySQL",
+      "MSA",
+      "Kubernetes"
+    ],
+    "email": "komcss121908@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김태욱",
+    "stacks": [
+      "Next.js",
+      "AI",
+      "교육",
+      "Python",
+      "FastAPI",
+      "AWS"
+    ],
+    "email": "tukim03@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김태윤",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AI",
+      "AWS"
+    ],
+    "email": "gogo_77@naver.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "김태현",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "MySQL",
+      "수익화"
+    ],
+    "email": "cnblue123429@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "김태환",
+    "stacks": [
+      "AI",
+      "LLM",
+      "Data Science",
+      "Python",
+      "C",
+      "C++"
+    ],
+    "email": "kyjii900098@naver.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "김하늘 Hera Kim",
+    "stacks": [
+      "AI",
+      "프론트엔드",
+      "경영",
+      "기획",
+      "디자인",
+      "ML",
+      "DL",
+      "Python",
+      "React",
+      "Android"
+    ],
+    "email": "haneulkimhera@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김한승",
+    "stacks": [
+      "MSA",
+      "Kubernetes",
+      "보안",
+      "백엔드",
+      "MySQL",
+      "DevOps"
+    ],
+    "email": "hansng.kim@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김현래",
+    "stacks": [
+      "백엔드",
+      "하네스 엔지니어링",
+      "Spring Boot",
+      "풀스택",
+      "React",
+      "프론트엔드"
+    ],
+    "email": "lavercarrot@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김혜성",
+    "stacks": [
+      "AI",
+      "RAG",
+      "React Native",
+      "ML",
+      "DL",
+      "교육",
+      "DevOps"
+    ],
+    "email": "khsfun0312khsfun@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "김환",
+    "stacks": [
+      "AI",
+      "백엔드",
+      "기획",
+      "Python",
+      "Java",
+      "LLM",
+      "LangGraph",
+      "창업",
+      "교육"
+    ],
+    "email": "hwakim809@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "김환주",
+    "stacks": [
+      "백엔드",
+      "프론트엔드",
+      "Spring Boot",
+      "React",
+      "MySQL"
+    ],
+    "email": "soya0193@naver.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "나성훈",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "MySQL",
+      "기획",
+      "창업"
+    ],
+    "email": "tjdgns9954@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "노기현",
+    "stacks": [
+      "백엔드",
+      "프론트엔드",
+      "Unity",
+      "AI",
+      "iOS",
+      "IoT",
+      "Flutter",
+      "풀스택",
+      "Docker",
+      "Java",
+      "Spring Boot",
+      "React",
+      "Python",
+      "AWS",
+      "MySQL",
+      "게임",
+      "MSA",
+      "임베디드",
+      "C#",
+      "Swift",
+      "App",
+      "Redis"
+    ],
+    "email": "multirkh@gmail.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "노희완",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "AI",
+      "Docker",
+      "Spring Boot",
+      "React",
+      "Next.js",
+      "Python",
+      "MySQL",
+      "React Native",
+      "PostgreSQL",
+      "창업",
+      "수익화"
+    ],
+    "email": "nhw3152@gmail.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "류승래",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "AWS",
+      "Docker",
+      "DevOps",
+      "프론트엔드"
+    ],
+    "email": "vkfro2293@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "문성수",
+    "stacks": [
+      "풀스택",
+      "React",
+      "Data Science",
+      "백엔드"
+    ],
+    "email": "anstjdtn99@naver.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "문인호",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "MySQL",
+      "AI"
+    ],
+    "email": "dlsgh4090@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "문재윤",
+    "stacks": [
+      "기획",
+      "풀스택",
+      "iOS",
+      "LLM"
+    ],
+    "email": "tenedict@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박도현",
+    "stacks": [
+      "AI",
+      "LLM",
+      "기획",
+      "RAG",
+      "Agent",
+      "Data Engineering",
+      "AWS",
+      "Docker"
+    ],
+    "email": "haksan1999@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박보라",
+    "stacks": [
+      "풀스택",
+      "디자인",
+      "기획",
+      "프론트엔드",
+      "백엔드"
+    ],
+    "email": "san400b@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박상우",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "MySQL"
+    ],
+    "email": "pswaao88@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박성종",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "Java",
+      "MySQL",
+      "AWS",
+      "AI"
+    ],
+    "email": "sjparkx1129@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "박영우",
+    "stacks": [
+      "게임",
+      "C#",
+      "C",
+      "C++",
+      "Unreal",
+      "Unity"
+    ],
+    "email": "snake6855@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "박유현",
+    "stacks": [
+      "Python"
+    ],
+    "email": "eddie030207@pusan.ac.kr"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박재성",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "MySQL",
+      "AWS"
+    ],
+    "email": "perusonari@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "박재영",
+    "stacks": [
+      "AI",
+      "기획",
+      "Python",
+      "ML",
+      "DL",
+      "Data Science"
+    ],
+    "email": "jypjyp153@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박준이",
+    "stacks": [
+      "풀스택",
+      "LLM",
+      "Agent"
+    ],
+    "email": "zun_e@kakao.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "박준하",
+    "stacks": [
+      "기획",
+      "백엔드",
+      "AI"
+    ],
+    "email": "jh01love00@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박찬",
+    "stacks": [
+      "백엔드",
+      "기획",
+      "Java",
+      "Spring Boot",
+      "MySQL"
+    ],
+    "email": "zxc88kr@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박창수",
+    "stacks": [
+      "임베디드",
+      "피지컬 AI",
+      "Edge AI",
+      "백엔드"
+    ],
+    "email": "park.csu@khu.ac.kr"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "박태원",
+    "stacks": [
+      "LLM",
+      "Python",
+      "AI"
+    ],
+    "email": "pty1381@gmail.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "방성식",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "하네스 엔지니어링"
+    ],
+    "email": "ppaangss@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "방현우",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "MySQL",
+      "실사용 서비스 운영 중"
+    ],
+    "email": "brandon55321@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "배재현",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "MySQL",
+      "PostgreSQL",
+      "Redis",
+      "Kotlin"
+    ],
+    "email": "qocn16@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "서다솜",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "MySQL",
+      "AI",
+      "RAG",
+      "AWS"
+    ],
+    "email": "da1ce1040819@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "서예진",
+    "stacks": [
+      "프론트엔드",
+      "기획",
+      "디자인",
+      "실사용 서비스 운영 중",
+      "풀스택"
+    ],
+    "email": "noonesyj@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "서정현",
+    "stacks": [
+      "프론트엔드",
+      "디자인",
+      "기획",
+      "Next.js",
+      "React Native"
+    ],
+    "email": "seoj080829@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "송성환",
+    "stacks": [
+      "백엔드"
+    ],
+    "email": "seonghwans74@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "송수민",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "AWS",
+      "MySQL",
+      "Nest.js",
+      "MSA",
+      "PostgreSQL",
+      "Redis",
+      "nodejs"
+    ],
+    "email": "ssm4748@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "신재호",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "Next.js"
+    ],
+    "email": "sjaeho348@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "신채은",
+    "stacks": [
+      "프론트엔드",
+      "풀스택",
+      "React",
+      "Next.js",
+      "MySQL",
+      "Nest.js",
+      "창업"
+    ],
+    "email": "chaechae22@ajou.ac.kr"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "신홍재",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "MySQL",
+      "AI"
+    ],
+    "email": "shj5771@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "심여준",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot"
+    ],
+    "email": "rutczzo@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "심재혁",
+    "stacks": [
+      "백엔드",
+      "AI",
+      "기획",
+      "Python",
+      "창업",
+      "LangGraph",
+      "Agent",
+      "ML",
+      "DL",
+      "FastAPI",
+      "LLM",
+      "PHP",
+      "HuggingFace"
+    ],
+    "email": "simson0524@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "안용수 Yongsu Ahn",
+    "stacks": [
+      "프론트엔드",
+      "React"
+    ],
+    "email": "dexter1541@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "양나슬",
+    "stacks": [
+      "AI",
+      "백엔드",
+      "LLM"
+    ],
+    "email": "yns030506@uos.ac.kr"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "양성우 FE",
+    "stacks": [
+      "프론트엔드",
+      "AI",
+      "React Native",
+      "PostgreSQL"
+    ],
+    "email": "didahtltl@nate.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "양성지",
+    "stacks": [
+      "C",
+      "C++",
+      "Python",
+      "LLM",
+      "AI"
+    ],
+    "email": "yangsj0714@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "엄현준",
+    "stacks": [
+      "풀스택",
+      "프론트엔드",
+      "백엔드",
+      "React",
+      "Next.js",
+      "AWS",
+      "Nest.js",
+      "PostgreSQL",
+      "하네스 엔지니어링",
+      "기획",
+      "수익화",
+      "창업"
+    ],
+    "email": "zzp1318@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "여운호",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "MySQL",
+      "Redis",
+      "AWS",
+      "Docker"
+    ],
+    "email": "yuh001205@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "오규빈",
+    "stacks": [
+      "게임",
+      "C#",
+      "C",
+      "C++",
+      "Unity",
+      "Unreal"
+    ],
+    "email": "dhrbqls12@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "오창은",
+    "stacks": [
+      "프론트엔드",
+      "디자인",
+      "React",
+      "Next.js",
+      "C#"
+    ],
+    "email": "dwc07109@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "오혜린",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "C",
+      "C++",
+      "Spring Boot",
+      "MySQL"
+    ],
+    "email": "ohyerin02@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "원지섭",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "기획",
+      "Docker",
+      "MySQL"
+    ],
+    "email": "seobeeeee1001@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "유승준",
+    "stacks": [
+      "백엔드",
+      "Terraform",
+      "DevOps",
+      "RAG",
+      "Nest.js",
+      "Spring Boot",
+      "Java",
+      "AWS",
+      "MySQL"
+    ],
+    "email": "u.s.junn@gmail.com"
+  },
+  {
+    "id": "t_359a01ba",
+    "name": "유승현 백엔드 Agent Rag",
+    "stacks": [
+      "백엔드",
+      "Agent",
+      "RAG",
+      "수익화"
+    ],
+    "email": "seunghyeon.yu.dev@gamil.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "윤관",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "AWS",
+      "MySQL",
+      "MSA",
+      "Terraform",
+      "Kubernetes"
+    ],
+    "email": "gyun6266@yonsei.ac.kr"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이강룡",
+    "stacks": [
+      "프론트엔드",
+      "AI",
+      "디자인",
+      "Next.js",
+      "React Native",
+      "React"
+    ],
+    "email": "gaiogo2@naver.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "이동근",
+    "stacks": [
+      "Docker",
+      "FastAPI",
+      "임베디드",
+      "Edge AI",
+      "피지컬 AI",
+      "IoT",
+      "Python"
+    ],
+    "email": "ehdrms3835@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "이동원",
+    "stacks": [
+      "백엔드",
+      "FastAPI",
+      "양자 최적화(양자어닐링)"
+    ],
+    "email": "leedongwon087@naver.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "이민형",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "Python",
+      "MySQL",
+      "LLM",
+      "C",
+      "C++",
+      "PostgreSQL",
+      "FastAPI",
+      "Redis",
+      "Docker"
+    ],
+    "email": "lmh01048874960@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "이상현",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "보안",
+      "AI"
+    ],
+    "email": "oopt1234@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이상협",
+    "stacks": [
+      "AI",
+      "LLM",
+      "디자인",
+      "백엔드"
+    ],
+    "email": "l50227697@gmail.com / [메인] lshubiquitous@naver.com"
+  },
+  {
+    "id": "t_355a01ba",
+    "name": "이성주",
+    "stacks": [
+      "백엔드",
+      "C",
+      "C++"
+    ],
+    "email": "hellomice0525@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "이성현 SeongHyeon Lee",
+    "stacks": [
+      "풀스택",
+      "Docker",
+      "Next.js",
+      "iOS",
+      "Python",
+      "기획"
+    ],
+    "email": "zxl3651@naver.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "이승주",
+    "stacks": [
+      "백엔드",
+      "Python",
+      "게임",
+      "C#",
+      "Unity",
+      "AI",
+      "MySQL"
+    ],
+    "email": "cyborg0108@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이승현",
+    "stacks": [
+      "Python",
+      "C",
+      "C++",
+      "AI",
+      "백엔드",
+      "CNN",
+      "LLM",
+      "RAG",
+      "크롤링"
+    ],
+    "email": "apdrnlsdl2@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이요환",
+    "stacks": [
+      "백엔드",
+      "기획",
+      "Spring Boot",
+      "AI",
+      "C",
+      "C++"
+    ],
+    "email": "dldyghks123@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이우태",
+    "stacks": [
+      "App",
+      "Android",
+      "Flutter",
+      "프론트엔드",
+      "기획",
+      "실사용 서비스 운영 중",
+      "수익화",
+      "창업"
+    ],
+    "email": "wuutae@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "이은성",
+    "stacks": [
+      "백엔드",
+      "AI",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "MySQL",
+      "PostgreSQL",
+      "하네스 엔지니어링",
+      "Redis",
+      "RAG"
+    ],
+    "email": "tkdgus4744@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이정현",
+    "stacks": [
+      "Python",
+      "임베디드",
+      "IoT",
+      "CV",
+      "ML",
+      "DL",
+      "Edge AI",
+      "백엔드",
+      "피지컬 AI"
+    ],
+    "email": "sw292ljh@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이정환",
+    "stacks": [
+      "AI",
+      "LLM",
+      "PLM",
+      "RAG",
+      "Agent",
+      "VectorDB",
+      "창업"
+    ],
+    "email": "go2gym365@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "이준",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "기획",
+      "실사용 서비스 운영 중"
+    ],
+    "email": "dlwns0904@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이준우",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "Java",
+      "MySQL",
+      "React"
+    ],
+    "email": "leeejunu@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이지원",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "Nest.js",
+      "MySQL"
+    ],
+    "email": "vryez11@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이창학",
+    "stacks": [
+      "프론트엔드",
+      "기획",
+      "창업",
+      "하네스 엔지니어링",
+      "React"
+    ],
+    "email": "dlckdgkr0320@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이학성",
+    "stacks": [
+      "AI",
+      "하네스 엔지니어링",
+      "Docker",
+      "C",
+      "C++",
+      "백엔드"
+    ],
+    "email": "gkrtjd999@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이현우",
+    "stacks": [
+      "백엔드",
+      "Python",
+      "MySQL",
+      "LLM",
+      "C",
+      "C++",
+      "크롤링",
+      "CV",
+      "AI"
+    ],
+    "email": "kodokugourmet@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이호용",
+    "stacks": [
+      "창업",
+      "백엔드",
+      "Spring Boot",
+      "AWS",
+      "LangChain4j"
+    ],
+    "email": "ghdyd6625@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "이호준",
+    "stacks": [
+      "AI",
+      "Python",
+      "C",
+      "C++",
+      "LLM",
+      "VLM"
+    ],
+    "email": "foxisdogmung@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "이희은",
+    "stacks": [
+      "프론트엔드",
+      "풀스택",
+      "기획",
+      "디자인",
+      "Java",
+      "React",
+      "MySQL",
+      "백엔드"
+    ],
+    "email": "he0960@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "임재현",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "GraphDB",
+      "RDB"
+    ],
+    "email": "aminez4466@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "임정우",
+    "stacks": [
+      "보안",
+      "LLM",
+      "Python",
+      "C",
+      "C++",
+      "nmap",
+      "pwn",
+      "Unity"
+    ],
+    "email": "jw991022@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "임정훈",
+    "stacks": [
+      "게임",
+      "교육",
+      "백엔드",
+      "Unity",
+      "Unreal",
+      "C",
+      "C++",
+      "Python",
+      "C#"
+    ],
+    "email": "yongdonplease@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "장선우",
+    "stacks": [
+      "게임",
+      "기획",
+      "백엔드",
+      "AI",
+      "FastAPI",
+      "C",
+      "C++",
+      "C#"
+    ],
+    "email": "ehfrur888@naver.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "장현",
+    "stacks": [
+      "프론트엔드",
+      "풀스택",
+      "실사용 서비스 운영 중",
+      "창업",
+      "디자인",
+      "백엔드"
+    ],
+    "email": "jjjangtoy7@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "전동훈",
+    "stacks": [
+      "풀스택",
+      "백엔드",
+      "Java",
+      "React",
+      "MySQL"
+    ],
+    "email": "wjsehdgnsdl2@pusan.ac.kr"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "전병인",
+    "stacks": [
+      "풀스택",
+      "React",
+      "Next.js",
+      "AI",
+      "기획",
+      "Python",
+      "교육"
+    ],
+    "email": "byby123@g.skku.edu"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "전채연",
+    "stacks": [
+      "Python",
+      "Spring Boot",
+      "AI",
+      "기획",
+      "게임",
+      "Unity",
+      "창업"
+    ],
+    "email": "jcy12087@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "정국경 게임 개발자 AI 백엔드 구해요",
+    "stacks": [
+      "게임",
+      "Unity",
+      "C#"
+    ],
+    "email": "jungsesco12@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "정권호",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "Java",
+      "Spring Boot",
+      "React",
+      "AWS",
+      "C",
+      "C++",
+      "PostgreSQL",
+      "Redis"
+    ],
+    "email": "jkh1447@gmail.com"
+  },
+  {
+    "id": "t_33da01ba",
+    "name": "정선웅",
+    "stacks": [
+      "C",
+      "C++"
+    ],
+    "email": "202255604j@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "정승길 AI",
+    "stacks": [
+      "Data Science",
+      "AI",
+      "CNN",
+      "Python"
+    ],
+    "email": "gil@pusan.ac.kr"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "정연웅",
+    "stacks": [
+      "백엔드",
+      "AI",
+      "AWS",
+      "IoT",
+      "MySQL",
+      "Java",
+      "Spring Boot",
+      "Node.js"
+    ],
+    "email": "dusdnd0209@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "정윤성",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "AWS",
+      "게임",
+      "MSA"
+    ],
+    "email": "dev.yunseong@gmail.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "정의진",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Spring Boot",
+      "Docker"
+    ],
+    "email": "nubuli19@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "정의찬",
+    "stacks": [
+      "AI",
+      "피지컬 AI",
+      "하네스 엔지니어링",
+      "Python"
+    ],
+    "email": "wjddmlcks22@gmail.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "정재민",
+    "stacks": [
+      "풀스택",
+      "AI"
+    ],
+    "email": "pa6764@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "정준",
+    "stacks": [
+      "C",
+      "C++",
+      "임베디드",
+      "Java",
+      "MySQL"
+    ],
+    "email": "wjdwns011007@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "정지우",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "디자인",
+      "기획",
+      "Spring Boot"
+    ],
+    "email": "ji9678@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "정지원",
+    "stacks": [
+      "풀스택",
+      "React",
+      "Spring Boot",
+      "Next.js",
+      "MySQL"
+    ],
+    "email": "jgw117@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "정지은",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Python",
+      "MySQL",
+      "AI",
+      "Data Science",
+      "C",
+      "C++",
+      "CNN",
+      "크롤링"
+    ],
+    "email": "jje24952@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "조성민",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "AWS",
+      "MySQL",
+      "Nest.js"
+    ],
+    "email": "ssomae4845@naver.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "조지환",
+    "stacks": [
+      "Python",
+      "ML",
+      "DL",
+      "AI",
+      "FastAPI",
+      "MySQL",
+      "AWS",
+      "Docker",
+      "크롤링",
+      "수익화",
+      "창업"
+    ],
+    "email": "g0702853@naver.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "조현석",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "Java",
+      "MySQL"
+    ],
+    "email": "jhs9832@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "진동현",
+    "stacks": [
+      "풀스택",
+      "기획",
+      "Spring Boot",
+      "React",
+      "DevOps",
+      "하네스 엔지니어링",
+      "Android",
+      "실사용 서비스 운영 중"
+    ],
+    "email": "loonaticvibe2.11@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "최규호",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "DevOps",
+      "하네스 엔지니어링"
+    ],
+    "email": "cjg1999@naver.com"
+  },
+  {
+    "id": "t_34ea01ba",
+    "name": "최나경",
+    "stacks": [
+      "풀스택",
+      "백엔드",
+      "Spring Boot",
+      "프론트엔드",
+      "Next.js"
+    ],
+    "email": "imgyeong00@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "최성철",
+    "stacks": [
+      "AI",
+      "풀스택",
+      "프론트엔드",
+      "Flutter"
+    ],
+    "email": "choi1058cjf@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "최은진",
+    "stacks": [
+      "백엔드",
+      "풀스택",
+      "기획",
+      "Java",
+      "Spring Boot",
+      "AWS"
+    ],
+    "email": "ekdekdgkrp20@naver.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "최정욱",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "AI",
+      "기획"
+    ],
+    "email": "jung010209@inha.edu"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "최종은",
+    "stacks": [
+      "기획",
+      "React",
+      "C",
+      "C++",
+      "백엔드",
+      "프론트엔드"
+    ],
+    "email": "alex.choi@daum.net"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "최진우",
+    "stacks": [
+      "프론트엔드",
+      "Android",
+      "백엔드",
+      "풀스택",
+      "Java",
+      "Spring Boot",
+      "Flutter"
+    ],
+    "email": "cjw1234577@gmail.com"
+  },
+  {
+    "id": "t_34ba01ba",
+    "name": "하강민",
+    "stacks": [
+      "LangGraph",
+      "풀스택",
+      "Spring Boot",
+      "MySQL",
+      "Flutter",
+      "React"
+    ],
+    "email": "hagangmin@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "한대희",
+    "stacks": [
+      "프론트엔드",
+      "React",
+      "C",
+      "C++",
+      "실사용 서비스 운영 중"
+    ],
+    "email": "handaehee.dev@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "한우진",
+    "stacks": [
+      "Unity",
+      "기획",
+      "창업",
+      "풀스택",
+      "수익화"
+    ],
+    "email": "gksdnwls1098@gmail.com"
+  },
+  {
+    "id": "t_351a01ba",
+    "name": "한재호",
+    "stacks": [
+      "백엔드",
+      "AWS",
+      "MySQL",
+      "AI",
+      "nodejs"
+    ],
+    "email": "wogh7572@gmail.com"
+  },
+  {
+    "id": "t_34fa01ba",
+    "name": "한지원",
+    "stacks": [
+      "백엔드",
+      "Java",
+      "Python",
+      "MySQL",
+      "Spring Boot",
+      "React"
+    ],
+    "email": "wldnjs8022@gmail.com"
+  },
+  {
+    "id": "t_34ca01ba",
+    "name": "허원일",
+    "stacks": [
+      "프론트엔드",
+      "DevOps"
+    ],
+    "email": "wonza4372@naver.com"
+  },
+  {
+    "id": "t_350a01ba",
+    "name": "황선규",
+    "stacks": [
+      "DevOps",
+      "풀스택",
+      "백엔드",
+      "수익화",
+      "실사용 서비스 운영 중",
+      "창업",
+      "Python",
+      "Django",
+      "Java",
+      "React",
+      "MySQL",
+      "AI"
+    ],
+    "email": "sun30126331@gmail.com"
+  },
+  {
+    "id": "t_34da01ba",
+    "name": "황성윤",
+    "stacks": [
+      "백엔드",
+      "Spring Boot",
+      "MySQL",
+      "Python",
+      "AWS",
+      "C",
+      "C++",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "DevOps"
+    ],
+    "email": "sung25480@naver.com"
+  }
+]
