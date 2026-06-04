@@ -83,6 +83,7 @@ async def sync_status():
         "status": "ok",
         "readiness": db.get_data_readiness(),
         "mentorings": db.get_mentoring_stats(),
+        "participant_registrations": db.get_participant_registration_stats(),
         "user_calendar": db.get_user_calendar_stats(),
     }
 
@@ -104,17 +105,18 @@ def _sync_portal_data(req: PortalSyncRequest | ChatRequest, status_callback=None
         if not calendar_owner:
             current_user_info = db.load_user_info()
             calendar_owner = current_user_info.get("name") if current_user_info else None
-        report(f"Sync: 개인 일정표 {len(req.user_calendar)}건 저장 중...")
+        report(f"Sync: 레거시 일정 데이터 {len(req.user_calendar)}건 저장 중...")
         db.save_user_calendar(req.user_calendar, owner_name=calendar_owner)
         details["user_calendar"] = db.get_user_calendar_stats()
         changed_sections.append("user_calendar")
-        report("Sync: 개인 일정표 저장 완료")
+        report("Sync: 레거시 일정 데이터 저장 완료")
 
     if req.available_mentorings is not None:
         counts["available_mentorings"] = len(req.available_mentorings)
         report(f"Sync: 특강/멘토링 {len(req.available_mentorings)}건 DB 저장 중...")
         db.save_mentorings(req.available_mentorings)
         details["available_mentorings"] = db.get_mentoring_stats()
+        details["participant_registrations"] = db.get_participant_registration_stats()
         report("Sync: 특강/멘토링 벡터 인덱싱 중...")
         from vector_store import sync_mentorings_to_vector_db
         details["vector_store"] = sync_mentorings_to_vector_db(db.load_mentorings())

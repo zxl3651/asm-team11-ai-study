@@ -187,6 +187,56 @@ class SomaDB:
                 "by_status": {row["status"] or "알수없음": row["count"] for row in by_status_rows},
             }
 
+    def get_participant_registration_stats(self) -> dict:
+        participant_counts: dict[str, int] = {}
+        total_links = 0
+        for item in self.load_mentorings():
+            raw_names = (
+                item.get("participantNames")
+                or item.get("participants")
+                or item.get("applicantNames")
+                or item.get("appliedUserNames")
+                or []
+            )
+            if isinstance(raw_names, str):
+                raw_names = [part.strip() for part in raw_names.replace("·", ",").replace("/", ",").split(",")]
+            if not isinstance(raw_names, list):
+                continue
+            excluded_names = {
+                "로그아웃", "공지사항", "등록일", "마이페이지", "멘토링", "특강", "접수내역",
+                "모집안내", "링크드인", "교육과정", "연수센터", "전체메뉴", "신청", "취소",
+                "상태", "승인", "이름", "소속", "연수생", "멘토",
+                "목록", "블로그", "사업소개", "소마기술력", "소마사람들", "안녕하세요",
+                "알림마당", "연혁", "월간일정", "유튜브", "이용약관", "인스타그램",
+                "주요성과", "참여후기", "창업기업", "팀매칭", "페이스북", "회원정보", "거짓",
+            }
+            seen_names = []
+            for name in raw_names:
+                clean_name = str(name or "").strip()
+                if clean_name and clean_name not in excluded_names and clean_name not in seen_names:
+                    seen_names.append(clean_name)
+            max_expected = (
+                item.get("maxParticipants")
+                or item.get("max_participants")
+                or item.get("totalCount")
+                or item.get("appliedCount")
+                or 0
+            )
+            try:
+                max_expected = int(max_expected)
+            except Exception:
+                max_expected = 0
+            if max_expected > 0 and len(seen_names) > max_expected + 5:
+                continue
+            for name in seen_names:
+                participant_counts[name] = participant_counts.get(name, 0) + 1
+                total_links += 1
+        return {
+            "participant_count": len(participant_counts),
+            "registration_link_count": total_links,
+            "by_participant": dict(sorted(participant_counts.items(), key=lambda item: (-item[1], item[0]))),
+        }
+
     # ── 개인 시간표 CRUD ──
     def save_user_calendar(self, items: list[dict], owner_name: str | None = None):
         with self._get_conn() as conn:

@@ -1,4 +1,6 @@
 import json
+import re
+import uuid
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_openai import ChatOpenAI
@@ -20,8 +22,8 @@ def _is_simple_team_info_query(user_message: str) -> bool:
 
 def _is_personal_fixed_meeting_recommendation(user_message: str) -> bool:
     text = user_message.strip().lower()
-    has_personal_scope = any(keyword in text for keyword in ["내 일정", "나의 일정", "내 수강", "수강 이력"])
-    has_fixed_meeting = "정기 회의" in text or ("회의" in text and "제외" in text)
+    has_personal_scope = any(keyword in text for keyword in ["내 일정", "나의 일정", "내 수강", "수강 이력", "내가 이미 신청", "내가 신청"])
+    has_fixed_meeting = "정기 회의" in text or "고정 회의" in text or ("회의" in text and ("제외" in text or "피해서" in text))
     has_recommendation = any(keyword in text for keyword in ["특강", "멘토링", "추천", "골라"])
     return has_personal_scope and has_fixed_meeting and has_recommendation
 
@@ -29,9 +31,9 @@ def _is_personal_fixed_meeting_recommendation(user_message: str) -> bool:
 def _is_team_meeting_availability_query(user_message: str) -> bool:
     text = user_message.strip().lower()
     if (
-        any(keyword in text for keyword in ["내 일정", "나의 일정", "내 수강", "수강 이력"])
+        any(keyword in text for keyword in ["내 일정", "나의 일정", "내 수강", "수강 이력", "내가 이미 신청", "내가 신청"])
         and any(keyword in text for keyword in ["특강", "멘토링", "추천", "골라"])
-        and ("정기 회의" in text or ("회의" in text and "제외" in text))
+        and ("정기 회의" in text or "고정 회의" in text or ("회의" in text and ("제외" in text or "피해서" in text)))
     ):
         return False
     has_team_scope = any(keyword in text for keyword in ["우리 팀", "팀 정보를", "팀 정보", "팀원"])
@@ -118,17 +120,186 @@ def _json_tool_payloads(messages: list[BaseMessage]) -> list[dict]:
     return payloads
 
 
-def _team_meeting_unavailable_answer(messages: list[BaseMessage]) -> str | None:
-    payloads = _json_tool_payloads(messages)
-    free_slots_result = next(
-        (payload for payload in reversed(payloads) if payload.get("error") == "team_member_calendar_unavailable"),
-        None,
-    )
-    if not free_slots_result:
-        return None
+def _current_week_range_from_messages(messages: list[BaseMessage]) -> tuple[str, str]:
+    for msg in messages:
+        if not isinstance(msg, SystemMessage):
+            continue
+        content = msg.content or ""
+        match = re.search(r"이번 주 범위:\s*(\d{4}-\d{2}-\d{2}).*?~\s*(\d{4}-\d{2}-\d{2})", content, re.S)
+        if match:
+            return match.group(1), match.group(2)
 
+    from datetime import datetime, timedelta
+    now = datetime.now()
+    start_of_week = now - timedelta(days=now.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    return start_of_week.strftime("%Y-%m-%d"), end_of_week.strftime("%Y-%m-%d")
+
+
+def _tool_call_message(name: str, args: dict) -> dict:
+    return {
+        "name": name,
+        "args": args,
+        "id": f"call_{uuid.uuid4().hex[:12]}",
+        "type": "tool_call",
+    }
+
+
+def _fixed_meeting_recommendation_tool_message(messages: list[BaseMessage]) -> AIMessage:
+    start_date, end_date = _current_week_range_from_messages(messages)
+    fixed_block = {
+        "weekdays": ["월", "화", "수", "목", "금"],
+        "start": "10:00",
+        "end": "12:00",
+        "title": "팀 정기 회의",
+    }
+    return AIMessage(
+        content="",
+        tool_calls=[
+            _tool_call_message("get_participant_registrations", {
+                "participant_name": "me",
+                "start_date": start_date,
+                "end_date": end_date,
+            }),
+            _tool_call_message("search_mentorings", {
+                "start_date": start_date,
+                "end_date": end_date,
+                "status": "접수중",
+            }),
+            _tool_call_message("get_free_slots", {
+                "user_name": "me",
+                "start_date": start_date,
+                "end_date": end_date,
+                "working_hour_start": 9,
+                "working_hour_end": 22,
+                "recurring_busy_blocks": [fixed_block],
+            }),
+        ],
+    )
+
+
+def _team_info_tool_message() -> AIMessage:
+    return AIMessage(
+        content="",
+        tool_calls=[_tool_call_message("get_team_info", {})],
+    )
+
+
+def _team_free_slots_tool_message(messages: list[BaseMessage]) -> AIMessage:
+    start_date, end_date = _current_week_range_from_messages(messages)
+    team_member_names = _team_member_names_from_tool_messages(messages)
+    team_name = _team_name_from_tool_messages(messages)
+    args = {
+        "start_date": start_date,
+        "end_date": end_date,
+        "meeting_duration_hours": 2.0,
+        "working_hour_start": 9,
+        "working_hour_end": 22,
+        "user_names": team_member_names,
+    }
+    if team_name:
+        args["team_name"] = team_name
+        args["include_team_shared_mentorings"] = True
+    return AIMessage(
+        content="",
+        tool_calls=[_tool_call_message("get_free_slots", args)],
+    )
+
+
+def _contains_raw_tool_call_text(content: str | None) -> bool:
+    if not content:
+        return False
+    return "<|tool_call:" in content or "<tool_call" in content or "tool_call:begin" in content
+
+
+def _latest_visual_schedule_block(messages: list[BaseMessage]) -> str:
+    for payload in reversed(_json_tool_payloads(messages)):
+        block = payload.get("visual_schedule_block")
+        if isinstance(block, str) and block.strip().startswith("```schedule"):
+            return block.strip()
+    return ""
+
+
+def _fixed_recommendation_answer_from_tools(messages: list[BaseMessage]) -> str:
+    from datetime import datetime
+
+    payloads = _json_tool_payloads(messages)
+    registrations_payload = next((p for p in reversed(payloads) if "registrations" in p), {})
+    search_payload = next((p for p in reversed(payloads) if "items" in p), {})
+    registered_ids = {
+        str(item.get("id", ""))
+        for item in registrations_payload.get("registrations", []) or []
+        if item.get("id")
+    }
+
+    def parse_dt(value: str | None):
+        if not value:
+            return None
+        try:
+            return datetime.fromisoformat(value)
+        except Exception:
+            return None
+
+    def overlaps_fixed_meeting(start_dt, end_dt) -> bool:
+        if not start_dt or not end_dt or start_dt.weekday() >= 5:
+            return False
+        fixed_start = start_dt.replace(hour=10, minute=0, second=0, microsecond=0)
+        fixed_end = start_dt.replace(hour=12, minute=0, second=0, microsecond=0)
+        return max(start_dt, fixed_start) < min(end_dt, fixed_end)
+
+    candidates = []
+    for item in search_payload.get("items", []) or []:
+        item_id = str(item.get("id", ""))
+        if item_id and item_id in registered_ids:
+            continue
+        if item.get("status") != "접수중":
+            continue
+        start_dt = parse_dt(item.get("startAt"))
+        end_dt = parse_dt(item.get("endAt"))
+        if overlaps_fixed_meeting(start_dt, end_dt):
+            continue
+        remaining = item.get("remaining_spots")
+        if remaining is None:
+            max_p = item.get("max_participants", 0) or 0
+            cur_p = item.get("current_participants", 0) or 0
+            remaining = max_p - cur_p if max_p else None
+        if remaining is not None and remaining <= 0:
+            continue
+        candidates.append((start_dt or datetime.max, item, remaining))
+
+    candidates.sort(key=lambda entry: entry[0])
+    selected = candidates[:7]
+    lines = [
+        "추천 가능한 특강/멘토링",
+        "",
+        "이미 신청한 일정과 평일 10:00~12:00 고정 회의 시간에 겹치는 후보를 제외했습니다.",
+    ]
+    if not selected:
+        lines.extend([
+            "",
+            "이번 주 조건에 맞는 접수중 특강/멘토링 후보를 찾지 못했습니다.",
+        ])
+    else:
+        lines.append("")
+        for _, item, remaining in selected:
+            author = item.get("mentor_name") or item.get("author") or "미기재"
+            remaining_text = f"{remaining}자리" if remaining is not None else "정원 정보 미기재"
+            lines.append(
+                f"- {item.get('dateStr', '날짜 미기재')} {item.get('timeRangeStr', '시간 미기재')} · "
+                f"{item.get('title', '제목 미기재')} · {author} · {remaining_text}"
+            )
+    visual_schedule_block = _latest_visual_schedule_block(messages)
+    if visual_schedule_block:
+        lines.extend(["", "주간 가용 시간 시각화", "", visual_schedule_block])
+    return "\n".join(lines).strip()
+
+
+def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
+    payloads = _json_tool_payloads(messages)
+    free_slots_result = next((payload for payload in reversed(payloads) if "meeting_windows" in payload), {})
     team_payload = next((payload for payload in reversed(payloads) if payload.get("team_info")), {})
     team = (team_payload.get("team_info") or [{}])[0]
+
     team_name = team.get("teamName") or "미기재"
     leader = team.get("leader") or "미기재"
     members = team.get("members") or []
@@ -138,23 +309,45 @@ def _team_meeting_unavailable_answer(messages: list[BaseMessage]) -> str | None:
         members_text = ", ".join(members) if members else "미기재"
     mentor = team.get("mentorName") or team.get("mentor") or "미기재"
     project = team.get("projectName") or "미기재"
-    missing_names = free_slots_result.get("missing_user_names") or []
-    missing_text = ", ".join(missing_names) if missing_names else "확인 불가"
 
-    return (
-        "팀 정보\n\n"
-        f"- 팀명: {team_name}\n"
-        f"- 팀장: {leader}\n"
-        f"- 팀원: {members_text}\n"
-        f"- 전담 멘토: {mentor}\n"
-        f"- 프로젝트: {project}\n\n"
-        "팀 전체 공통 회의 가능 시간은 확정할 수 없습니다.\n\n"
-        f"누락된 팀원 일정: {missing_text}\n\n"
-        "원인: 현재 저장된 멘토링/특강 상세 데이터에서 해당 팀원의 신청자 명단 기반 일정을 찾지 못했습니다. "
-        "상세 페이지에 신청자 명단이 수집되어 있어야 팀원별 특강/멘토링 일정을 만들 수 있습니다.\n\n"
-        "이 상태에서는 김민수 일정만으로 팀 회의 시간을 대체 계산하지 않습니다. "
-        "정확한 팀 전체 후보를 계산하려면 멘토링/특강 상세의 신청자 명단이 포함되도록 다시 동기화하거나, 팀원 일정이 포함된 공유 캘린더/공식 API가 필요합니다."
-    )
+    coverage = free_slots_result.get("calendar_coverage") or []
+    coverage_lines = []
+    for item in coverage:
+        coverage_lines.append(f"- {item.get('user_name')}: 신청 일정 {item.get('active_event_count', 0)}건")
+
+    windows = free_slots_result.get("meeting_windows") or []
+    lines = [
+        "팀 정보",
+        "",
+        f"- 팀명: {team_name}",
+        f"- 팀장: {leader}",
+        f"- 팀원: {members_text}",
+        f"- 전담 멘토: {mentor}",
+        f"- 프로젝트: {project}",
+        "",
+        "계산 기준",
+        "",
+        "- 개인 접수내역이나 브라우저 개인 시간표는 사용하지 않았습니다.",
+        "- 멘토링/특강 상세 신청자 명단에서 팀원 이름이 확인된 일정만 불가 시간으로 처리했습니다.",
+    ]
+    if coverage_lines:
+        lines.extend(["", "팀원별 반영된 신청 일정", "", *coverage_lines])
+
+    lines.extend(["", "2시간 팀 회의 가능 후보"])
+    if not windows:
+        lines.extend(["", "이번 주 조건에서 2시간 연속으로 모두 비는 후보를 찾지 못했습니다."])
+    else:
+        lines.append("")
+        for window in windows:
+            lines.append(
+                f"- {window.get('weekday')}({window.get('date')}): "
+                f"{window.get('start')}~{window.get('end')}"
+            )
+
+    visual_schedule_block = free_slots_result.get("visual_schedule_block") or _latest_visual_schedule_block(messages)
+    if visual_schedule_block:
+        lines.extend(["", "주간 캘린더", "", visual_schedule_block.strip()])
+    return "\n".join(lines).strip()
 
 
 def create_agent_graph(api_key: str):
@@ -254,15 +447,16 @@ def create_agent_graph(api_key: str):
                 "현재 요청은 팀원 전체 공통 가능 시간 계산입니다. "
                 "`get_team_info`로 확인한 소속 팀의 팀장과 팀원 전원을 `get_free_slots(user_names=[...])`에 넣어야 합니다. "
                 "`get_free_slots(user_name='me')` 또는 `user_names`가 없는 단일 사용자 계산 결과를 팀 회의 후보로 제시하지 마세요. "
-                "팀원 중 일부의 개인 일정 데이터가 없으면 후보 시간대를 계산하지 말고, 누락된 팀원 이름과 함께 확정 불가라고 답하세요."
+                "개인 접수내역이나 개인 시간표 부족을 이유로 중단하지 마세요. "
+                "멘토링/특강 상세 신청자 명단에서 확인된 팀원별 신청 일정만 차단 시간으로 보고, 해당 신청 일정이 0건인 팀원은 빈 일정으로 처리하세요."
             )
         if is_fixed_meeting_recommendation:
             instruction_text += (
                 "\n\n## [중요] 개인 일정 기준 고정 회의 제외 특강 추천\n"
                 "현재 요청은 팀원 전체 공통 시간 조율이 아닙니다. `get_team_info`를 호출하지 마세요. "
-                "로그인한 본인의 개인 일정, 평일 10:00~12:00 고정 회의 차단 시간, "
+                "멘토링/특강 상세 신청자 명단 기준 본인의 신청 일정, 평일 10:00~12:00 고정 회의 차단 시간, "
                 "신청 가능한 특강/멘토링 후보만 사용해 답변하세요. "
-                "도구는 `get_user_calendar(user_name='me')`, `search_mentorings(status='접수중')`, "
+                "도구는 `get_participant_registrations(participant_name='me')`, `search_mentorings(status='접수중')`, "
                 "`get_free_slots(user_name='me', recurring_busy_blocks=[...])`만 필요합니다."
             )
         if any(
@@ -271,19 +465,15 @@ def create_agent_graph(api_key: str):
         ):
             if is_team_meeting_availability:
                 instruction_text += (
-                    "\n\n## [중요] 팀원 캘린더 조회 불가\n"
-                    "팀원 개인 일정 데이터가 없어 팀 전체 공통 시간 계산은 불가능합니다. "
-                    "같은 팀원 캘린더 조회나 `get_free_slots` 반복 호출을 중단하세요. "
-                    "본인 일정 기준 후보, 특강 목록 기반 후보, 예시 후보를 출력하지 말고 확정 불가 사유만 설명하세요. "
-                    "원인은 동기화된 멘토링/특강 상세 페이지의 신청자 명단(participantNames)에서 해당 팀원의 일정을 찾지 못했기 때문입니다."
+                    "\n\n## [중요] 과거 방식의 팀원 캘린더 조회 불가 결과 무시\n"
+                    "이전 대화나 구버전 도구 결과의 `team_member_calendar_unavailable`을 현재 답변 기준으로 삼지 마세요. "
+                    "현재 정책은 개인 일정 데이터가 아니라 멘토링/특강 상세 신청자 명단 기준 신청 일정만 사용해 팀 가용 시간을 계산하는 것입니다."
                 )
             else:
                 instruction_text += (
-                    "\n\n## [중요] 팀원 캘린더 조회 불가\n"
-                    "팀원 개인 일정 데이터가 없어 팀 전체 공통 시간 계산은 불가능합니다. "
-                    "같은 팀원 캘린더 조회나 `get_free_slots` 반복 호출을 중단하고, "
-                    "현재 확보된 본인 일정/특강 목록/질문에 명시된 고정 제외 시간만으로 답변하세요. "
-                    "고정 팀 회의 시간을 제외한 개인 특강 추천 요청이라면 팀원 캘린더가 필요하지 않다고 판단하세요."
+                    "\n\n## [중요] 과거 방식의 팀원 캘린더 조회 불가 결과 무시\n"
+                    "고정 팀 회의 시간을 제외한 개인 특강 추천 요청에는 팀원 캘린더가 필요하지 않습니다. "
+                    "멘토링/특강 상세 신청자 명단 기준 본인의 기존 신청 일정과 질문에 명시된 고정 제외 시간만 사용하세요."
                 )
         if any(
             isinstance(m, ToolMessage) and '"availability_scope": "current_user_only"' in (m.content or "")
@@ -293,8 +483,7 @@ def create_agent_graph(api_key: str):
                 "\n\n## [중요] 본인 일정 기준 결과를 팀 전체 결과로 오인 금지\n"
                 "`availability_scope=current_user_only`인 빈 시간 결과는 로그인한 본인 일정 기준입니다. "
                 "사용자가 팀 회의 가능 시간을 물었다면 팀원 전체 공통 가능 시간으로 확정하지 마세요. "
-                "팀원별 캘린더 데이터가 없으면 확정 불가라고 밝히고, 본인 일정 기준 후보도 출력하지 마세요. "
-                "캘린더 시각화도 출력하지 마세요."
+                "팀원 전체 이름으로 `get_free_slots(user_names=[...])`를 다시 호출해 멘토링/특강 신청 일정 기반으로 계산하세요."
             )
 
         if messages and isinstance(messages[0], SystemMessage):
@@ -303,38 +492,36 @@ def create_agent_graph(api_key: str):
         else:
             model_messages = [SystemMessage(content=instruction_text), *messages]
 
-        if is_team_meeting_availability and _has_tool_call(current_turn, "get_free_slots"):
-            unavailable_answer = _team_meeting_unavailable_answer(current_turn)
-            if unavailable_answer:
-                response = AIMessage(content=unavailable_answer)
-                report_status("팀원 일정 데이터 누락으로 확정 불가 답변을 작성했어요...")
-                return {"messages": [response], "intent": intent}
-            final_instruction = SystemMessage(
-                content=(
-                    "팀 회의 가능 시간 계산을 위한 조회가 끝났습니다. 추가 도구를 호출하지 말고 최종 답변을 작성하세요. "
-                    "`get_free_slots`가 `team_member_calendar_unavailable`을 반환했다면 후보 시간대를 나열하지 말고, "
-                    "팀 정보와 누락된 팀원 일정 데이터 때문에 팀 전체 공통 가능 시간을 확정할 수 없다고 답하세요. "
-                    "`availability_scope=team`이고 `meeting_windows`가 있을 때만 팀 전체 2시간 후보를 모두 나열하세요. "
-                    "`availability_scope=team_shared_mentorings_only`이면 팀 공통 멘토링/특강 일정 기준 후보로 나열하되, "
-                    "`scope_warning`과 `missing_user_names`를 함께 밝혀 개인 일정이 없는 팀원의 개별 일정은 미반영이라고 설명하세요. "
-                    "본인 일정 기준 참고 후보도 출력하지 마세요."
-                )
-            )
-            response = llm.invoke([*model_messages, final_instruction])
-        elif is_fixed_meeting_recommendation and all(
-            _has_tool_call(current_turn, tool_name)
-            for tool_name in ("get_user_calendar", "search_mentorings", "get_free_slots")
+        if is_fixed_meeting_recommendation and not any(isinstance(m, AIMessage) and getattr(m, "tool_calls", None) for m in current_turn):
+            response = _fixed_meeting_recommendation_tool_message(model_messages)
+            report_status("필요한 조회 경로를 선택했어요: get_participant_registrations, search_mentorings, get_free_slots")
+            return {"messages": [response], "intent": intent}
+
+        if is_team_meeting_availability and not any(isinstance(m, AIMessage) and getattr(m, "tool_calls", None) for m in current_turn):
+            response = _team_info_tool_message()
+            report_status("필요한 조회 경로를 선택했어요: get_team_info")
+            return {"messages": [response], "intent": intent}
+
+        if (
+            is_team_meeting_availability
+            and _has_tool_call(current_turn, "get_team_info")
+            and not _has_tool_call(current_turn, "get_free_slots")
         ):
-            final_instruction = SystemMessage(
-                content=(
-                    "필요한 조회가 모두 끝났습니다. 추가 도구를 호출하지 말고 최종 답변을 작성하세요. "
-                    "팀원 전체 일정 조율이 아니므로 팀원 일정 부족을 이유로 중단하지 마세요. "
-                    "평일 10:00~12:00는 고정 회의로 제외하고, 본인 기존 일정과 겹치지 않으며 "
-                    "접수중인 특강/멘토링만 5~7개 이내로 추천하세요. "
-                    "추천마다 시간, 제목, 멘토/작성자, 남은 자리 또는 정원 정보, 추천 근거를 짧게 쓰세요."
-                )
+            response = _team_free_slots_tool_message(model_messages + current_turn)
+            report_status("필요한 조회 경로를 선택했어요: get_free_slots")
+            return {"messages": [response], "intent": intent}
+
+        if is_team_meeting_availability and _has_tool_call(current_turn, "get_free_slots"):
+            response = AIMessage(content=_team_meeting_answer_from_tools(current_turn))
+        elif is_fixed_meeting_recommendation and (
+            (
+                _has_tool_call(current_turn, "get_participant_registrations")
+                or _has_tool_call(current_turn, "get_user_calendar")
             )
-            response = llm.invoke([*model_messages, final_instruction])
+            and _has_tool_call(current_turn, "search_mentorings")
+            and _has_tool_call(current_turn, "get_free_slots")
+        ):
+            response = AIMessage(content=_fixed_recommendation_answer_from_tools(current_turn))
         elif intent == "team_info" and _has_tool_call(current_turn, "get_team_info"):
             team_info_instruction = SystemMessage(
                 content=(
@@ -349,14 +536,14 @@ def create_agent_graph(api_key: str):
             if intent == "team_info":
                 allowed_tools = [tool for tool in LATEST_TOOLS if tool.name == "get_team_info"]
             elif is_fixed_meeting_recommendation:
-                allowed_names = {"get_user_calendar", "search_mentorings", "get_free_slots"}
+                allowed_names = {"get_participant_registrations", "get_user_calendar", "search_mentorings", "get_free_slots"}
                 called = {
                     tool_call.get("name")
                     for msg in current_turn
                     if isinstance(msg, AIMessage)
                     for tool_call in (getattr(msg, "tool_calls", []) or [])
                 }
-                if "get_user_calendar" in called and "search_mentorings" in called:
+                if ("get_participant_registrations" in called or "get_user_calendar" in called) and "search_mentorings" in called:
                     allowed_names = {"get_free_slots"}
                 allowed_tools = [tool for tool in LATEST_TOOLS if tool.name in allowed_names]
             elif is_team_meeting_availability:
@@ -369,6 +556,24 @@ def create_agent_graph(api_key: str):
                 allowed_names = {"get_team_info"} if "get_team_info" not in called else {"get_free_slots"}
                 allowed_tools = [tool for tool in LATEST_TOOLS if tool.name in allowed_names]
             response = llm.bind_tools(allowed_tools).invoke(model_messages)
+        if _contains_raw_tool_call_text(response.content):
+            if is_fixed_meeting_recommendation:
+                has_required_results = (
+                    _has_tool_call(current_turn, "get_participant_registrations")
+                    and _has_tool_call(current_turn, "search_mentorings")
+                    and _has_tool_call(current_turn, "get_free_slots")
+                )
+                if has_required_results:
+                    response = AIMessage(content=_fixed_recommendation_answer_from_tools(current_turn))
+                else:
+                    response = _fixed_meeting_recommendation_tool_message(model_messages)
+            elif is_team_meeting_availability:
+                if _has_tool_call(current_turn, "get_team_info"):
+                    response = _team_free_slots_tool_message(model_messages + current_turn)
+                else:
+                    response = _team_info_tool_message()
+            else:
+                response = AIMessage(content="요청 처리 중 내부 조회 형식이 응답에 섞였습니다. 다시 질문해 주세요.")
         if response.tool_calls:
             tool_names = ", ".join(tc["name"] for tc in response.tool_calls)
             report_status(f"필요한 조회 경로를 선택했어요: {tool_names}")
@@ -467,7 +672,7 @@ def create_agent_graph(api_key: str):
                     content=(
                         "요청을 처리하는 중 조회가 반복되어 중단했습니다.\n\n"
                         f"- 마지막 상태: {last_error}\n"
-                        "- 이미 수집된 데이터만으로 답변을 완성하지 못했습니다. 질문에 팀원 전체 일정 조율이 필요한지, 또는 내 일정에서 고정 회의 시간만 제외하면 되는지 조건을 분리해 다시 시도해 주세요."
+                        "- 이미 수집된 데이터만으로 답변을 완성하지 못했습니다. 질문에 팀원 전체 신청 일정 조율이 필요한지, 또는 본인이 이미 신청한 멘토링/특강과 고정 회의 시간만 제외하면 되는지 조건을 분리해 다시 시도해 주세요."
                     )
                 )
             ]
@@ -571,6 +776,10 @@ def run_agent(
         _save_new_messages(db, session_id, new_messages)
 
         assistant_content = _last_assistant_content(final_messages)
+        if _is_personal_fixed_meeting_recommendation(user_message):
+            visual_schedule_block = _latest_visual_schedule_block(new_messages)
+            if visual_schedule_block and "```schedule" not in assistant_content:
+                assistant_content = f"{assistant_content.rstrip()}\n\n{visual_schedule_block}"
         workflow_mermaid = build_workflow_mermaid(
             new_messages,
             intent=output.get("intent"),
@@ -594,6 +803,8 @@ def _restore_history_messages(history: list[dict]) -> list[BaseMessage]:
             messages.append(HumanMessage(content=content))
         elif role == "assistant":
             if item.get("tool_calls"):
+                continue
+            if _contains_raw_tool_call_text(content):
                 continue
             messages.append(AIMessage(content=content))
     return messages
@@ -630,6 +841,8 @@ def _db_row_from_message(message: BaseMessage) -> dict | None:
         return {"role": "user", "content": content, "tool_calls": None, "tool_call_id": None}
     if isinstance(message, AIMessage):
         tool_calls = _serialize_tool_calls(message.tool_calls) if message.tool_calls else None
+        if _contains_raw_tool_call_text(content) and not tool_calls:
+            return None
         return {"role": "assistant", "content": content, "tool_calls": tool_calls, "tool_call_id": None}
     if isinstance(message, ToolMessage):
         return {"role": "tool", "content": content, "tool_calls": None, "tool_call_id": message.tool_call_id}
@@ -654,6 +867,8 @@ def _serialize_tool_calls(tool_calls: list[dict]) -> str:
 def _last_assistant_content(messages: list[BaseMessage]) -> str:
     for message in reversed(messages):
         if isinstance(message, AIMessage) and message.content:
+            if _contains_raw_tool_call_text(message.content):
+                continue
             return message.content
     return ""
 
