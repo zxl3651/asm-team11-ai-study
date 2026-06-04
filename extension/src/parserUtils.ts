@@ -27,17 +27,6 @@ export interface ParsedCalendarItem {
   categoryNm: string;
 }
 
-export interface ParsedHistoryItem {
-  id: string;
-  title: string;
-  url: string;
-  author: string;
-  dateStr: string;
-  timeRangeStr: string;
-  isApproved: boolean;
-  status: string;
-}
-
 export interface ParsedTeam {
   no: number;
   teamName: string;
@@ -350,60 +339,6 @@ export function parseTeamPage(doc: Document): ParsedTeam[] {
   return results;
 }
 
-// ── 개인 접수 완료 이력 파서 ──
-export function parseHistoryPage(doc: Document): ParsedHistoryItem[] {
-  const rows = doc.querySelectorAll(
-    "#contentsList > div > div > div.boardlist > div.tbl-ovx > table > tbody > tr"
-  );
-  const results: ParsedHistoryItem[] = [];
-
-  rows.forEach((row, index) => {
-    try {
-      const tds = row.querySelectorAll("td");
-      if (tds.length < 8) return;
-
-      const appliedText = (tds[6]?.textContent || "").replace(/\s+/g, " ").trim();
-
-      const aLink = tds[2]?.querySelector("a");
-      const url = aLink ? (aLink.getAttribute("href") || "") : "";
-      const title = (tds[2]?.textContent || "").trim();
-      const author = (tds[3]?.textContent || "").trim();
-
-      const dateTimeText = (tds[4]?.textContent || "").replace(/\u00a0/g, " ");
-      const dateTimeParts = dateTimeText
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean);
-      const dateStr = dateTimeParts[0] || "";
-      const timeRangeStr = dateTimeParts.slice(1).join(" ").trim();
-
-      const isApproved = (tds[7]?.textContent || "").trim().toUpperCase() === "OK";
-
-      let id = "";
-      if (url) {
-        const urlMatch = url.match(/qustnrSn=(\d+)/);
-        if (urlMatch) id = urlMatch[1];
-      }
-      if (!id) id = `hist_${index}`;
-
-      results.push({
-        id,
-        title,
-        url,
-        author,
-        dateStr,
-        timeRangeStr,
-        isApproved,
-        status: appliedText,
-      });
-    } catch (e) {
-      console.warn("[SoMa Mate] 접수 이력 행 파싱 실패:", e);
-    }
-  });
-
-  return results;
-}
-
 // ── 멘토링/특강 상세 정보 파서 ──
 export interface MentoringDetail {
   title: string;
@@ -467,11 +402,16 @@ function getDetailTimeFields(timeStr: string | null): { dateStr: string; timeRan
   };
 }
 
-function extractParticipantNames(doc: Document): string[] {
+function extractParticipantNames(doc: Document, maxExpectedCount: number): string[] {
   const keywords = ["신청자", "참여자", "접수자", "신청 연수생", "참여 연수생", "신청현황", "참여현황", "수강생"];
   const excluded = new Set([
     "작성자", "모집인원", "개설 승인", "진행방식", "강의날짜", "장소", "모집 명",
     "신청", "취소", "상태", "승인", "이름", "소속", "연수생", "멘토",
+    "로그아웃", "공지사항", "등록일", "마이페이지", "멘토링", "특강", "접수내역",
+    "모집안내", "링크드인", "교육과정", "연수센터", "전체메뉴",
+    "목록", "블로그", "사업소개", "소마기술력", "소마사람들", "안녕하세요",
+    "알림마당", "연혁", "월간일정", "유튜브", "이용약관", "인스타그램",
+    "주요성과", "참여후기", "창업기업", "팀매칭", "페이스북", "회원정보", "거짓",
   ]);
   const namePattern = /^[가-힣]{2,5}$/;
   const names = new Set<string>();
@@ -484,9 +424,10 @@ function extractParticipantNames(doc: Document): string[] {
     }
   };
 
-  const candidateContainers = Array.from(doc.querySelectorAll("table, tbody, tr, div, ul, ol, section"))
+  const candidateContainers = Array.from(doc.querySelectorAll("table, tbody, ul, ol, .boardlist, .tbl-ovx"))
     .filter((el) => {
       const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      if (text.length > 5000) return false;
       return keywords.some((keyword) => text.includes(keyword));
     });
 
@@ -495,13 +436,21 @@ function extractParticipantNames(doc: Document): string[] {
       addName(el.textContent);
     });
 
-    container.querySelectorAll("td, span, strong, a").forEach((el) => {
+    container.querySelectorAll("td, span.name, strong.name").forEach((el) => {
       const text = (el.textContent || "").replace(/\s+/g, " ").trim();
       text.split(/[,/·|]/).forEach(addName);
     });
   }
 
-  return Array.from(names);
+  const result = Array.from(names);
+  if (maxExpectedCount > 0 && result.length > maxExpectedCount + 5) {
+    console.warn(
+      `[SoMa Mate] 신청자 명단 파싱 결과가 정원 대비 과도해 무시합니다. expected=${maxExpectedCount}, parsed=${result.length}`,
+      result
+    );
+    return [];
+  }
+  return result;
 }
 
 export function parseMentoringDetailPage(doc: Document): MentoringDetail {
@@ -513,6 +462,8 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
       .trim() || "";
   const deliveryMethod = getTopValue(doc, "진행방식") || "";
   const timeStr = getTopValue(doc, "강의날짜");
+  const appliedCount = getAppliedCount(appliedSummary);
+  const totalCount = getPeopleCount(capacityText);
 
   return {
     title: getTopValue(doc, "모집 명") || "",
@@ -522,10 +473,10 @@ export function parseMentoringDetailPage(doc: Document): MentoringDetail {
     isOnline: deliveryMethod.includes("온라인"),
     timeStr: timeStr || "",
     ...getDetailTimeFields(timeStr),
-    appliedCount: getAppliedCount(appliedSummary),
-    totalCount: getPeopleCount(capacityText),
+    appliedCount,
+    totalCount,
     isApproved: approvedText === "OK",
-    participantNames: extractParticipantNames(doc),
+    participantNames: extractParticipantNames(doc, Math.max(appliedCount, totalCount)),
   };
 }
 

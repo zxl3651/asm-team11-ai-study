@@ -27,7 +27,9 @@ interface ParsedSchedule {
 }
 
 function parseCellValue(raw: string): Cell {
-  const v = raw.trim();
+  const [displayRaw, detailRaw] = raw.split("||");
+  const v = displayRaw.trim();
+  const detail = (detailRaw || "").trim();
   if (!v || v === "-") {
     return {
       type: "available",
@@ -50,15 +52,16 @@ function parseCellValue(raw: string): Cell {
       type: "meeting",
       label: title,
       tooltipTitle: "회의 불가",
-      tooltipBody: title ? `회의 "${title}"이(가) 배치된 시간대입니다.` : "팀 회의 또는 조율 불가 시간대입니다.",
+      tooltipBody: detail || (title ? `회의 "${title}"이(가) 배치된 시간대입니다.` : "팀 회의 또는 조율 불가 시간대입니다."),
     };
   }
-  if (v === "불가") {
+  if (v === "불가" || v.startsWith("불가:")) {
+    const title = v.startsWith("불가:") ? v.slice(3).trim() : "불가";
     return {
       type: "unavailable",
-      label: "불가",
+      label: title,
       tooltipTitle: "불가",
-      tooltipBody: "다른 개인 일정이 겹치는 시간대입니다.",
+      tooltipBody: detail || "다른 개인 일정이 겹치는 시간대입니다.",
     };
   }
   if (v.startsWith("특강:")) {
@@ -67,7 +70,7 @@ function parseCellValue(raw: string): Cell {
       type: "lecture",
       label: title,
       tooltipTitle: "특강",
-      tooltipBody: title ? `특강 "${title}"이(가) 배치된 시간대입니다.` : "특강이 배치된 시간대입니다.",
+      tooltipBody: detail || (title ? `특강 "${title}"이(가) 배치된 시간대입니다.` : "특강이 배치된 시간대입니다."),
     };
   }
   if (v.startsWith("멘토링:")) {
@@ -76,7 +79,7 @@ function parseCellValue(raw: string): Cell {
       type: "mentoring",
       label: title,
       tooltipTitle: "멘토링",
-      tooltipBody: title ? `멘토링 "${title}"이(가) 배치된 시간대입니다.` : "멘토링이 배치된 시간대입니다.",
+      tooltipBody: detail || (title ? `멘토링 "${title}"이(가) 배치된 시간대입니다.` : "멘토링이 배치된 시간대입니다."),
     };
   }
   // fallback: treat unknown as unavailable with label
@@ -84,7 +87,7 @@ function parseCellValue(raw: string): Cell {
     type: "unavailable",
     label: v,
     tooltipTitle: "상세 정보",
-    tooltipBody: v,
+    tooltipBody: detail || v,
   };
 }
 

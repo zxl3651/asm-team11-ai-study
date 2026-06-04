@@ -5,7 +5,6 @@ import {
   parseMentoringListPage,
   parseCalendarResultList,
   parseTeamPage,
-  parseHistoryPage,
   parseMentoringDetailPage,
   parseMyInfoPage
 } from "../parserUtils";
@@ -27,6 +26,7 @@ interface SyncStatus {
   hasMentorings: boolean;
   hasTeams: boolean;
   hasSchedule: boolean;
+  hasParticipantRegistrations: boolean;
   userInfoTimestamp: number | null;
   mentoringTimestamp: number | null;
   teamTimestamp: number | null;
@@ -35,10 +35,11 @@ interface SyncStatus {
   mentoringCount: number;
   teamCount: number;
   scheduleCount: number;
+  participantCount: number;
+  participantRegistrationLinkCount: number;
   serverUserInfoCount: number | null;
   serverMentoringCount: number | null;
   serverTeamCount: number | null;
-  serverScheduleCount: number | null;
 }
 
 async function loadParsedMentorings(): Promise<any[]> {
@@ -47,34 +48,6 @@ async function loadParsedMentorings(): Promise<any[]> {
       chrome.storage.local.get(["parsedMentorings"], (result) => {
         resolve(result.parsedMentorings || []);
       });
-    } else {
-      resolve([]);
-    }
-  });
-}
-
-async function loadParsedCalendar(): Promise<any[]> {
-  return new Promise((resolve) => {
-    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-      chrome.storage.local.get(
-        ["parsedSchedule"],
-        (result) => {
-          const schedule = result.parsedSchedule || [];
-
-          const formattedSchedule = schedule.map((item: any) => ({
-            source: "monthly_schedule",
-            id: item.id || `${item.date || ""}:${item.subjectTitle || ""}`,
-            title: item.subjectTitle || "",
-            dateStr: item.date || "",
-            timeRangeStr: "09:00 ~ 18:00",
-            author: "소마 센터",
-            isApproved: true,
-            url: item.url || "",
-          }));
-
-          resolve(formattedSchedule);
-        }
-      );
     } else {
       resolve([]);
     }
@@ -133,18 +106,21 @@ async function loadSyncStatus(): Promise<SyncStatus> {
           void (async () => {
             const serverStatus = await loadServerStatus();
             const readiness = serverStatus?.readiness || {};
-            const calendarBySource = serverStatus?.user_calendar?.by_source || {};
-            const calendarByOwnerSource = serverStatus?.user_calendar?.by_owner_source || {};
+            const participantStats = serverStatus?.participant_registrations || {};
             const mList = result.parsedMentorings || [];
             const tList = result.parsedTeamInfo || [];
             const sList = result.parsedSchedule || [];
             const userInfo = result.parsedUserInfo || null;
-            const ownerCalendarStats = userInfo?.name ? calendarByOwnerSource[userInfo.name] || {} : {};
+            const serverUserInfoCount = readiness.user_info?.total ?? null;
+            const serverMentoringCount = serverStatus?.mentorings?.total ?? readiness.mentorings?.total ?? null;
+            const serverTeamCount = readiness.team_info?.total ?? null;
+            const participantRegistrationLinkCount = participantStats.registration_link_count ?? 0;
             resolve({
-              hasUserInfo: !!(userInfo && (userInfo.name || userInfo.email || userInfo.phone)),
-              hasMentorings: mList.length > 0,
-              hasTeams: tList.length > 0,
+              hasUserInfo: !!(userInfo && (userInfo.name || userInfo.email || userInfo.phone)) || (serverUserInfoCount ?? 0) > 0,
+              hasMentorings: mList.length > 0 || (serverMentoringCount ?? 0) > 0,
+              hasTeams: tList.length > 0 || (serverTeamCount ?? 0) > 0,
               hasSchedule: sList.length > 0,
+              hasParticipantRegistrations: participantRegistrationLinkCount > 0,
               userInfoTimestamp: result.userInfoParseTimestamp || null,
               mentoringTimestamp: result.mentoringParseTimestamp || null,
               teamTimestamp: result.teamParseTimestamp || null,
@@ -153,10 +129,11 @@ async function loadSyncStatus(): Promise<SyncStatus> {
               mentoringCount: mList.length,
               teamCount: tList.length,
               scheduleCount: sList.length,
-              serverUserInfoCount: readiness.user_info?.total ?? null,
-              serverMentoringCount: serverStatus?.mentorings?.total ?? readiness.mentorings?.total ?? null,
-              serverTeamCount: readiness.team_info?.total ?? null,
-              serverScheduleCount: ownerCalendarStats.monthly_schedule ?? calendarBySource.monthly_schedule ?? null,
+              participantCount: participantStats.participant_count ?? 0,
+              participantRegistrationLinkCount,
+              serverUserInfoCount,
+              serverMentoringCount,
+              serverTeamCount,
             });
           })();
         }
@@ -167,6 +144,7 @@ async function loadSyncStatus(): Promise<SyncStatus> {
         hasMentorings: false,
         hasTeams: false,
         hasSchedule: false,
+        hasParticipantRegistrations: false,
         userInfoTimestamp: null,
         mentoringTimestamp: null,
         teamTimestamp: null,
@@ -175,10 +153,11 @@ async function loadSyncStatus(): Promise<SyncStatus> {
         mentoringCount: 0,
         teamCount: 0,
         scheduleCount: 0,
+        participantCount: 0,
+        participantRegistrationLinkCount: 0,
         serverUserInfoCount: null,
         serverMentoringCount: null,
         serverTeamCount: null,
-        serverScheduleCount: null,
       });
     }
   });
@@ -224,6 +203,7 @@ export const ChatPanel: React.FC = () => {
     hasMentorings: false,
     hasTeams: false,
     hasSchedule: false,
+    hasParticipantRegistrations: false,
     userInfoTimestamp: null,
     mentoringTimestamp: null,
     teamTimestamp: null,
@@ -232,10 +212,11 @@ export const ChatPanel: React.FC = () => {
     mentoringCount: 0,
     teamCount: 0,
     scheduleCount: 0,
+    participantCount: 0,
+    participantRegistrationLinkCount: 0,
     serverUserInfoCount: null,
     serverMentoringCount: null,
     serverTeamCount: null,
-    serverScheduleCount: null,
   });
   const [syncProgress, setSyncProgress] = useState<string | null>(null);
   const [agentStatus, setAgentStatus] = useState<string | null>(null);
@@ -450,13 +431,17 @@ export const ChatPanel: React.FC = () => {
   );
 
   const hasAnyData =
-    syncStatus.hasUserInfo || syncStatus.hasMentorings || syncStatus.hasTeams || syncStatus.hasSchedule;
+    syncStatus.hasUserInfo ||
+    syncStatus.hasMentorings ||
+    syncStatus.hasTeams ||
+    syncStatus.hasSchedule ||
+    syncStatus.hasParticipantRegistrations;
 
-  const dataCount = [
+  const requiredDataCount = [
     syncStatus.hasUserInfo,
     syncStatus.hasMentorings,
+    syncStatus.hasParticipantRegistrations,
     syncStatus.hasTeams,
-    syncStatus.hasSchedule,
   ].filter(Boolean).length;
 
   const clearSyncData = async () => {
@@ -828,24 +813,12 @@ export const ChatPanel: React.FC = () => {
         // 백엔드 데이터베이스 및 ChromaDB RAG 연동 (단 1회 수행)
         setSyncProgress("백엔드 데이터베이스 동기화 중...");
         
-        const formattedSchedule = (parsedSchedule || []).map((item: any) => ({
-          source: "monthly_schedule",
-          id: item.id || `${item.date || ""}:${item.subjectTitle || item.title || ""}`,
-          title: item.subjectTitle || item.title || "",
-          url: item.url || "",
-          author: item.author || "소마 센터",
-          dateStr: item.date || item.dateStr || "",
-          timeRangeStr: item.timeRangeStr || "09:00 ~ 18:00",
-          status: item.status || "공식",
-          isApproved: true,
-        }));
-
         try {
           const res = await fetch(`${API_BASE}/sync`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              user_calendar: formattedSchedule,
+              user_calendar: null,
               available_mentorings: parsedMentorings || [],
               team_info: parsedTeams || [],
               user_info: parsedUserInfo || null,
@@ -917,7 +890,7 @@ export const ChatPanel: React.FC = () => {
           >
             <span>📡 포털 데이터 수집 현황</span>
             <span className="sync-status-summary">
-              {dataCount} / 4 연동
+              필수 {requiredDataCount} / 4 준비
               <ChevronDown size={14} className={isSyncStatusOpen ? "chevron open" : "chevron"} />
             </span>
           </button>
@@ -932,28 +905,46 @@ export const ChatPanel: React.FC = () => {
               <ul className="sync-status-list">
                 <li>
                   <span className="label">기본정보</span>
-                  <span className={`value ${syncStatus.userInfoTimestamp ? "connected" : "disconnected"}`}>
+                  <span className={`value ${syncStatus.hasUserInfo ? "connected" : "disconnected"}`}>
                     {syncStatus.userInfoTimestamp
                       ? `✅ 연동됨${syncStatus.userInfoName ? ` (${syncStatus.userInfoName})` : ""}${syncStatus.serverUserInfoCount === 1 ? " / 서버 저장됨" : syncStatus.serverUserInfoCount === 0 ? " / 서버 0건" : ""} ${formatTimestamp(syncStatus.userInfoTimestamp)}`
+                      : (syncStatus.serverUserInfoCount ?? 0) > 0
+                        ? `✅ 서버 저장됨 (${syncStatus.serverUserInfoCount}건)`
                       : "⬜ 미수집"}
                   </span>
                 </li>
                 <li>
                   <span className="label">멘토링/특강 목록</span>
-                  <span className={`value ${syncStatus.mentoringTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.mentoringTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.mentoringCount, syncStatus.serverMentoringCount)}) ${formatTimestamp(syncStatus.mentoringTimestamp)}` : "⬜ 미수집"}
+                  <span className={`value ${syncStatus.hasMentorings ? "connected" : "disconnected"}`}>
+                    {syncStatus.mentoringTimestamp
+                      ? `✅ 연동됨 (${formatStoredCount(syncStatus.mentoringCount, syncStatus.serverMentoringCount)}) ${formatTimestamp(syncStatus.mentoringTimestamp)}`
+                      : (syncStatus.serverMentoringCount ?? 0) > 0
+                        ? `✅ 서버 저장됨 (${syncStatus.serverMentoringCount}건)`
+                      : "⬜ 미수집"}
                   </span>
                 </li>
                 <li>
-                  <span className="label">센터 월간일정 (공식)</span>
+                  <span className="label">참여자별 신청 연결</span>
+                  <span className={`value ${syncStatus.participantRegistrationLinkCount > 0 ? "connected" : "disconnected"}`}>
+                    {syncStatus.participantRegistrationLinkCount > 0
+                      ? `✅ 생성됨 (${syncStatus.participantCount}명 / ${syncStatus.participantRegistrationLinkCount}건)`
+                      : "⬜ 미생성"}
+                  </span>
+                </li>
+                <li>
+                  <span className="label">센터 월간일정 (선택)</span>
                   <span className={`value ${syncStatus.scheduleTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.scheduleTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.scheduleCount, syncStatus.serverScheduleCount)}) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 미수집"}
+                    {syncStatus.scheduleTimestamp ? `✅ 수집됨 (${syncStatus.scheduleCount}건) ${formatTimestamp(syncStatus.scheduleTimestamp)}` : "⬜ 선택 수집 없음"}
                   </span>
                 </li>
                 <li>
                   <span className="label">소속 팀 매칭 정보</span>
-                  <span className={`value ${syncStatus.teamTimestamp ? "connected" : "disconnected"}`}>
-                    {syncStatus.teamTimestamp ? `✅ 연동됨 (${formatStoredCount(syncStatus.teamCount, syncStatus.serverTeamCount)}) ${formatTimestamp(syncStatus.teamTimestamp)}` : "⬜ 미수집"}
+                  <span className={`value ${syncStatus.hasTeams ? "connected" : "disconnected"}`}>
+                    {syncStatus.teamTimestamp
+                      ? `✅ 연동됨 (${formatStoredCount(syncStatus.teamCount, syncStatus.serverTeamCount)}) ${formatTimestamp(syncStatus.teamTimestamp)}`
+                      : (syncStatus.serverTeamCount ?? 0) > 0
+                        ? `✅ 서버 저장됨 (${syncStatus.serverTeamCount}건)`
+                      : "⬜ 미수집"}
                   </span>
                 </li>
               </ul>
@@ -991,12 +982,12 @@ export const ChatPanel: React.FC = () => {
               </button>
               <button
                 className="quick-action-card"
-                onClick={() => setInput("우리 팀의 정기 회의 시간(평일 10:00 ~ 12:00)을 내 일정에서 제외한 뒤, 이번 주 나머지 빈 시간대 중에서 내 수강 이력을 바탕으로 관심사에 부합하는 신청 가능한 특강/멘토링을 골라줘.")}
+                onClick={() => setInput("멘토링/특강 신청자 명단에서 내가 이미 신청한 일정을 제외하고, 평일 10:00~12:00 고정 회의 시간도 피해서 이번 주에 신청 가능한 특강/멘토링을 추천해줘.")}
               >
                 <div className="quick-action-icon">💡</div>
                 <div className="quick-action-content">
-                  <span className="action-title">회의 제외 빈 시간 특강 추천</span>
-                  <span className="action-desc">정기 회의 시간을 피해서 수강 이력 기반 관심사에 맞는 특강을 찾아 추천합니다.</span>
+                  <span className="action-title">신청자 명단 기반 특강 추천</span>
+                  <span className="action-desc">멘토링·특강 신청자 명단을 기준으로 이미 신청한 일정과 고정 회의 시간을 제외합니다.</span>
                 </div>
               </button>
             </div>
