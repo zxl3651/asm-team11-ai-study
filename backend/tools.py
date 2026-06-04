@@ -1,14 +1,25 @@
 import json
+import re
 from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / "data"
+
 
 def _load_mentors() -> list[dict]:
     with open(DATA_DIR / "mentors.json", encoding="utf-8") as f:
         return json.load(f)
 
-def _load_mentorings() -> list[dict]:
-    with open(DATA_DIR / "mentorings.json", encoding="utf-8") as f:
+
+def _load_experts() -> list[dict]:
+    path = DATA_DIR / "experts.json"
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _load_trainees() -> list[dict]:
+    with open(DATA_DIR / "trainees.json", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -56,77 +67,55 @@ def search_mentors(
     for r in results:
         r.pop("_score", None)
 
-    return {
-        "total": len(results),
-        "mentors": results[:10],
-    }
+    return {"total": len(results), "mentors": results[:10]}
 
 
-def search_mentorings(
-    content_type: str | None = None,
-    domains: list[str] | None = None,
+def search_experts(
     stacks: list[str] | None = None,
-    goals: list[str] | None = None,
-    status: str = "접수중",
+    domains: list[str] | None = None,
+    keyword: str | None = None,
 ) -> dict:
-    """멘토링 및 특강을 조건에 맞게 검색합니다."""
-    items = _load_mentorings()
+    """소마 선배 엑스퍼트를 기술스택/분야/키워드로 검색합니다."""
+    experts = _load_experts()
+    if not experts:
+        return {"total": 0, "experts": [], "note": "experts.json 없음. python crawl_notion.py experts 실행 필요"}
+
     results = []
-
-    for item in items:
-        if status and item.get("status") != status:
-            continue
-
-        if content_type and content_type in ("mentoring", "lecture"):
-            if item.get("type") != content_type:
-                continue
-
+    for e in experts:
         score = 0
 
-        if domains:
-            item_domain = item.get("domain", "").lower()
-            matched = [d for d in domains if d.lower() in item_domain]
-            if matched:
-                score += len(matched) * 3
-
         if stacks:
-            item_stacks_lower = [s.lower() for s in item.get("stacks", [])]
-            matched = [s for s in stacks if s.lower() in item_stacks_lower]
-            if matched:
-                score += len(matched) * 2
+            e_stacks = [s.lower() for s in e.get("stacks", [])]
+            matched = [s for s in stacks if s.lower() in e_stacks]
+            score += len(matched) * 3
 
-        if goals:
-            item_goals = item.get("goals", [])
-            matched = [g for g in goals if g in item_goals]
-            if matched:
-                score += len(matched)
+        if domains:
+            e_domains = [d.lower() for d in e.get("domains", [])]
+            matched = [d for d in domains if d.lower() in e_domains]
+            score += len(matched) * 2
 
-        if domains or stacks or goals:
+        if keyword:
+            searchable = " ".join([
+                e.get("name", ""),
+                e.get("bio", ""),
+                " ".join(e.get("domains", [])),
+                " ".join(e.get("stacks", [])),
+            ]).lower()
+            for kw in re.split(r"[\s,]+", keyword.lower()):
+                if kw and kw in searchable:
+                    score += 2
+
+        if stacks or domains or keyword:
             if score > 0:
-                results.append({**item, "_score": score})
+                results.append({**e, "_score": score})
         else:
-            results.append({**item, "_score": 0})
+            results.append({**e, "_score": 0})
 
     results.sort(key=lambda x: x["_score"], reverse=True)
     for r in results:
         r.pop("_score", None)
 
-    spots_info = []
-    for r in results:
-        spots_info.append({
-            **r,
-            "remaining_spots": r["max_participants"] - r["current_participants"],
-        })
-
-    return {
-        "total": len(spots_info),
-        "items": spots_info,
-    }
-
-
-def _load_trainees() -> list[dict]:
-    with open(DATA_DIR / "trainees.json", encoding="utf-8") as f:
-        return json.load(f)
+    return {"total": len(results), "experts": results[:15]}
 
 
 def search_trainees(
@@ -173,6 +162,36 @@ TOOL_DEFINITIONS = [
     {
         "type": "function",
         "function": {
+            "name": "search_experts",
+            "description": (
+                "소마 선배 연수생인 엑스퍼트를 검색합니다. 엑스퍼트는 소마를 먼저 경험한 선배로, "
+                "팀 매칭, 멘토 매칭, 개발 조언, 창업/취업 경험 공유 등을 도와줍니다. "
+                "사용자가 '엑스퍼트 찾아줘', '선배 연수생 알려줘', 'AWS 잘 아는 엑스퍼트', '창업 경험 있는 선배' 등을 요청할 때 사용하세요."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "stacks": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "기술 스택 목록. 예: ['React', 'Spring Boot', 'AWS']",
+                    },
+                    "domains": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "전문 분야 목록. 예: ['창업', '백엔드', 'AI', '풀스택']",
+                    },
+                    "keyword": {
+                        "type": "string",
+                        "description": "자유 키워드 검색. 이름, 자기소개 내용 등. 예: '팀 매칭', '취업'",
+                    },
+                },
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "search_mentors",
             "description": (
                 "소마 멘토를 조건(기술 스택, 목표, 관심 분야)에 맞게 검색합니다. "
@@ -199,44 +218,6 @@ TOOL_DEFINITIONS = [
                     "available_only": {
                         "type": "boolean",
                         "description": "현재 멘토링 가능한 멘토만 검색할지 여부. 기본값 true.",
-                    },
-                },
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "search_mentorings",
-            "description": (
-                "소마 멘토링과 특강을 조건에 맞게 검색합니다. "
-                "사용자가 '멘토링 알려줘', '특강 찾아줘', '신청할 수 있는 거 뭐 있어' 등을 요청할 때 사용하세요."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "content_type": {
-                        "type": "string",
-                        "description": "콘텐츠 유형. 'mentoring'(멘토링) 또는 'lecture'(특강). 미지정 시 모두 검색.",
-                    },
-                    "domains": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "description": "관심 분야 목록. 예: ['클라우드', '백엔드', 'ML/AI']",
-                    },
-                    "stacks": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "description": "기술 스택 목록. 예: ['Python', 'AWS']",
-                    },
-                    "goals": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "description": "목표 목록. '취업' 또는 '창업'",
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "접수 상태 필터. '접수중', '마감', '전체' 중 하나. 기본값: '접수중'",
                     },
                 },
             },
@@ -275,23 +256,18 @@ TOOL_DEFINITIONS = [
 
 
 def execute_tool(tool_name: str, tool_input: dict) -> str:
-    if tool_name == "search_mentors":
+    if tool_name == "search_experts":
+        result = search_experts(
+            stacks=tool_input.get("stacks"),
+            domains=tool_input.get("domains"),
+            keyword=tool_input.get("keyword"),
+        )
+    elif tool_name == "search_mentors":
         result = search_mentors(
             stacks=tool_input.get("stacks"),
             goals=tool_input.get("goals"),
             domains=tool_input.get("domains"),
             available_only=tool_input.get("available_only", True),
-        )
-    elif tool_name == "search_mentorings":
-        status = tool_input.get("status", "접수중")
-        if status == "전체":
-            status = None
-        result = search_mentorings(
-            content_type=tool_input.get("content_type"),
-            domains=tool_input.get("domains"),
-            stacks=tool_input.get("stacks"),
-            goals=tool_input.get("goals"),
-            status=status,
         )
     elif tool_name == "search_trainees":
         result = search_trainees(

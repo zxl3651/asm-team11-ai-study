@@ -24,6 +24,7 @@ DATA_DIR.mkdir(exist_ok=True)
 
 MENTOR_URL = "https://swmaestromain.notion.site/AI-SW-32b91e401fdf8026a911df1dc614d5a4"
 TRAINEE_URL = "https://asm-busan.notion.site/mentee-list?v=33da01badc2180d0bd03000cd17634ca"
+EXPERT_URL = "https://swmaestromain.notion.site/AI-SW-32c91e401fdf80f3acfdcfb0f53d7c62"
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
@@ -47,6 +48,24 @@ JSON만 출력 (마크다운 없이):
   "goals": [],
   "bio": "",
   "available": true
+}"""
+
+EXPERT_PROMPT = """노션 엑스퍼트(소마 선배 연수생) 페이지 텍스트에서 아래 JSON 형식으로 정보를 추출해줘.
+- 없는 정보는 빈 문자열("") 또는 빈 배열([])로 채워.
+- domains: 기술분야 태그 배열 (예: ["풀스택", "창업", "백엔드"]).
+- stacks: 주개발언어/기술스택 태그 배열 (예: ["JavaScript", "React", "AWS"]).
+- bio: 자기소개 + 엑스퍼트 활동 계획을 합쳐 3-5줄로 요약. 어떤 도움을 줄 수 있는지 포함.
+- sns: SNS 계정 (인스타그램 핸들 등, 없으면 빈 문자열).
+- contact_available: 연락 가능 여부 (페이지에 연락처/SNS/커피챗 언급 있으면 true).
+
+JSON만 출력 (마크다운 없이):
+{
+  "name": "이름",
+  "domains": [],
+  "stacks": [],
+  "bio": "",
+  "sns": "",
+  "contact_available": true
 }"""
 
 TRAINEE_PROMPT = """노션 연수생 페이지 텍스트에서 아래 JSON 형식으로 정보를 추출해줘.
@@ -87,14 +106,31 @@ async def get_page_text(url: str, wait_ms: int = 7000) -> str:
             await browser.close()
 
 
-async def get_individual_links(parent_url: str) -> list[dict]:
+async def get_individual_links(parent_url: str, headless: bool = True) -> list[dict]:
     """갤러리 부모 페이지에서 개별 페이지 링크 추출."""
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=headless)
         page = await browser.new_page(user_agent=UA)
         try:
-            await page.goto(parent_url, wait_until="domcontentloaded", timeout=30000)
+            await page.goto(parent_url, wait_until="domcontentloaded", timeout=60000)
             await page.wait_for_timeout(6000)
+
+            # Load more / 더 불러오기 버튼 반복 클릭 (JS로 강제 클릭)
+            for _ in range(50):
+                clicked = await page.evaluate("""
+                    () => {
+                        const els = Array.from(document.querySelectorAll('div, button, span'));
+                        const btn = els.find(el =>
+                            el.innerText.trim() === 'Load more' ||
+                            el.innerText.trim() === '더 불러오기'
+                        );
+                        if (btn) { btn.click(); return true; }
+                        return false;
+                    }
+                """)
+                if not clicked:
+                    break
+                await page.wait_for_timeout(2000)
 
             raw_links = await page.evaluate("""
                 () => Array.from(document.querySelectorAll('a')).map(a => ({
@@ -113,20 +149,23 @@ async def get_individual_links(parent_url: str) -> list[dict]:
 
                 if not text or len(text) < 2:
                     continue
-                # notion 도메인 포함 링크만
                 if "notion.site" not in href and "notion.so" not in href:
                     continue
-                # 부모 URL(리스트/갤러리뷰) 제외
                 href_base = href.split("?")[0]
                 if href_base == parent_base:
                     continue
-                # 앵커 링크 제외
                 if "#main" in href or "Skip to" in text:
                     continue
-                # 갤러리 뷰(v=...) 링크 제외 (pvs 없는 경우)
+                # 갤러리/테이블 뷰 링크 제외 (pvs 없는 경우)
                 if "?v=" in href and "pvs" not in href:
                     continue
-                # Notion 마케팅 링크 제외
+                # 개별 페이지가 아닌 뷰 링크 제외
+                if "pvs" not in href and href_base != parent_base:
+                    parsed_path = href_base.split("/")[-1]
+                    if len(parsed_path) == 32 and parsed_path.replace("-", "").isalnum():
+                        pass  # 정상 개인 페이지
+                    elif "?" not in href and "pvs" not in href:
+                        continue
                 if "notion.com" in href or "notion.so/product" in href:
                     continue
 
@@ -173,15 +212,19 @@ def save_progress(path: Path, data: list):
 
 async def crawl(data_type: str):
     client = get_client()
-    url = MENTOR_URL if data_type == "mentors" else TRAINEE_URL
-    prompt = MENTOR_PROMPT if data_type == "mentors" else TRAINEE_PROMPT
-    id_prefix = "M" if data_type == "mentors" else "T"
+    if data_type == "mentors":
+        url, prompt, id_prefix, label = MENTOR_URL, MENTOR_PROMPT, "M", "멘토"
+    elif data_type == "experts":
+        url, prompt, id_prefix, label = EXPERT_URL, EXPERT_PROMPT, "E", "엑스퍼트"
+    else:
+        url, prompt, id_prefix, label = TRAINEE_URL, TRAINEE_PROMPT, "T", "연수생"
+
     progress_file = DATA_DIR / f"{data_type}_progress.json"
     out_file = DATA_DIR / f"{data_type}.json"
-    label = "멘토" if data_type == "mentors" else "연수생"
+    headless = data_type != "experts"  # 엑스퍼트는 headful 필요
 
     print(f"🔍 {label} 목록 페이지 분석 중...")
-    links = await get_individual_links(url)
+    links = await get_individual_links(url, headless=headless)
     print(f"📄 개별 {label} 페이지 발견: {len(links)}개")
 
     results = load_progress(progress_file)
@@ -221,13 +264,15 @@ async def crawl(data_type: str):
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in ("mentors", "trainees", "all"):
-        print("사용법: python crawl_notion.py [mentors|trainees|all]")
+    if len(sys.argv) < 2 or sys.argv[1] not in ("mentors", "trainees", "experts", "all"):
+        print("사용법: python crawl_notion.py [mentors|trainees|experts|all]")
         sys.exit(1)
 
     mode = sys.argv[1]
     if mode in ("mentors", "all"):
         asyncio.run(crawl("mentors"))
+    if mode in ("experts", "all"):
+        asyncio.run(crawl("experts"))
     if mode in ("trainees", "all"):
         asyncio.run(crawl("trainees"))
 

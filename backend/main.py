@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from agent import create_client, run_agent
-from tools import search_mentors, search_mentorings
+from tools import search_mentors, search_experts, search_trainees
 
 load_dotenv()
 
@@ -47,12 +47,16 @@ class MentorSearchRequest(BaseModel):
     available_only: bool = True
 
 
-class MentoringSearchRequest(BaseModel):
-    content_type: str | None = None
-    domains: list[str] | None = None
+class ExpertSearchRequest(BaseModel):
     stacks: list[str] | None = None
-    goals: list[str] | None = None
-    status: str = "접수중"
+    domains: list[str] | None = None
+    keyword: str | None = None
+
+
+class TraineeSearchRequest(BaseModel):
+    roles: list[str] | None = None
+    stacks: list[str] | None = None
+    team_status: str | None = None
 
 
 @app.get("/health")
@@ -88,6 +92,15 @@ async def clear_session(session_id: str):
     return {"message": f"세션 '{session_id}' 초기화 완료"}
 
 
+@app.post("/experts/search")
+async def expert_search(req: ExpertSearchRequest):
+    return search_experts(
+        stacks=req.stacks,
+        domains=req.domains,
+        keyword=req.keyword,
+    )
+
+
 @app.post("/mentors/search")
 async def mentor_search(req: MentorSearchRequest):
     return search_mentors(
@@ -98,15 +111,12 @@ async def mentor_search(req: MentorSearchRequest):
     )
 
 
-@app.post("/mentorings/search")
-async def mentoring_search(req: MentoringSearchRequest):
-    status = req.status if req.status != "전체" else None
-    return search_mentorings(
-        content_type=req.content_type,
-        domains=req.domains,
+@app.post("/trainees/search")
+async def trainee_search(req: TraineeSearchRequest):
+    return search_trainees(
+        roles=req.roles,
         stacks=req.stacks,
-        goals=req.goals,
-        status=status,
+        team_status=req.team_status,
     )
 
 

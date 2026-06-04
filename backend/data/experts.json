@@ -1,0 +1,1856 @@
+[
+  {
+    "name": "조윤직",
+    "domains": [
+      "기획",
+      "모바일",
+      "풀스택"
+    ],
+    "stacks": [
+      "Dart",
+      "Kotlin",
+      "Node.js"
+    ],
+    "bio": "16기 우수자로 해외연수 경험을 가진 엑스퍼트입니다. 앱 개발 및 수익화 경험을 바탕으로 아이디어 기획부터 피봇팅, 수익화까지 전 과정을 함께 고민합니다. 팀 빌딩, 갈등 해결, 마케팅 등 현실적인 문제 해결에 도움을 드리며, 소마 생활을 최대한 활용할 수 있도록 지원합니다. 창업/프로덕트 완성을 원하는 분들과 특히 잘 맞습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E002",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ecb6d4cfc0434ee401?pvs=25"
+  },
+  {
+    "name": "강경아",
+    "domains": [
+      "풀스택",
+      "창업",
+      "백엔드",
+      "Flutter",
+      "kafka"
+    ],
+    "stacks": [
+      "MySQL",
+      "JavaScript",
+      "TypeScript",
+      "Flutter",
+      "Node.js",
+      "Nest.js",
+      "React",
+      "GoogleCloudPlatform",
+      "Firebase",
+      "Ruby",
+      "Ruby on rails"
+    ],
+    "bio": "14기 수료생이자 15기부터 엑스퍼트로 활동 중인 강경아입니다. 인증, 창업, 취업 경험을 바탕으로 팀/멘토 매칭, 프로젝트 개발, 평가 과정 등 연수 전반에 대한 조언을 제공합니다. 현재 IT기업에서 서버 엔지니어로 근무하며 프론트까지 폭넓게 경험 중입니다. 웹엑스, 이메일, 인스타 DM, 커피챗 등을 통해 편하게 연락 주세요.",
+    "sns": "@aeiou__me",
+    "contact_available": true,
+    "id": "E003",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf818ea78dcd137f35a454?pvs=25"
+  },
+  {
+    "name": "강민혁",
+    "domains": [
+      "프론트엔드",
+      "백엔드",
+      "DevOps"
+    ],
+    "stacks": [
+      "TypeScript",
+      "JavaScript",
+      "React",
+      "Nest.js"
+    ],
+    "bio": "14기 수료생으로 B2B SaaS WorkPlug 개발 및 우수 프로젝트 선정 경험 보유. 현재 flex에서 AI Native Engineering 업무 수행 중. AI Agent 활용 개발 워크플로우 설계 및 Agentic Coding 환경 구축 실무 경험. 팀 매칭/주제 선정, 제품 개발 방향 점검, AI 기술 접목 지원 가능. 소마 과정 고민부터 AI 활용 개발까지 편하게 문의 환영.",
+    "sns": "linkedin.com/in/…67202/",
+    "contact_available": true,
+    "id": "E004",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf808d910cc32a7c905a77?pvs=25"
+  },
+  {
+    "name": "강윤희",
+    "domains": [
+      "백엔드",
+      "기획",
+      "DevOps"
+    ],
+    "stacks": [
+      "Bash",
+      "Docker",
+      "AWS",
+      "kubernetes",
+      "Python"
+    ],
+    "bio": "SK AX에서 Infra Architect로 재직 중인 제15기 수료생 강윤희입니다. 퀀트 스타트업 풀스택 인턴, 현대오토에버 소프트웨어 엔지니어, 주류 스타트업 백엔드 엔지니어 경험을 바탕으로 개발부터 인프라까지 폭넓은 스펙트럼을 보유하고 있습니다. 팀빌딩/멘토 매칭 전략, 고민 상담, 업계 근황 공유 등을 통해 17기 여러분의 성장을 지원하겠습니다. 평일 저녁/주말 오프라인 만남도 가능합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E005",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80bab2d3c257a55511b0?pvs=25"
+  },
+  {
+    "name": "강인수",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "MySQL"
+    ],
+    "bio": "카카오에서 백엔드 개발자로 근무하며 단축URL 서비스를 담당. 소마 13기 수료생으로, 네이버 바이브와 협업한 뮤직오토태깅 프로젝트에서 AI 개발 및 안드로이드 앱 개발을 경험. 팀 매칭/멘토 선정, 취업(이력서/포트폴리오/면접 팁), 고민 상담 분야에서 17기 연수생들을 지원할 계획. 소마에서의 프로젝트 경험과 성장 노하우를 공유.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E006",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf800081eded2a73c133a3?pvs=25"
+  },
+  {
+    "name": "강혜연",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "MySQL",
+      "Node.js",
+      "스프링 부트"
+    ],
+    "bio": "KT DS에서 Software Engineer로 근무 중인 13기 수료생 강혜연입니다. 14-17기 엑스퍼트로 활동하며 취업 전략(면접/자소서), 소마 활동 활용법, 프로젝트 관리 노하우를 공유합니다. Node.js 백엔드 개발 및 인증 경험을 바탕으로 팀 매칭·기획·마케팅 지원 가능합니다. 네트워킹 기회 제공과 발표 자료 구성 꿀팁도 전수해드립니다!",
+    "sns": "",
+    "contact_available": true,
+    "id": "E007",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81b8a0cbf5349ab62a79?pvs=25"
+  },
+  {
+    "name": "고동우",
+    "domains": [
+      "프론트엔드",
+      "Web",
+      "기획"
+    ],
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Vue.js",
+      "C++"
+    ],
+    "bio": "CJ 올리브영에서 프론트엔드 개발자로 근무 중인 2년차 개발자입니다. 소마 14기 수료생으로, '인포럼' 프로젝트를 통해 기술블로그와 Q&A 커뮤니티 통합 플랫폼을 개발하며 SEO, 웹성능 최적화, SSR, 오픈소스 컨트리뷰트 경험을 쌓았습니다. 팀빌딩, 기획 심사, 고민 상담 분야에서 17기 연수생들을 지원할 계획입니다. 팀빌딩 기준 공유, 기획 심사 재심의 경험 전달, 취업/창업/역할 고민 상담 등을 통해 성장을 돕겠습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E008",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80a0979de95b643e69c5?pvs=25"
+  },
+  {
+    "name": "고병욱",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "풀스택",
+      "창업"
+    ],
+    "stacks": [
+      "Next.js",
+      "Spring Boot",
+      "AWS",
+      "Flutter"
+    ],
+    "bio": "13기 수료생 고병욱입니다. 네이버랩스 인턴 및 Recruit Holdings 입사 예정자로, 7개의 개인 서비스 개발 및 6,000명 이상의 사용자 경험을 보유했습니다. SW 마에스트로 동문 커뮤니티 '소마인' 운영 경험이 있으며, 팀 소통 및 현실적인 문제 해결에 강점을 가지고 있습니다. 팀원 매칭, 목표 설정, 대기업 컨택 및 피칭 전략, 의사 파트너십 구축 등 연수 과정 전반에 걸쳐 실질적인 도움을 제공할 수 있습니다. 기술 스터디, 창업 아이디에이션, 취업 준비 등 다양한 분야에서도 지원 가능합니다.",
+    "sns": "linkedin.com/in/…668264",
+    "contact_available": true,
+    "id": "E009",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf808e9dc0cee4fd5520de?pvs=25"
+  },
+  {
+    "name": "권병지",
+    "domains": [
+      "기획",
+      "Mobile",
+      "PM/PO",
+      "퍼포먼스마케팅",
+      "팀빌딩"
+    ],
+    "stacks": [
+      "Flutter",
+      "Kotlin",
+      "JAVA",
+      "Dart",
+      "Jira",
+      "Confluence"
+    ],
+    "bio": "소프트웨어 마에스트로 13기 수료 후 Waki 창업 및 라이트윈 대표로 활동 중인 권병지입니다. 17기 연수생들의 길잡이로서 시행착오 없이 완주할 수 있도록 돕고자 합니다. 예비 연수과정부터 본 과정까지 팀 구성, 멘토 매칭, 프로젝트 아이템 발굴, 팀 매니지먼트, 발표 코칭 등 다양한 지원을 통해 소마 200% 활용을 목표로 합니다. 퍼포먼스 마케팅, Agile 개발 방법론, Jira/Confluence 세팅 등 실무 경험도 공유합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E010",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81bf8adbdf5002e6c9ac?pvs=25"
+  },
+  {
+    "name": "권태현",
+    "domains": [
+      "백엔드",
+      "기획",
+      "AWS"
+    ],
+    "stacks": [
+      "JAVA",
+      "MySQL",
+      "C++",
+      "TypeScript",
+      "spring"
+    ],
+    "bio": "제13기 수료생으로 삼성전자 MX사업부 3년차 개발자입니다. 소마에서 '동네이웃과 함께하는 소분구매 플랫폼 N빵' 프로젝트를 개발하며 기획, 마케팅, 백엔드 개발, 특허 출원 등 다양한 경험을 쌓았습니다. 17기 연수생들이 소마 과정에 잘 적응하고 팀 매칭, 기획, 개발, 인증, 취업 준비까지 성공적으로 진행할 수 있도록 멘토링할 계획입니다. 특히 팀 매칭 시 열정적이고 목표 일치하는 팀원 찾는 방법, 기획 단계 고민 해결, 대기업 취업 노하우 등을 공유할 예정입니다.",
+    "sns": "linkedin.com/in/…ehyun/",
+    "contact_available": true,
+    "id": "E011",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf812bbcdccfcda9db4bed?pvs=25"
+  },
+  {
+    "name": "김도영",
+    "domains": [
+      "기획",
+      "AI",
+      "Data Engineering",
+      "인공지능",
+      "LLM"
+    ],
+    "stacks": [
+      "Python",
+      "Flutter",
+      "Tensorflow",
+      "LLM"
+    ],
+    "bio": "성균관대 인공지능학과 박사과정 대학원생으로 Efficient AI & Vision Language Model 연구 중입니다. 소마 15기 수료생으로, 예비과정 팀 구성부터 본과정 방향 설정까지 경험 공유합니다. AI 코딩 툴 활용 시대에 서비스 기획 및 개발 방향 조언 가능하며, 팀 갈등 해결 및 기술 고민 상담 지원합니다. 소마 지원금 활용 서비스 개발 경험을 바탕으로 실질적인 도움 제공하겠습니다.",
+    "sns": "linkedin.com/in/kacel33/",
+    "contact_available": true,
+    "id": "E012",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf806c91fcc6595f44dee1?pvs=25"
+  },
+  {
+    "name": "김민서",
+    "domains": [
+      "창업",
+      "AI",
+      "풀스택",
+      "Computer Vision"
+    ],
+    "stacks": [
+      "Python",
+      "TypeScript",
+      "Dart",
+      "MySQL",
+      "Next.js",
+      "Flutter"
+    ],
+    "bio": "14기 수료생으로 우수자 미국 연수 경험을 보유. 소마 프로젝트로 창업해 현재 대표 역할 중. 서비스 피봇 및 수익화 경험, 창업 지원사업 활용 노하우 공유 가능. 소마 프로젝트 집중도 향상 및 팀 분위기 조성, 멘토 선정 전략에 도움 제공. 창업 목표 여부와 무관하게 프로젝트 애정이 있는 분들과 교류 희망.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E013",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81d39273c06b1e4b648e?pvs=25"
+  },
+  {
+    "name": "김상엽",
+    "domains": [
+      "임베디드",
+      "풀스택",
+      "DevOps"
+    ],
+    "stacks": [
+      "C",
+      "C++",
+      "React",
+      "Spring"
+    ],
+    "bio": "SW마에스트로 14기 수료생으로, 현재는 현대모비스 ADAS Embedded Software Engineer로 활동 중입니다. 소마 활동 당시 프론트엔드 개발자로 경험을 쌓았으며, 백엔드 및 임베디드 분야에서도 개발 경험이 있습니다. 개발 커리어 초기 단계의 연수생들에게 고민 상담 및 커리어 조언을 제공하는 것이 목표입니다. 커피챗, 식사, 온라인/오프라인 미팅을 통해 소통하며, 특히 자동차 기술 동향에 대한 논의도 가능합니다.",
+    "sns": "linkedin.com/in/yeobi/",
+    "contact_available": true,
+    "id": "E015",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf800483bcfedde20ad276?pvs=25"
+  },
+  {
+    "name": "김서기",
+    "domains": [
+      "기획",
+      "AI",
+      "백엔드"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "ORACLE",
+      "Pytorch",
+      "Python"
+    ],
+    "bio": "현대오토에버 2년차 개발자로 구매 플랫폼 개발/운영 중. 소마 13기 출신으로 중고 의류 거래 플랫폼 프로젝트에서 AI 개발자로 참여, 추천 모델 및 의류 분류 모델 개발 후 AWS 서빙 경험 보유. 프로젝트 주제 선정, 멘토 매칭, Agile 협업(노션/Jira), AI 모델 서빙 등 소마 과정 전반에 대한 조언 및 기술 지원 가능. 평일 저녁/주말 온라인 또는 소마센터에서 편하게 연락 가능.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E016",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81c9850bea2a4f62c0d6?pvs=25"
+  },
+  {
+    "name": "김선우",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "풀스택"
+    ],
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js"
+    ],
+    "bio": "16기 수료생으로 미국 연수 및 우수자 경험을 바탕으로 현실적인 개발 인사이트와 프로젝트 경험을 공유합니다. 팀 빌딩 전략, 프로젝트 기획, 기술 지원(프론트엔드 중심), 취업 정보를 제공하며, 창업/취업/인증 목표 달성을 위한 실질적인 도움을 줄 수 있습니다. 로블록스 서비스 제작 및 오픈소스 기여 경험을 바탕으로 기술 성장과 네트워킹 기회를 함께 만들어갑니다.",
+    "sns": "https://www.linkedin.com/in/sunwoo-kim-a838822bb/",
+    "contact_available": true,
+    "id": "E017",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80c1be81c432e13fdb6d?pvs=25"
+  },
+  {
+    "name": "김승기",
+    "domains": [
+      "백엔드",
+      "DBA",
+      "Server",
+      "기획",
+      "팀빌딩"
+    ],
+    "stacks": [
+      "JAVA",
+      "Vue.js",
+      "postgresql",
+      "Spring Boot",
+      "Kafka",
+      "Cassandra",
+      "JPA",
+      "AWS"
+    ],
+    "bio": "신한카드 4년차 백엔드 개발자로 재직 중인 소마 13기 수료생입니다. AI 시대에 함께 성장하며, 프로젝트 완수부터 취업 준비까지 종합적으로 지원하겠습니다. 팀 빌딩 전략, 기획/개발/마케팅 팔로업, 자기소개서 첨삭, 면접 대비 등 실무 경험을 바탕으로 현실적인 커리어 로드맵을 제시합니다. 부산 연수생 대상 방문/온라인 멘토링 가능하며, 금융권 개발 관심자 환영합니다.",
+    "sns": "linkedin.com/in/…84a281",
+    "contact_available": true,
+    "id": "E018",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80a7be42e9a59e54ecb0?pvs=25"
+  },
+  {
+    "name": "김영현",
+    "domains": [
+      "프론트엔드",
+      "백엔드",
+      "DevOps",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "TypeScript"
+    ],
+    "bio": "현대오토에버에서 기아자동차 커넥트 고객센터 시스템 개발/운영 중이며, kt ds에서 SI 프로젝트 및 클라우드 네이티브 파이프라인 구축 경험이 있습니다. 소마 12기 수료생으로 웹툰 자동채색 프로젝트 리더 경험 보유. AI 기반 개발환경, 팀빌딩, 목표 설정, 취업/이직 컨설팅 지원 가능. 네트워킹 및 모각코 활동을 통해 편안한 형/오빠/친구 같은 엑스퍼트로 활동 예정.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E019",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80acb6f4d9caf25539c5?pvs=25"
+  },
+  {
+    "name": "김일곤",
+    "domains": [
+      "프론트엔드",
+      "DevOps"
+    ],
+    "stacks": [
+      "TypeScript"
+    ],
+    "bio": "SW마에스트로 14기 수료 후 현대오토에버에서 자동차 제조 시스템 개발 및 운영을 담당. 프론트엔드 개발, 시스템 운영, 비전 인식 프로젝트 PM 경험 보유. 엑스퍼트로 팀 구성 지원, 프론트엔드 기술 고민 공유, 일정 관리 도움 제공. 소마 생활에 몰입할 수 있도록 지원하며, 연수생들의 성장을 위한 편안한 조언자 역할 수행.",
+    "sns": "linkedin.com/in/…36275/",
+    "contact_available": true,
+    "id": "E020",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8067b600e06dee7b3e1a?pvs=25"
+  },
+  {
+    "name": "김정원",
+    "domains": [
+      "iOS",
+      "MacOS",
+      "Mobile",
+      "기획"
+    ],
+    "stacks": [
+      "Python",
+      "SQL",
+      "Swift",
+      "Firebase",
+      "Supabase",
+      "GitHub Actions"
+    ],
+    "bio": "iOS 개발자 준비 중인 16기 수료생입니다. 소마 생활 전반에 대한 편안한 상담과 모바일 개발 기술 논의를 제공합니다. 팀 빌딩/멘토 매칭 전략 공유 및 사업화 경험(Comolib 서비스 운영)을 바탕으로 실질적인 도움을 드립니다. 오프라인 만남을 통해 부담 없는 교류를 지향합니다.",
+    "sns": "https://www.instagram.com/garden.disom_/",
+    "contact_available": true,
+    "id": "E021",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80069c7cedb24d75ccb8?pvs=25"
+  },
+  {
+    "name": "김정훈",
+    "domains": [
+      "기획",
+      "DBA",
+      "DevOps",
+      "백엔드"
+    ],
+    "stacks": [
+      "Go",
+      "Redis",
+      "MongoDB",
+      "kubernetes",
+      "Flutter"
+    ],
+    "bio": "SW 마에스트로 12기 수료생으로 13-15기 엑스퍼트 활동 경험. LINE+에서 DBaaS DevOps팀 리드 및 DBA로 근무. 취업/진학/창업 경험 보유. 기술 스택(Go, Redis, MongoDB 등) 및 실무 노하우 공유 가능. 딱딱한 상담보다는 친구처럼 편하게 커피/식사하며 진솔한 대화 선호. 온라인/오프라인 모두 환영하며, 특히 '이렇게 하면 안된다'는 실전 꿀팁 제공 강점.",
+    "sns": "linkedin.com/in/…36244/",
+    "contact_available": true,
+    "id": "E022",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf801591fcf9bf6ba64a52?pvs=25"
+  },
+  {
+    "name": "김준형",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "디자인",
+      "PM/PO",
+      "창업"
+    ],
+    "stacks": [
+      "C++",
+      "Vue.js",
+      "MongoDB",
+      "FastAPI"
+    ],
+    "bio": "15기 수료생으로 아남결 팀장을 맡아 '쓰담' 서비스를 개발했으며, 우수 프로젝트 선정 및 미국 연수 경험을 보유. 현재는 'Episod'로 창업하여 국가지원금 유치 및 6,000명 유저 확보 등의 성과를 냄. 엑스퍼트로서 소마 프로그램 적응 지원, 프로젝트 기획/개발/발표 전략, 창업 준비 등 다양한 분야에서 경험 기반 조언 제공. 팀원 간 갈등 해결, 발표 기술, 소마 활용 창업 노하우 공유 가능. 오프라인 만남을 선호하며, 인증/창업을 목표로 하는 연수생에게 특히 도움 가능.",
+    "sns": "shape_of_june",
+    "contact_available": true,
+    "id": "E023",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81e78175f6fa9a70b40f?pvs=25"
+  },
+  {
+    "name": "김찬규",
+    "domains": [
+      "기획",
+      "PM/PO",
+      "System Software",
+      "프론트엔드",
+      "창업"
+    ],
+    "stacks": [
+      "C",
+      "C++",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "React Native",
+      "Next.js"
+    ],
+    "bio": "SW마에스트로 14기 수료생으로, 삼성전자 DA 사업부에서 C/C++ 기반 시스템 소프트웨어 엔지니어로 근무 중입니다. 소마 당시 프로덕트 오너(PO) 겸 프론트엔드·모바일 개발자로 활동하며 우수 프로젝트(1등) 선정 및 미국 해외 연수 경험을 보유했습니다. 창업 활동(예비창업패키지, 청년창업사관학교) 경험을 바탕으로 서비스 기획부터 출시·운영까지 폭넓은 조언과 소마 이후 취업 연계 경험을 공유할 수 있습니다. 주제 선정, 팀빌딩, 시행착오 공유, 네트워킹 지원을 통해 연수생들의 성공적인 프로젝트 진행을 돕겠습니다.",
+    "sns": "linkedin.com/in/…kyu63/",
+    "contact_available": true,
+    "id": "E024",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf807193a7ce357eba185c?pvs=25"
+  },
+  {
+    "name": "김태호",
+    "domains": [
+      "백엔드"
+    ],
+    "stacks": [
+      "Kotlin"
+    ],
+    "bio": "토스뱅크 백엔드 개발자로, 소마 과정에서 아이돌 중고거래 플랫폼 개발 및 사업 양도양수 경험을 보유. 비전공자 출신 개발자로 취업/이직 과정에서 겪은 고민을 바탕으로, 프로젝트 방향성 설정, 팀 협업 전략, 커리어 고민 해결에 도움 제공. 엑스퍼트 활동 시 온라인/오프라인 자유롭게 소통하며, 창업/사이드 프로젝트 관심자 및 비전공자/이직자 대상 멘토링 가능.",
+    "sns": "https://www.instagram.com/terry______k?igsh=MTZjdW1jMDRtZmY2OA%3D%3D&utm_source=qr",
+    "contact_available": true,
+    "id": "E025",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf809bad0de552fd205cbb?pvs=25"
+  },
+  {
+    "name": "김혜지",
+    "domains": [
+      "백엔드",
+      "기획",
+      "디자인"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring Boot",
+      "Kafka",
+      "Redis",
+      "JavaScript"
+    ],
+    "bio": "소프트웨어 마에스트로 13기 수료생이자 현재 Platform Engineer로 활동 중입니다. 사용자 경험 개선과 실제 Pain Point 해결에 집중하며, 효율적인 UX 설계를 중요하게 생각합니다. 엑스퍼트 활동으로는 소마 프로젝트 경험 공유, 팀 협업 전략, 기획 발표 팁 등을 전달할 예정입니다. 연수생들의 기술·커리어 고민을 함께 나누고, 커피챗이나 식사도 제안하며 교류하고 싶습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E027",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81b99f22f13549bfef6c?pvs=25"
+  },
+  {
+    "name": "남민지",
+    "domains": [
+      "백엔드",
+      "풀스택",
+      "Data Engineering"
+    ],
+    "stacks": [
+      "JAVA",
+      "Python"
+    ],
+    "bio": "카카오 데이터플랫폼 개발자로 재직 중인 16기 남민지 엑스퍼트입니다. 소마 16기 활동 경험을 바탕으로 팀 결성, 멘토 선택, 아키텍쳐 설계 등 프로젝트 전반에 대한 조언을 드릴 수 있습니다. 센터 주변 맛집 추천과 수다 상대 역할도 가능합니다. 연수생 분들이 소마 생활을 즐기며 현재에 충실할 수 있도록 편안한 조언자 역할을 하고자 합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E028",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80869c5fc7b7e72b1ca1?pvs=25"
+  },
+  {
+    "name": "남윤제",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "Python"
+    ],
+    "bio": "16기 수료생으로 쉐프토리 서비스 개발 및 운영 경험 보유. 백엔드 중심 팀 구성부터 서비스 출시까지 전 과정 경험. 팀 매칭/멘토링/기획/개발 등 소마 과정 전반에 대한 현실적 조언 가능. 대학 병행 시간 관리 및 MVP 구체화 지원. AI 활용 개발 시 유지보수 포인트 점검 및 협업 전략 공유.",
+    "sns": "linkedin.com/in/…2435b/",
+    "contact_available": true,
+    "id": "E029",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf801186bfe34d5bed146f?pvs=25"
+  },
+  {
+    "name": "노영진",
+    "domains": [
+      "백엔드",
+      "클라우드",
+      "기획"
+    ],
+    "stacks": [
+      "Go",
+      "JAVA"
+    ],
+    "bio": "제17기 연수생들을 위한 엑스퍼트로 활동하는 15기 수료생 노영진입니다. 백엔드 및 클라우드 개발 경험을 바탕으로 프로젝트 방향성 고민, 기술적 실현 가능성 검토, 효율적인 인프라 구성, 클라우드 비용 최적화, AI 툴 활용 제품 구현 등을 지원합니다. 또한 취업 준비 전략과 소마 생활 전반에 대한 현실적인 조언도 제공합니다. 연수생 시절 선배의 조언이 절실했던 경험을 바탕으로, 기술적 벽이나 팀 협업 문제, 진로 고민 시 든든한 조력자가 되겠습니다.",
+    "sns": "linkedin.com/in/…736301",
+    "contact_available": true,
+    "id": "E030",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80e58052ebfe3083f8f3?pvs=25"
+  },
+  {
+    "name": "노종빈",
+    "domains": [
+      "AI Agent",
+      "Data Engineering",
+      "풀스택",
+      "디자인"
+    ],
+    "stacks": [
+      "Python",
+      "AWS",
+      "LangChain",
+      "Apache Airflow"
+    ],
+    "bio": "문과 출신으로 AI 엔지니어까지 성장한 16기 수료생입니다. RAG 파이프라인 설계 및 운영 중이며, 소마에서 비전공자로서의 어려움을 극복하고 우수자 선정 및 취업 성공 경험을 바탕으로 성장을 지원합니다. 프로젝트 기획부터 배포까지 전 과정 노하우 전수, 스타트업 적응 관련 조언, 편한 친구 같은 멘토링을 제공합니다.",
+    "sns": "https://www.instagram.com/nojongbin/?hl=en",
+    "contact_available": true,
+    "id": "E031",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ba8a95c547c3f774a7?pvs=25"
+  },
+  {
+    "name": "문영상",
+    "domains": [
+      "백엔드",
+      "AI",
+      "기획",
+      "Kubernetes",
+      "AI Agent",
+      "LangChain"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring Boot",
+      "Python",
+      "MySQL",
+      "LangChain"
+    ],
+    "bio": "15기 연수생 출신으로 SK AX에서 AI Agent 플랫폼 개발 중. 소마 인증, 학업 병행, 취업 경험을 바탕으로 효율적인 시간 관리 및 LLM 프로젝트 활용 전략 공유 가능. 백엔드 개발자로서 LLM 연동 시 커리어 방향성 조언 및 견고한 백엔드 구축 경험 전달. 기획부터 개발까지 전 과정 멘토링 제공. Dau 1000+ 앱 서비스 운영, 레딧/프로덕트 헌트 성공 사례 보유. 기획심의 준비, 발표 코칭, 취업 조언 등 종합 지원 가능.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E032",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81ba9801d7196b952454?pvs=25"
+  },
+  {
+    "name": "민재원",
+    "domains": [
+      "백엔드",
+      "Data Engineering",
+      "AI"
+    ],
+    "stacks": [
+      "JAVA",
+      "scala",
+      "Hadoop",
+      "spark",
+      "Kotlin",
+      "Python",
+      "Kafka",
+      "SQL"
+    ],
+    "bio": "카카오 4년차 데이터/백엔드 엔지니어로, 대용량 트래픽 서비스 개발 및 운영 경험을 바탕으로 AI 시대의 경쟁력 있는 개발자 성장 전략을 공유합니다. 시스템 아키텍처 설계, 인프라 최적화, 빅데이터 파이프라인 구축 노하우를 전수하며, SW 마에스트로에서 인증 획득 및 취업까지 연계하는 속도감 있는 프로젝트 실행 가이드를 제공합니다. 커피챗을 통해 기술/커리어 고민 상담도 가능합니다.",
+    "sns": "linkedin.com/in/…49211/",
+    "contact_available": true,
+    "id": "E033",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81a599fbfd71ce4764bf?pvs=25"
+  },
+  {
+    "name": "박민규",
+    "domains": [
+      "프론트엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Bootstrap",
+      "caver.js",
+      "Three.js",
+      "MySQL",
+      "FastAPI",
+      "SSE",
+      "React Query"
+    ],
+    "bio": "소마 16기 연수생이자 17기 엑스퍼트로, 현재 골프존클라우드 AX팀에서 프론트엔드 개발자로 근무 중입니다. 3D NFT 패션아이템 플랫폼, 모듈러주택 판매플랫폼, 패션 추천 플랫폼 등 다양한 프로젝트 경험을 보유했습니다. 프론트엔드 기술 선정, 팀/멘토 매칭, 기획 지원 등에 도움을 드릴 수 있으며, 주니어 개발자로서의 경험과 FE 개발자 시각을 공유합니다. 평일 저녁과 주말 서울/부산 연수생과 온오프라인 매칭 가능합니다.",
+    "sns": "민둘",
+    "contact_available": true,
+    "id": "E034",
+    "profile_url": "https://swmaestromain.notion.site/33391e401fdf8092acbde23d530d7784?pvs=25"
+  },
+  {
+    "name": "박상욱",
+    "domains": [
+      "기획",
+      "Flutter",
+      "Android",
+      "창업"
+    ],
+    "stacks": [
+      "Kotlin",
+      "JAVA",
+      "JavaScript",
+      "Dart",
+      "MySQL",
+      "Things 3",
+      "Tana",
+      "Readwise Reader",
+      "Google Calendar",
+      "Apple Calendar",
+      "Codex",
+      "Claude Code",
+      "GLM"
+    ],
+    "bio": "12기 수료생 박상욱입니다. 아이디어를 제품으로 구체화하고 기획·개발·UX·운영 간 균형 잡힌 판단을 내리는 Maker입니다. 현재 스타트업에서 Android 기반 AR Glass Application 개발 및 개인 지식 관리 서비스 'Tessera' 창업 중입니다. SW마에스트로 활동 경험을 바탕으로 프로젝트·학교·개인 일정 관리 조언, 기획부터 UX까지 종합적인 제품 개발 지원, 창업 관련 경험 공유가 가능합니다. 제너럴리스트 관점에서 기술 구현뿐 아니라 제품 방향성·일정 관리·출시 전략까지 함께 고민하며, AI 기반 워크플로우 구축에도 도움을 드립니다.",
+    "sns": "linkedin.com/in/…haive/",
+    "contact_available": true,
+    "id": "E035",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf801fb508d0d50e29c053?pvs=25"
+  },
+  {
+    "name": "박우성",
+    "domains": [
+      "Android",
+      "Mobile",
+      "AI",
+      "RL"
+    ],
+    "stacks": [
+      "Kotlin",
+      "Python",
+      "Figma",
+      "Compose"
+    ],
+    "bio": "16기 팀장 출신으로 안드로이드 개발, 디자인, 마케팅 경험을 보유. 소마 생활 전반에 대한 조언과 다양한 사례 공유 가능. 앱 개발 및 오픈소스 기여 경험 있으며, 모바일 아키텍처/디자인/1인 개발 지원 가능. 시기/상황별 조언, 멘토 추천, 센터 생활 팁 제공. 팀원 갈등 관리 및 동기 부여에도 도움.",
+    "sns": "https://www.youtube.com/@AISWMaestro/shorts",
+    "contact_available": true,
+    "id": "E036",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80b5a0f7f572199597e1?pvs=25"
+  },
+  {
+    "name": "박정근",
+    "domains": [
+      "Android",
+      "Mobile",
+      "AI"
+    ],
+    "stacks": [
+      "Kotlin",
+      "JAVA",
+      "ClaudeCode",
+      "Media Streaming",
+      "FIgma"
+    ],
+    "bio": "13기 수료생 박정근입니다. 소마 시절 방향성 고민 경험을 바탕으로, 스펙 부족/팀 매칭/커리어 설계 등 고민을 함께 해결하고 싶습니다. 안드로이드/모바일 개발 설계, 취업 준비(이력서/면접), 소마 경험 활용법을 공유하며, 기술·진로·일상 고민까지 편하게 들어드립니다. 엑스퍼트 활동 기간 이후에도 지속적인 관계 유지를 희망합니다.",
+    "sns": "linkedin.com/in/jgeun",
+    "contact_available": true,
+    "id": "E037",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80459bb8e8f5cf4e98f1?pvs=25"
+  },
+  {
+    "name": "박정섭",
+    "domains": [
+      "백엔드",
+      "기획",
+      "창업",
+      "풀스택"
+    ],
+    "stacks": [
+      "MySQL",
+      "Spring",
+      "FastAPI"
+    ],
+    "bio": "SW마에스트로 15기 수료생 & 음악 플랫폼 스타트업(Soundok) CTO 박정섭입니다. 창업, 취업, 군대 SW개발병 경험을 바탕으로 예비 연수생 분들에게 방향 설정, 팀빌딩, 아이디어 검증 등 현실적인 조언을 드리겠습니다. 본 연수과정에서는 프로젝트를 서비스화하는 과정(기술 선택, MVP 개발, 유저 반응 분석)을 지원하며, 팀 갈등 해결 및 커뮤니케이션 조언도 제공합니다. 엑스퍼트 활동 후에도 지속적인 소통을 통해 인연을 이어가고 싶습니다.",
+    "sns": "lucky_seop",
+    "contact_available": true,
+    "id": "E038",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80e59d1af10986754b95?pvs=25"
+  },
+  {
+    "name": "박지인",
+    "domains": [
+      "창업",
+      "Graphics",
+      "Unity",
+      "기획",
+      "PM/PO"
+    ],
+    "stacks": [
+      "Unity",
+      "C#",
+      "TypeScript",
+      "MongoDB",
+      "Jira"
+    ],
+    "bio": "SW마에스트로 15기 우수자 인증 및 대표 프로젝트 선정 경험을 가진 예비창업자 엑스퍼트입니다. 게임/그래픽스, 애드테크 생태계, 창업 준비 분야에서 도움을 드릴 수 있습니다. 연수 과정 전반 진행 안내, 팀/멘토 구성 팁, 기획 및 프로젝트 관리 노하우를 공유하며, 미국 연수 경험 및 창업 준비 단계에서의 실질적인 조언을 제공합니다. 엑스퍼트 기간 이후에도 지속적인 네트워킹을 통해 편안한 동료로서 도움을 드리고자 합니다.",
+    "sns": "linkedin.com/in/…k0315/",
+    "contact_available": true,
+    "id": "E039",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80d3bf70e162af35d793?pvs=25"
+  },
+  {
+    "name": "박지환",
+    "domains": [
+      "네트워크",
+      "인프라",
+      "클라우드",
+      "DevOps",
+      "Kubernetes"
+    ],
+    "stacks": [
+      "Go",
+      "JAVA",
+      "TypeScript",
+      "AWS"
+    ],
+    "bio": "AWS Cloud Support Engineer로 네트워크 및 컨테이너 분야에서 근무하며, DevOps/Backend 개발 경험이 있습니다. CNCF 재단 Kubernetes, Argo, Istio 멤버이자 오픈소스 컨트리뷰션 아카데미 멘토로 활동했습니다. 소마 15기, 16기 엑스퍼트 경험을 바탕으로 소마 꿀팁, 다양한 근무 경험 인사이트, 오픈소스 생태계 지식을 공유합니다. 커피챗, 1on1, 채팅방 운영을 통해 개발자 진로 및 소마 활동을 지원합니다.",
+    "sns": "linkedin.com/in/krapie/",
+    "contact_available": true,
+    "id": "E040",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf818daf56ed5c3172f815?pvs=25"
+  },
+  {
+    "name": "박찬솔",
+    "domains": [
+      "풀스택",
+      "임베디드",
+      "인프라",
+      "Android",
+      "iOS",
+      "기획"
+    ],
+    "stacks": [
+      "C++",
+      "JavaScript",
+      "TypeScript",
+      "Kotlin",
+      "Flutter"
+    ],
+    "bio": "구글에서 소프트웨어 엔지니어로 근무하며 Google Pixel 무선 통신 관련 업무를 담당. 소프트웨어 마에스트로 13기 수료 및 ICPC World Finals 진출 경험. 프론트엔드, 백엔드, 애플리케이션, 임베디드 등 다양한 개발 경험 보유. 연수생들의 성공적인 수료와 커리어 개발을 위해 정기 상담 및 채팅방 운영 예정. 프로젝트 진행, 실무 경험, 진로 계획 등 다양한 주제로 지원 가능.",
+    "sns": "linkedin.com/in/solrin/",
+    "contact_available": true,
+    "id": "E041",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80e38aa2fbd38c7c042a?pvs=25"
+  },
+  {
+    "name": "박채린",
+    "domains": [
+      "백엔드",
+      "기획",
+      "풀스택"
+    ],
+    "stacks": [
+      "JAVA",
+      "MySQL",
+      "Python",
+      "Kotlin"
+    ],
+    "bio": "소마 16기 출신으로 17기 연수생들의 즐거운 연수 생활을 위한 공덕센터 꿀팁과 팀 빌딩 노하우를 공유합니다. 아이돌/K컬쳐 관련 프로젝트 경험(덕온더스팟 개발, NC소프트 인턴)을 바탕으로 도메인 조언을 제공할 수 있습니다. 부산 출신으로서 지방 연수생들을 위한 KTX/숙소 팁도 전수합니다. 스타트업 CTO 경험을 바탕으로 기술·기획 전반에 걸쳐 도움을 드립니다.",
+    "sns": "@chaer_in_blossom",
+    "contact_available": true,
+    "id": "E042",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8011a532fecd0ff1cfd8?pvs=25"
+  },
+  {
+    "name": "배찬우",
+    "domains": [
+      "백엔드",
+      "기획",
+      "Data Engineering"
+    ],
+    "stacks": [
+      "JAVA",
+      "scala",
+      "Python"
+    ],
+    "bio": "Coupang Pay의 Fintech Data Platform 팀에서 Senior Data & Backend Engineer로 근무하며, 데이터 활용 및 고객 가치 부여 업무를 수행 중입니다. 소마 13기 수료생으로, ML 모델을 활용한 기타 악보 생성 및 연주 보조 서비스 개발 경험이 있습니다. 연수생들에게는 팀 매칭/멘토링 전략, 프로덕트 방향성, 엔지니어링 고민, 커리어 설계 등 종합적인 조언을 제공할 예정입니다. 온·오프라인 정기 만남을 통해 연수 과정 전반을 지원하며, 소마를 인생의 터닝포인트로 만들 수 있도록 돕겠습니다.",
+    "sns": "linkedin.com/in/…oodev/",
+    "contact_available": true,
+    "id": "E043",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80a0a774eb41b3bed007?pvs=25"
+  },
+  {
+    "name": "백준호",
+    "domains": [
+      "백엔드",
+      "DevOps",
+      "AI",
+      "AWS",
+      "Kubernetes",
+      "인프라",
+      "클라우드아키텍처"
+    ],
+    "stacks": [
+      "Go",
+      "TypeScript",
+      "kubernetes"
+    ],
+    "bio": "소마 13기 수료 후 한화비전에서 DevOps 엔지니어로 활동 중입니다. AWS 클라우드 운영 및 DevOps 엔지니어링을 담당하며, B2C 서비스 운영 경험이 있습니다. 소마에서는 '지금갈게' 서비스를 개발했고, 팀빌딩/멘토 매칭, 다양한 근무 경험 공유, 소마 100% 활용법, 고민 상담 등을 통해 연수생들을 지원할 계획입니다. 기술 면접/코딩 테스트 경험과 커리어 인사이트를 공유하며, 개발 및 커리어 고민을 함께 해결해 드리겠습니다.",
+    "sns": "linkedin.com/in/…ho100/",
+    "contact_available": true,
+    "id": "E044",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80b58a86ca0655ce78aa?pvs=25"
+  },
+  {
+    "name": "서승욱",
+    "domains": [
+      "창업",
+      "풀스택",
+      "DevOps",
+      "ReactNative"
+    ],
+    "stacks": [
+      "React Native",
+      "TypeScript",
+      "ClaudeCode",
+      "Next.js",
+      "AWS"
+    ],
+    "bio": "14기 수료생이자 17기 엑스퍼트로, 대학생 커뮤니케이션 서비스 유니티스 개발 및 커넥트리에듀 공동 창업 경험을 가진 풀스택 개발자입니다. 현재 SaaS 플랫폼 '모두의선생님'을 운영하며, 두 번의 창업과 빅테크 경험을 바탕으로 프로젝트 기획부터 개발·운영까지 종합적으로 지원합니다. 팀빌딩, 기술 스택 선택, AI 활용, 서비스 성장 전략 등 다양한 분야에서 멘토링을 제공하며, 편안한 커피챗도 환영합니다.",
+    "sns": "https://www.instagram.com/ukth_3476/",
+    "contact_available": true,
+    "id": "E045",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80d48d38e17541587878?pvs=25"
+  },
+  {
+    "name": "손민우",
+    "domains": [
+      "백엔드",
+      "기획",
+      "블록체인",
+      "창업",
+      "디자인",
+      "PM/PO",
+      "인공지능"
+    ],
+    "stacks": [
+      "JAVA",
+      "C",
+      "ORACLE",
+      "JavaScript",
+      "Rust",
+      "Pytorch"
+    ],
+    "bio": "SW마에스트로 수료 후 KB증권에서 AML+내부통제 업무를 담당하며, 금융 상품 개발 및 대규모 트랜잭션 설계 경험이 있습니다. 블록체인(코어개발, STO, 스마트 컨트랙트) 및 AI 사업 적용 경험을 바탕으로 기술 구현과 법적 리스크 관리(정보통신망법, 특금법 등)를 지원합니다. 프로젝트 기획/설계, 팀 빌딩, 멘토링 전략, 금융 BM 컨설팅이 가능하며, 창업 경험(정부창업성공패키지)과 자격증(증권3종, 투자자산운용사)을 활용한 실무 조언도 제공합니다. 연수생 목표 설정부터 취업 준비까지 종합적으로 도와드리겠습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E046",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf817ebff2f6b9249e29e1?pvs=25"
+  },
+  {
+    "name": "송수인",
+    "domains": [
+      "Data Engineering",
+      "백엔드",
+      "AI"
+    ],
+    "stacks": [
+      "Python",
+      "Django",
+      "FastAPI",
+      "Apache Spark",
+      "Apache Airflow"
+    ],
+    "bio": "소프트웨어 마에스트로 13기 수료생이자 16기 Expert로, 스포츠 AI 무인 중계 스타트업에서 데이터 엔지니어로 근무 중입니다. 소마에서 '음성 제어 AI 요리 어시스턴트' 프로젝트 AI 개발 및 팀장을 경험했습니다. 소마 행사 최다 참여자로, 연수생분들의 팀빌딩, 멘토링 활용, 행사 참여 전략을 지원하며, AI 개발부터 데이터 파이프라인 설계까지 기술적 도움을 제공합니다. 또한 프로젝트 진행 시 멘탈 관리와 팀 갈등 해결에도 도움을 드릴 예정입니다.",
+    "sns": "@138_sd15",
+    "contact_available": true,
+    "id": "E047",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81a6889fed176548f0b6?pvs=25"
+  },
+  {
+    "name": "송영모",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "iOS",
+      "PM/PO"
+    ],
+    "stacks": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Flutter"
+    ],
+    "bio": "힐링페이퍼(강남언니)에서 AI 도구 개발 및 디자이너-개발 생산성 향상에 기여 중입니다. Let'Swift 2025에서 AI 관련 주제 발표 경험이 있으며, 프론트엔드/UI·UX 기획, 크로스 플랫폼(React Native/Flutter), 모바일 서비스 개발, iOS/Android 취업 포트폴리오 상담 등에 도움을 줄 수 있습니다. 소마 12기 팀장 및 PM 경험을 바탕으로 팀 리딩과 프로젝트 운영 노하우를 공유하며, 취업 A/B 테스트 및 면접 꿀팁도 제공합니다.",
+    "sns": "linkedin.com/in/…po923/",
+    "contact_available": true,
+    "id": "E048",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ef95c0cc1279a7390c?pvs=25"
+  },
+  {
+    "name": "송해광",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "MySQL"
+    ],
+    "bio": "신한카드 재직 중인 4년차 백엔드/인프라 개발자입니다. 금융권 개발·심사·인프라 경험을 바탕으로 기술 검토, 금융권 업무 특성 공유, 팀 빌딩/아이디어 평가 방향성 조언 등을 제공할 수 있습니다. 엑스퍼트 활동 시 가벼운 대화부터 개발·인프라 관점 멘토링까지 자유롭게 소통하며, 자소서 첨삭·면접 준비 경험도 공유 가능합니다. 금융권 비하인드와 다양한 분야 경험을 바탕으로 편안하게 도움을 드리겠습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E049",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8021a89af3431eae9fda?pvs=25"
+  },
+  {
+    "name": "신동준",
+    "domains": [
+      "백엔드",
+      "AI Agent",
+      "기획",
+      "창업",
+      "취업"
+    ],
+    "stacks": [
+      "ClaudeCode",
+      "Python",
+      "TypeScript",
+      "JAVA"
+    ],
+    "bio": "13기 수료생이자 현재 엑스퍼트로 활동 중인 신동준입니다. 소마 프로젝트 '딱집'으로 우수 프로젝트 선정 및 실리콘밸리 연수 경험이 있으며, 현재 백엔드 엔지니어로 근무 중입니다. 팀원/멘토 매칭, 커뮤니케이션 조율, 기술/창업 인사이트 공유 등을 통해 연수생분들의 성공적인 소마 생활을 지원하겠습니다. LLM, AWS, 창업 아이디어 등 다양한 주제로 소통하며 Win-Win 관계를 만들고자 합니다.",
+    "sns": "https://www.dongjun.me",
+    "contact_available": true,
+    "id": "E050",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80729ac6d7f706f84998?pvs=25"
+  },
+  {
+    "name": "신재우",
+    "domains": [
+      "창업",
+      "풀스택",
+      "기획",
+      "Flutter",
+      "백엔드",
+      "프론트엔드",
+      "Ideation"
+    ],
+    "stacks": [
+      "Flutter",
+      "Nest.js",
+      "Next.js",
+      "Docker",
+      "AWS",
+      "GoogleCloudPlatform",
+      "Firebase"
+    ],
+    "bio": "안녕하세요! End-to-End 문제 해결을 추구하는 All-rounder 신재우입니다. 창업, 풀스택 개발, 아이디어 검증에 관심이 많으며, 현재 앱테크 서비스 '돌굴러가유'를 운영 중입니다. 연수생 시절 개발 공부 방법, Lean한 아이디어 검증 전략, 효율적인 개발 리소스 관리 노하우를 공유하겠습니다. Flutter/풀스택 개발, 데이터 기반 의사결정, 고객 확보 전략 등 다양한 주제로 커피챗을 통해 도움을 드리겠습니다. 여러분의 성장을 함께 고민하며, 커피는 제가 사겠습니다!",
+    "sns": "https://www.instagram.com/jaew00zeus/",
+    "contact_available": true,
+    "id": "E051",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81889a5dd9c782f9eec1?pvs=25"
+  },
+  {
+    "name": "안세훈",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "백엔드",
+      "팀빌딩"
+    ],
+    "stacks": [
+      "Spring",
+      "JAVA",
+      "Elasticsearch",
+      "Kafka"
+    ],
+    "bio": "13기 수료생 안세훈 엑스퍼트입니다. 삼성 SDS에서 백엔드 개발자로 근무하며 Spring, Java를 주로 사용합니다. 소마와 취업 병행 경험, 대기업 취업 성공 노하우를 바탕으로 취업 준비생에게 포트폴리오 구성, 자소서 첨삭, 면접 팁 등을 제공합니다. 또한 웹/백엔드 개발 경험과 기획·UI/UX 관점에서 프로젝트 설계 조언을 드릴 수 있습니다. 시간 관리 및 로드맵 작성도 함께 고민합니다.",
+    "sns": "IG: ash_eyee",
+    "contact_available": true,
+    "id": "E052",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81d9b530df6bcdfb91fb?pvs=25"
+  },
+  {
+    "name": "양동석",
+    "domains": [
+      "백엔드",
+      "AI"
+    ],
+    "stacks": [
+      "JAVA",
+      "MySQL",
+      "Kotlin",
+      "spring",
+      "Redis"
+    ],
+    "bio": "백엔드 학습 1년 만에 토스뱅크 서버 개발자 합격 경험을 바탕으로 효율적인 학습 로드맵과 취업 전략을 공유합니다. AI 도구 활용 개발 노하우(Claude Code Max, Codex Pro 등)와 2인 프로젝트 관리 경험을 통해 연수생들의 기술 역량 향상을 지원합니다. 커피챗을 통해 기술/취업/팀 갈등 등 다양한 고민을 함께 해결하며, 예비 과정에서는 AI 기반 빠른 MVP 개발 방법을 전수합니다.",
+    "sns": "linkedin.com/in/…30a305",
+    "contact_available": true,
+    "id": "E053",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80dba0f1d1fd6aada5cf?pvs=25"
+  },
+  {
+    "name": "양홍주",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "Kotlin",
+      "Spring Boot",
+      "MySQL",
+      "LLMOps",
+      "Elasticsearch"
+    ],
+    "bio": "SW 마에스트로 15기 수료생 & 엑스퍼트 출신의 2년차 백엔드 엔지니어입니다. 소마에서 창업 경험을 바탕으로 경력직 취업에 성공했으며, 당근마켓 1차 면접 합격 및 강남언니 최종 합격 경험이 있습니다. 오픈소스 기여, 기술 심화 학습, 서비스 개발, 취업 지원(포트폴리오 첨삭/모의 면접), 팀 활동 조언 등을 통해 17기 멘티들의 성장을 돕겠습니다. 엑스퍼트 활동 기간 외에도 8~11월까지 지속적으로 지원하며, 1:1 상담 및 팀 갈등 해결에도 적극 참여합니다.",
+    "sns": "linkedin.com/in/inpink",
+    "contact_available": true,
+    "id": "E054",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81db809cc90281aade91?pvs=25"
+  },
+  {
+    "name": "양희철",
+    "domains": [
+      "클라우드",
+      "인프라",
+      "백엔드"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring Boot",
+      "Python",
+      "FastAPI",
+      "AWS",
+      "Azure",
+      "kubernetes",
+      "Terraform",
+      "MySQL",
+      "MongoDB"
+    ],
+    "bio": "AI·SW마에스트로 16기 수료생으로 Microsoft에서 Apps Solution Engineer로 근무 중입니다. Internal Portal 개발 및 AKS, Github 솔루션 담당 경험이 있으며, AutCloud 프로젝트에서 AI Agent 기반 인프라 자동 생성 서비스 개발을 주도했습니다. 효율적인 소마 생활 전략, 취업 준비 노하우, 기술 상담을 통해 17기 여러분들의 성장을 지원하겠습니다. 클라우드/AI 분야 취업 목표자, 프로젝트 포트폴리오 강화 희망자, 외국계 기업 준비자에게 실질적인 도움을 드릴 수 있습니다.",
+    "sns": "linkedin.com/in/…gchef/",
+    "contact_available": true,
+    "id": "E055",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80eea46df85db27d63f2?pvs=25"
+  },
+  {
+    "name": "여성찬",
+    "domains": [
+      "기획",
+      "풀스택",
+      "백엔드",
+      "프론트엔드"
+    ],
+    "stacks": [
+      "Python",
+      "JavaScript",
+      "Flutter"
+    ],
+    "bio": "16기 수료생 여성찬입니다. 고양이 책집사 서비스 팀장으로 백엔드/모바일을 담당했으며, 우수 프로젝트 선정 및 해외 연수 경험을 보유했습니다. 누적 사용자 5만 명, 매출 300만 원+ 수익화 성공 사례를 바탕으로 팀 빌딩부터 마케팅·피봇팅까지 실전 노하우를 공유합니다. 삼성전자·HL Klemove 3년 개발 경력과 창업 준비 경험을 활용해 소마 연수생들의 성공적인 프로젝트 완수를 지원합니다.",
+    "sns": "linkedin.com/in/…n-yeo/",
+    "contact_available": true,
+    "id": "E056",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8015aacfeb66a52e2528?pvs=25"
+  },
+  {
+    "name": "오혜성",
+    "domains": [
+      "기획",
+      "프론트엔드",
+      "디자인"
+    ],
+    "stacks": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "bio": "토스에서 프론트엔드 개발자로 일하는 4년차 개발자입니다. 12기 수료 후 13-15기 엑스퍼트로 활동하며 연수생 고충을 잘 이해하고 있습니다. 게임/서버/웹 개발 경험과 오픈소스 기여 경험이 있으며, 개발자 소양 증진과 팀 협업 역량 강화에 중점을 둡니다. 프론트엔드 전문성 향상을 위한 몹 프로그래밍, 독서 모임, 실전 노하우 공유를 통해 도움을 드릴 수 있습니다. 취업/인생 멘토링과 인간적 교류도 중요하게 생각합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E057",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf801cbdc4c821837c114d?pvs=25"
+  },
+  {
+    "name": "이동언",
+    "domains": [
+      "프론트엔드",
+      "Web",
+      "기획"
+    ],
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "React"
+    ],
+    "bio": "소마 13기 수료 후 4년차 FE 개발자로 활동 중이며, 15-16기 엑스퍼트 경험을 바탕으로 팀 빌딩, 프로젝트 전략, 취업 컨설팅 등을 지원합니다. 팀 구성 시 고려사항 공유 및 갈등 해결 방안 제시, 프로젝트 가치 극대화 방향 협의, 이력서/포트폴리오 첨삭 및 면접 준비를 도와드립니다. AI 활용 개발 생산성 향상 팁과 소마 생활 전반에 대한 조언도 제공합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E058",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf815182fdece5a879ba1d?pvs=25"
+  },
+  {
+    "name": "이동원",
+    "domains": [
+      "백엔드",
+      "기획",
+      "AI",
+      "AWS",
+      "PM"
+    ],
+    "stacks": [
+      "Go",
+      "Python",
+      "SQL",
+      "Golang"
+    ],
+    "bio": "소프트웨어 마에스트로 16기 우수 수료생으로, 비전공자 출신에서 AI 백엔드 개발자로 성장한 이동원입니다. 일본 AI 스타트업 AVITA에서 백엔드 엔지니어로 인턴 중이며, 팀빌딩과 프로젝트 관리 경험을 바탕으로 연수생들의 성장을 지원합니다. 비전공자/입문자에게는 개발 진입 장벽을 낮추는 조언을, PM/PO에게는 제품 본질(PMF) 탐구 방법을 공유하며, 피벗 위기 시 데이터 기반 판단을 돕습니다. 체계적인 회고 문화와 협업 도구 활용으로 팀의 지속 가능한 성장을 이끕니다.",
+    "sns": "linkedin.com/in/…on-lee",
+    "contact_available": true,
+    "id": "E059",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8011a9e1f51e3696e0a2?pvs=25"
+  },
+  {
+    "name": "이석현",
+    "domains": [
+      "백엔드",
+      "기획",
+      "운영"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring Boot",
+      "AWS",
+      "RDB"
+    ],
+    "bio": "15기 수료생으로, 여행 SNS 프로젝트에서 백엔드 개발 및 AWS 인프라 구축 경험을 보유. 현재는 사이버다임에서 운영 지원 업무를 하며 서비스 운영 이슈 및 안정성 관리 경험을 쌓음. 예비 과정의 팀 빌딩/멘토 매칭 조언, 본 과정의 일정 관리/발표 준비 지원, 소마 생활 전반에 걸친 고민 상담을 제공. 기술 스택보다는 운영 환경 이슈 공유 및 프로젝트 기록 관리 조언에 강점. 연수생 간 자연스러운 교류 분위기 조성에 주력.",
+    "sns": "@a._.ram_",
+    "contact_available": true,
+    "id": "E060",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80b38bdedb3db0981542?pvs=25"
+  },
+  {
+    "name": "이승윤",
+    "domains": [
+      "Android",
+      "Mobile",
+      "기획",
+      "프론트엔드"
+    ],
+    "stacks": [
+      "Kotlin",
+      "JAVA",
+      "TypeScript",
+      "React",
+      "Express",
+      "Compose Multiplatform",
+      "Swift",
+      "NDK",
+      "Unity",
+      "Unreal 엔진",
+      "AWS"
+    ],
+    "bio": "4년 차 Android 개발자로 SDK 플랫폼 개발 및 라이브러리 설계, UI 기능 개발, 엔진 연동, 장애 대응 업무를 수행 중입니다. 소마 연수 과정에서는 교육용 여행 계획 앱(러닝 트립)을 기획·제작했으며, 개인 맞춤형 패션 플랫폼, 코드 멘토링 시스템, 시간 관리 앱 개발 및 수상 경험이 있습니다. 라이브러리 개발자로서 다른 개발자의 앱 개발을 지원하고, 소프트웨어를 통해 일상의 편의성을 높이는 데 기여하고 있습니다. 엑스퍼트 활동으로는 기술 분야 구체화, 팀 빌딩, 프로젝트 우선순위 설정, 꾸준한 개발 습관 형성을 도울 예정입니다.",
+    "sns": "github.com/Lee…un1020",
+    "contact_available": true,
+    "id": "E061",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80fc8ed4e258bfd378f9?pvs=25"
+  },
+  {
+    "name": "이정현",
+    "domains": [
+      "기획",
+      "디자인",
+      "Data Engineering",
+      "퍼포먼스마케팅"
+    ],
+    "stacks": [
+      "Flutter",
+      "C++",
+      "Figma",
+      "AI",
+      "React"
+    ],
+    "bio": "소프트웨어 마에스트로 16기 수료생으로, 카카오에서 데이터 엔지니어로 근무 중입니다. 엑스퍼트로서 팀 매칭, 프로젝트 기획, 마케팅 전략, 멘탈 관리 등 다양한 분야에서 도움을 드릴 예정입니다. 특히 수익화 목적의 팀 운영 경험과 우수 프로젝트 선정 노하우를 공유하며, 자소서 첨삭 및 면접 마인드셋 조언도 가능합니다. 카카오톡, 메일, LinkedIn으로 연락 주시면 됩니다.",
+    "sns": "linkedin.com/in/afpine/",
+    "contact_available": true,
+    "id": "E062",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ff98bad00992573ccd?pvs=25"
+  },
+  {
+    "name": "이종범",
+    "domains": [
+      "백엔드",
+      "프론트엔드",
+      "풀스택",
+      "인프라"
+    ],
+    "stacks": [
+      "JavaScript",
+      "JAVA",
+      "Python",
+      "TypeScript"
+    ],
+    "bio": "SW마에스트로 14기 수료 후 Expert로 활동하는 이종범입니다. 학교 병행하며 SW마에스트로를 100% 활용한 경험, 우수 프로젝트 상 수상, 최다멘토링 상 수상, 논문/특허 출원, NAVER 벤처 프로젝트 및 인턴십 경험을 보유했습니다. 연수생들에게는 팀빌딩/멘토링 활용, 학교 병행 전략, 벤처 프로젝트 경험 공유, 프로젝트 문제 해결 지원 등을 제공할 수 있습니다. 오프라인 연수 센터 방문 또는 카카오톡 채팅방을 통해 언제든 소통 가능합니다.",
+    "sns": "linkedin.com/in/…3318b/",
+    "contact_available": true,
+    "id": "E063",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81c38f93d3135ccae679?pvs=25"
+  },
+  {
+    "name": "이종준",
+    "domains": [
+      "풀스택",
+      "AI Agent",
+      "창업",
+      "Flutter",
+      "Next.js"
+    ],
+    "stacks": [
+      "Python",
+      "TypeScript",
+      "Dart",
+      "Kotlin",
+      "React",
+      "FastAPI",
+      "LangChain",
+      "LangGraph"
+    ],
+    "bio": "카카오 풀스택 개발자이자 14기 수료생으로, AI Agent 및 풀스택 개발 경험이 풍부합니다. 스타트업 창업 및 대기업 취업 경험을 바탕으로 취업/창업 고민 상담, 기술 스택 선택 조언, SaaS 활용 개발 효율화 방안을 제공할 수 있습니다. 애자일 프로젝트 관리 및 팀 협업 꿀팁도 전수해 드립니다.",
+    "sns": "linkedin.com/in/…koikk/",
+    "contact_available": true,
+    "id": "E064",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80df9551f3118c8bca3e?pvs=25"
+  },
+  {
+    "name": "이주연",
+    "domains": [
+      "MLOps",
+      "Docker",
+      "Kubernetes",
+      "AI Inference",
+      "Model Serving"
+    ],
+    "stacks": [
+      "Python",
+      "Go",
+      "AWS Glue",
+      "Amazon Redshift",
+      "S3"
+    ],
+    "bio": "삼성리서치에서 Kubernetes 기반 LLM 모델 서빙 및 추론 최적화 업무를 담당 중인 13기 수료생 이주연입니다. LG CNS에서 데이터 엔지니어링 경험을 쌓았으며, 소마 13기 당시 Face Detection과 Segmentation 모델을 활용한 얼굴 합성 어플 개발을 팀장으로 주도했습니다. 프로젝트 발표 준비(기획/중간/최종), 취업 준비(ML 엔지니어/데이터 엔지니어) 분야에서 실제 사례와 자료를 바탕으로 도움을 드릴 수 있습니다. 특히 AI/ML 분야 취업 희망자에게 실질적인 조언을 제공하며, 필요시 지인 네트워크도 연결해 드립니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E065",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81239abeccd133be0235?pvs=25"
+  },
+  {
+    "name": "이진우",
+    "domains": [
+      "백엔드",
+      "기획",
+      "DevOps",
+      "인프라"
+    ],
+    "stacks": [
+      "JAVA",
+      "JavaScript",
+      "MySQL",
+      "Spring Boot",
+      "MongoDB",
+      "kubernetes",
+      "Kotlin"
+    ],
+    "bio": "SW마에스트로 14기 수료생 및 엑스퍼트로, 백엔드 엔지니어 경험을 바탕으로 팀 매칭, 멘토 연결, 취업 전략, 오픈소스 기여, 기술 토론 등 다양한 분야에서 도움을 제공합니다. 현업 경험을 통해 습득한 문제 해결 방법과 성장 노하우를 공유하며, 연수생의 목표에 맞는 맞춤형 조언을 드리고자 합니다. 활동 기간 이후에도 지속적인 인연을 이어가고자 합니다.",
+    "sns": "linkedin.com/in/…ywooo/",
+    "contact_available": true,
+    "id": "E066",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8024868bf24c840c847e?pvs=25"
+  },
+  {
+    "name": "이하령",
+    "domains": [
+      "프론트엔드",
+      "Web",
+      "기획",
+      "디자인"
+    ],
+    "stacks": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js"
+    ],
+    "bio": "13기 연수생 출신으로 카카오페이증권에서 프론트엔드 개발자로 근무 중입니다. FIRE팀에서 온라인 모각코 서비스 '모도코' 개발 경험이 있으며, 외국계 스타트업/카카오/네이버클라우드 인턴 및 IT 동아리 NEXTERS 회장 경험을 보유했습니다. 연수생 시절 FE 개발 초보자로서 팀원과 함께 완주한 경험을 바탕으로, 현재 연수생들의 방향 설정 및 프로젝트 완주를 지원할 예정입니다. 취업 연계 및 문제 해결 기록 관리 방법 공유, 팀빌딩/멘토링 조언 등 현실적인 도움을 드리겠습니다. 부담 없이 질문이나 이야기 나누는 것도 환영합니다.",
+    "sns": "linkedin.com/in/…b6270/",
+    "contact_available": true,
+    "id": "E067",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8082a10cd540bb615544?pvs=25"
+  },
+  {
+    "name": "이하은",
+    "domains": [
+      "PM/PO",
+      "창업",
+      "기획",
+      "팀빌딩",
+      "조직문화",
+      "퍼포먼스마케팅"
+    ],
+    "stacks": [
+      "TypeScript",
+      "React Native",
+      "Flutter",
+      "HTML",
+      "Jira",
+      "Confluence",
+      "Meta",
+      "Google",
+      "Apple"
+    ],
+    "bio": "소프트웨어 마에스트로 14기 수료생이자 3년차 엑스퍼트. PM/PO 및 창업 경험을 바탕으로 프로덕트 관리, 팀빌딩, 인증/창업 전략 지원. SW마에스트로 과정에서 우수 프로젝트 선정 및 해외연수 경험 보유. 현재 시니어 케어 도메인 창업팀에서 프로덕트 매니저로 활동 중. 연수생분들의 목표 구체화, 팀/멘토 매칭, 프로덕트 기획 및 운영 전략 수립에 도움 제공.",
+    "sns": "https://www.instagram.com/haanottz/",
+    "contact_available": true,
+    "id": "E068",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81769e29dcfae5fdf58e?pvs=25"
+  },
+  {
+    "name": "이현규",
+    "domains": [
+      "DevOps",
+      "IaC",
+      "Data Engineering",
+      "인프라",
+      "SRE"
+    ],
+    "stacks": [
+      "kubernetes",
+      "Docker",
+      "Go",
+      "Terraform",
+      "JAVA",
+      "Python",
+      "TypeScript",
+      "GitHub Actions"
+    ],
+    "bio": "12기 연수생 출신 LINE+ DevOps/쿠버네티스 엔지니어. 대규모 트래픽 환경(2억 명 사용자)의 쿠버네티스 클러스터 운영 경험을 바탕으로, 연수생들에게 DevOps/SRE/인프라 분야의 기술 장벽을 낮추고 프로젝트 완성도를 높이는 데 도움을 주고자 합니다. 팀 빌딩, 클라우드 네이티브 설계, CI/CD 구축 등 실질적인 조언과 함께 개발자 커리어 고민도 함께 나눕니다. 소마 수료 후에도 지속적인 조력자 역할을 할 예정입니다.",
+    "sns": "linkedin.com/in/…861178",
+    "contact_available": true,
+    "id": "E069",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf802db111cc6a71cbe80c?pvs=25"
+  },
+  {
+    "name": "이희도",
+    "domains": [
+      "창업",
+      "Ideation",
+      "기획",
+      "풀스택",
+      "TPM",
+      "기술경영"
+    ],
+    "stacks": [
+      "TypeScript",
+      "JavaScript",
+      "postgresql",
+      "Nest.js",
+      "Next.js",
+      "Serverless"
+    ],
+    "bio": "소마 13기 수료 후 4년째 창업한 스타트업을 운영 중인 이희도 엑스퍼트입니다. 팀 매칭, 네트워킹, 인증 과정 지원, 창업 관련 현실적인 조언을 제공합니다. 제품 기획부터 개발, KPI 관리, HR까지 다양한 경험을 바탕으로 연수생들의 성장을 돕고자 합니다. 커피챗을 통해 가벼운 상담도 환영합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E070",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf818d8f54c56eb6fff9d7?pvs=25"
+  },
+  {
+    "name": "임기범",
+    "domains": [
+      "백엔드",
+      "기획",
+      "AI Agent"
+    ],
+    "stacks": [
+      "Kotlin",
+      "Python",
+      "MySQL",
+      "postgresql",
+      "spring",
+      "kafka",
+      "Redis",
+      "LangChain"
+    ],
+    "bio": "17기 연수생들을 위해 팀 빌딩, 멘토 매칭, 프로젝트 진행 전반에 걸쳐 도움을 줄 예정입니다. 창업 및 다양한 사이드 프로젝트 경험을 바탕으로 팀 구성 시 목표 일치성 강조, 상황별 적합한 멘토 매칭 지원, MVP 개발부터 DDD 경험까지 프로젝트 사이클 전 과정 조언 가능합니다. 적극적이고 빈번한 소통을 통해 연수생분들의 목표 달성을 위해 최선을 다하겠습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E071",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf808c93d7f0e4384db653?pvs=25"
+  },
+  {
+    "name": "임소영",
+    "domains": [
+      "AI",
+      "팀빌딩",
+      "기획",
+      "창업"
+    ],
+    "stacks": [
+      "LLM",
+      "Python",
+      "LLMOps"
+    ],
+    "bio": "리벨리온 전략팀에서 리서치/파트너십 업무를 하며, AI 칩 및 B2B 사업 경험을 가진 엑스퍼트입니다. LLM 평가 프레임워크 구축, RAG 파이프라인 설계 등 AI 엔지니어링 경험이 있으며, AI 트렌드 분석 및 공유를 즐깁니다. 소마 15기 우수 프로젝트 수상자로, 팀빌딩/멘토 매칭 팁, 발표 기술, 스트레스 관리 등 연수생 분들의 고민을 함께 해결하고 싶습니다. AI 트렌드 스터디 및 커피챗도 환영합니다.",
+    "sns": "linkedin.com/in/soyyeong",
+    "contact_available": true,
+    "id": "E072",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8031975cd20769a67b95?pvs=25"
+  },
+  {
+    "name": "임정우",
+    "domains": [
+      "백엔드",
+      "기획",
+      "창업"
+    ],
+    "stacks": [
+      "Python",
+      "React",
+      "Django",
+      "Next.js",
+      "FastAPI",
+      "Docker",
+      "GitHub"
+    ],
+    "bio": "서비스 개발 자영업자로, 'Notifai' 개발 및 교내 창업 경진대회 수상 경험이 있습니다. 현재 운영 중인 서비스로 영업 중이며, 고객 문의 응대 및 기능 개발을 직접 수행하고 있습니다. 자아실현을 위해 사업을 진행하며, 팀빌딩부터 개발·마케팅까지 전 과정에 대한 고민을 지속하고 있습니다. 생생한 경험과 진심 어린 조언으로 소마 연수생들의 '사람'과 '실행' 관련 어려움을 함께 해결하고자 합니다.",
+    "sns": "",
+    "contact_available": false,
+    "id": "E073",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf812f9f88ed9c1e35a547?pvs=25"
+  },
+  {
+    "name": "장현우",
+    "domains": [
+      "AI",
+      "Data Engineering",
+      "기획",
+      "LLM"
+    ],
+    "stacks": [
+      "Python",
+      "C++",
+      "Azure",
+      "AWS",
+      "React",
+      "Streamlit",
+      "Vercel"
+    ],
+    "bio": "KT에서 PM으로 근무 중인 14기 수료생 장현우입니다. 소마 준비방에서 '리틀'로 활동하며 면접 준비 사이트, 맛집 공유 서비스, 링크 통합 서비스 등을 개발했습니다. AI 기획/개발, 창업, BSS 시스템 관리 경험을 바탕으로 일정 관리, 프로젝트 기획, 취업 준비에 도움을 드릴 수 있습니다. 특히 비전공자 출신으로서 코딩테스트(백준: changhw)와 기술 면접 준비에 강점을 가지고 있으며, 연수생 분들의 맞춤형 지원을 위해 노력하겠습니다.",
+    "sns": "j.nowcow",
+    "contact_available": true,
+    "id": "E074",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8017b7a8ffcb66c01095?pvs=25"
+  },
+  {
+    "name": "정구연",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "Kotlin",
+      "Spring",
+      "Kafka",
+      "Redis",
+      "AWS",
+      "Docker",
+      "LLM",
+      "ClaudeCode"
+    ],
+    "bio": "SW 마에스트로 15기 출신으로 숏폼 뉴스 플랫폼 '뉴스낵' 개발 경험이 있으며, 현재 LINE에서 백엔드 개발자로 활동 중입니다. 소마 과정 중 발생하는 기술적/비기술적 고민(팀 갈등, 방향성 등)을 경험 기반으로 함께 해결하며, 운영 환경 아키텍처 설계/장애 대응/개발 자동화/취업 관련 조언도 가능합니다. 엑스퍼트로서 오프라인(커피챗) 및 온라인(Webex, 카톡)으로 적극 지원할 계획입니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E075",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ecb011e39018ca94d1?pvs=25"
+  },
+  {
+    "name": "정두원",
+    "domains": [
+      "백엔드"
+    ],
+    "stacks": [
+      "JAVA",
+      "kubernetes",
+      "Redis",
+      "Python",
+      "Spring Framework",
+      "NestJS",
+      "FastAPI"
+    ],
+    "bio": "HD현대중공업 아비커스에서 선박 자율운항 솔루션을 개발 중인 14기 수료생입니다. AI기반 유튜브 강의관리 플랫폼 개발 경험과 소마, 인턴, 현직 실무경험을 바탕으로 백엔드 개발 역량을 쌓았습니다. 비전공자, 학생, 학벌에 대한 고민이 있는 분들에게 용기와 노하우를 공유하며, 제조업 기반 SW 취업 및 프로젝트 문제 해결 방법을 지원합니다. 팀 갈등 관리, 스크럼 운영, 문제해결력 향상에 도움을 드릴 수 있습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E076",
+    "profile_url": "https://swmaestromain.notion.site/5bb91e401fdf82c4bd7f815f8527acc9?pvs=25"
+  },
+  {
+    "name": "정범석",
+    "domains": [
+      "기획",
+      "모바일"
+    ],
+    "stacks": [
+      "Flutter",
+      "Dart",
+      "Android",
+      "Kotlin",
+      "Python",
+      "JavaScript",
+      "Unity"
+    ],
+    "bio": "소프트웨어 마에스트로 16기 수료 후 엑스퍼트로 활동 중인 정범석입니다. 비전공자에서 독학으로 개발을 시작해 모바일 개발(Flutter), 마케팅 전략(퍼포먼스/콘텐츠), 사용자 데이터 분석(Amplitude 등), 발표/IR, 팀 빌딩 분야에서 도움을 드립니다. 앱스토어 3위·플레이스토어 7위 서비스 제작 및 3만 사용자·월 100만 원 수익화 경험을 바탕으로 경제적 자유 달성을 위한 고민을 함께합니다. 비전공자·개발 초보자에게 특히 힘이 되겠습니다.",
+    "sns": "linkedin.com/in/…ne1263",
+    "contact_available": true,
+    "id": "E077",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf804ab6f5ce65154f9313?pvs=25"
+  },
+  {
+    "name": "정상영",
+    "domains": [
+      "기획",
+      "PM/PO",
+      "풀스택"
+    ],
+    "stacks": [
+      "TypeScript"
+    ],
+    "bio": "패션 MD에서 개발자로 전환한 16기 수료생입니다. 패션 도메인 및 스타트업 경험에 기반해 제품 기획, 팀 운영, 기술 문제 해결에 도움을 드릴 수 있습니다. 소마 기간 중 팀 구성, 기획 검증, 문서 작성, 발표 준비 등 전반적인 과정에서 멘토링을 제공하며, 수익화 및 사업 운영 경험도 공유합니다. 연수생분들이 소마를 최대한 활용할 수 있도록 실질적인 조언을 드리겠습니다.",
+    "sns": "linkedin.com/in/…young/",
+    "contact_available": true,
+    "id": "E078",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80ee9f6ef88b026e2f1a?pvs=25"
+  },
+  {
+    "name": "정예원",
+    "domains": [
+      "백엔드"
+    ],
+    "stacks": [
+      "Kotlin",
+      "Spring",
+      "grpc",
+      "MongoDB",
+      "Kafka"
+    ],
+    "bio": "국내 IT 서비스 회사에서 백엔드 개발을 하고 있는 정예원입니다. SW마에스트로 13기 경험을 바탕으로 취업 준비(면접 후기, 코딩테스트 방법, 회사 선택 기준, 멘탈 관리)와 팀 프로젝트 운영에 도움을 드립니다. 개발 두려움 극복, CS 과목 흥미 유발, 현업 개발자 네트워크 형성도 지원합니다. 커피챗이나 피크닉을 통해 편하게 이야기 나누며 친구처럼 도움을 주고 싶습니다.",
+    "sns": "linkedin.com/in/…3a20a/",
+    "contact_available": true,
+    "id": "E079",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81eea7f8c07dbad054e8?pvs=25"
+  },
+  {
+    "name": "정인모",
+    "domains": [
+      "백엔드",
+      "인프라",
+      "MLOps",
+      "데이터 애널리틱스"
+    ],
+    "stacks": [
+      "Python",
+      "Kotlin",
+      "FastAPI",
+      "Spring Boot",
+      "AWS"
+    ],
+    "bio": "소마 15기 연수생 출신 엑스퍼트로, 백엔드 및 데이터 엔지니어링 경험을 바탕으로 서비스 출시와 운영 리스크 관리에 중점을 둔 멘토링을 제공합니다. SSAFY 코치 및 스타트업 근무 경험을 통해 기술 스택(Python, Kotlin, FastAPI, Spring Boot, AWS)과 프로젝트 관리 역량을 보유했습니다. 개발 기술뿐 아니라 국어학, 출판, 커피, 영화 등 다양한 분야의 도메인 지식으로 연수생들을 지원하며, 팀 매칭/네트워킹, 문서 작성/발표 코칭도 가능합니다. 커피챗을 통해 편하게 연락주시면 기술·커리어 고민을 함께 해결해드리겠습니다.",
+    "sns": "https://open.kakao.com/o/sCrlgPoi",
+    "contact_available": true,
+    "id": "E080",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8184ab07ee5cb3ce9a41?pvs=25"
+  },
+  {
+    "name": "조민형",
+    "domains": [
+      "프론트엔드",
+      "풀스택",
+      "Infra"
+    ],
+    "stacks": [
+      "JavaScript",
+      "FastAPI",
+      "Python",
+      "React Native",
+      "TypeScript",
+      "React",
+      "Node.js"
+    ],
+    "bio": "16기 수료생으로 AI·RAG 도메인 스타트업에서 풀스택 개발자로 재직 중입니다. 소마 16기에서는 '꼬꼬면' 프로젝트 프론트엔드 및 인프라/백엔드 개발을 주도했으며, 17기에서는 팀원 매칭, 프로젝트 아이템 발굴, 멘토 매칭, 개인별 상담, 프론트엔드 취업 지원, 기술적 고민 공유 등을 통해 연수생 성장을 돕고자 합니다. 비전공생 개발자로서의 경험과 균형 잡힌 갓생 살기 노하우를 공유하며, 거북이 자랑도 함께 합니다.",
+    "sns": "linkedin.com/in/…er_ios",
+    "contact_available": true,
+    "id": "E081",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf803ca38eed78c0953bd7?pvs=25"
+  },
+  {
+    "name": "조재건",
+    "domains": [
+      "풀스택",
+      "창업",
+      "블록체인",
+      "백엔드"
+    ],
+    "stacks": [
+      "Solidity",
+      "Terraform",
+      "React",
+      "TypeScript",
+      "Nest.js"
+    ],
+    "bio": "14기 수료생으로, 현재 블록체인 기반 예측시장 Signals Protocol을 운영 중입니다. 소마에서는 학생회 대상 CRM 서비스 유니티스의 백엔드/인프라를 담당했으며, Toaster Finance에서 DeFi 경험을 쌓았습니다. 창업 및 블록체인 분야에 관심이 있는 분들에게 팀빌딩, AI 활용 개발, 갈등 관리 등을 멘토링할 예정입니다. AI 도구를 활용한 생산성 향상과 팀 운영 노하우를 공유하며, 월 1회 오프라인 멘토링과 24/7 온라인 지원을 제공합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E082",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf80db80d9f3a79d7682aa?pvs=25"
+  },
+  {
+    "name": "지우석",
+    "domains": [
+      "기획",
+      "풀스택",
+      "AI",
+      "창업",
+      "LLM",
+      "AI Agent"
+    ],
+    "stacks": [
+      "Python",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "flask",
+      "Nest.js",
+      "Serverless"
+    ],
+    "bio": "AI·SW마에스트로 13기 수료생(인증자) 지우석입니다. 비전공자 출신으로 군대에서 코딩을 시작해 창업 및 미국 진출을 준비 중입니다. 소마에서 개발 외 다양한 경험을 원하는 분들과 소통하며, 인증자 경험을 바탕으로 프로젝트 기획·발표 전략, 네트워킹 방법, LLM/AI 에이전트 기술 트렌드를 공유합니다. 창업·투자·시장 분석 경험도 함께 나눌 예정입니다.",
+    "sns": "linkedin.com/in/…sukji/",
+    "contact_available": true,
+    "id": "E083",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8176baf6ed4f3df4b22b?pvs=25"
+  },
+  {
+    "name": "최상원",
+    "domains": [
+      "프론트엔드",
+      "백엔드",
+      "Web",
+      "네트워크",
+      "Python"
+    ],
+    "stacks": [
+      "JavaScript",
+      "React",
+      "Spring",
+      "JAVA",
+      "git"
+    ],
+    "bio": "LG전자 데이터/클라우드 개발팀 서버 엔지니어로 근무하며, SW 마에스트로 13기 경험을 바탕으로 연수생들을 지원합니다. 프로젝트 기획부터 개발까지 폭넓은 경험을 공유하며, 제조업에서의 SW 개발 환경, 팀/멘토 매칭 전략, 성장 고민 해결 등을 도와드릴 수 있습니다. 외향적인 성격으로 편안한 소통을 중시하며, 커리어 패스(취업 준비, LG전자 입사 과정) 관련 질문도 환영합니다.",
+    "sns": "https://www.instagram.com/sang1_c/",
+    "contact_available": true,
+    "id": "E084",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81e0a188c760fed74ebe?pvs=25"
+  },
+  {
+    "name": "최승표",
+    "domains": [
+      "Data Engineering",
+      "Server",
+      "Vibe coding"
+    ],
+    "stacks": [
+      "Kotlin",
+      "Python",
+      "Go",
+      "Spring",
+      "Flink",
+      "Apache Spark",
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "Serverless",
+      "NoSQL",
+      "WebRTC",
+      "Hadoop",
+      "HBase",
+      "Kafka",
+      "Impala",
+      "Hive",
+      "MSA"
+    ],
+    "bio": "13기 우수 수료생으로, 소마에서 팀장을 맡아 Focus50 프로젝트를 진행하며 미국 해외연수 경험을 보유. 현재 Toss에서 Data Engineer로 활동 중. 소마 생활에 완전히 몰입하려는 분, 프로덕트 개발 희망자, 자기 탐색 및 AI 활용 고민자에게 경험 공유 및 조언 제공 가능. 팀빌딩부터 프로젝트 성과 창출, 해외연수까지의 노하우를 전달하며, 커피챗을 통한 지속적 교류 희망.",
+    "sns": "linkedin.com/in/pyo/",
+    "contact_available": true,
+    "id": "E085",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf817093e3e82508f4168a?pvs=25"
+  },
+  {
+    "name": "최영해",
+    "domains": [
+      "Data Engineering",
+      "Cloud",
+      "Infra"
+    ],
+    "stacks": [
+      "HCL",
+      "Python",
+      "Go"
+    ],
+    "bio": "소프트웨어 마에스트로 14기 수료생으로, 현재 Recruit Holdings에서 데이터 엔지니어로 재직 중입니다. 프로젝트 문제 해결, 취업 준비 경험 공유, 자소서 첨삭 등을 통해 도움을 드릴 수 있습니다. 주중/주말 관계없이 미팅 가능하며, 도쿄 맛집 추천도 가능합니다. 커뮤니티 협력을 강조하며, 혼자 해결하기 어려운 문제는 적극적으로 도움을 요청하도록 권장합니다.",
+    "sns": "linkedin.com/in/…chang/",
+    "contact_available": true,
+    "id": "E086",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf81649721db2206e459f7?pvs=25"
+  },
+  {
+    "name": "최재혁",
+    "domains": [
+      "기획",
+      "iOS",
+      "플랫폼",
+      "Mobile"
+    ],
+    "stacks": [
+      "JAVA",
+      "C++",
+      "Swift",
+      "C",
+      "Objective-C"
+    ],
+    "bio": "15기 수료생으로, iOS SDK 개발 경험을 바탕으로 프로젝트 방향성 설정, 구조 설계, 협업 방식 등에서 도움을 드립니다. 소마 과정 중 아키텍처 설계(RIBs), Git 브랜치 전략, PR/코드리뷰 운영 경험을 공유하며, 발표 준비 및 커리어 고민 상담도 가능합니다. 엑스퍼트 활동 후에도 월 1회 이상 지속적 지원을 계획 중입니다.",
+    "sns": "https://www.instagram.com/gomhyeok",
+    "contact_available": true,
+    "id": "E087",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8057be77ebc0e14ef65a?pvs=25"
+  },
+  {
+    "name": "최준영",
+    "domains": [
+      "모바일",
+      "iOS",
+      "PM",
+      "기획"
+    ],
+    "stacks": [
+      "Swift",
+      "C++",
+      "JAVA",
+      "Python"
+    ],
+    "bio": "제17기 연수생들을 위해 엑스퍼트로 활동하는 최준영입니다. 소마 활동 경험을 바탕으로 목표 설정, 아이디어 도출, 프로젝트 매니징 가이드를 제공하며, 기획서 작성 및 커피타임을 통해 심리적 지원을 할 예정입니다. 또한 자소서 첨삭을 통해 소마 경험을 효과적으로 전달할 수 있도록 돕겠습니다. 기술적 지원보다는 연수 과정의 적응과 인연 유지에 집중하겠습니다.",
+    "sns": "linkedin.com/in/…4402bb",
+    "contact_available": true,
+    "id": "E088",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8065a75beb187dc85c66?pvs=25"
+  },
+  {
+    "name": "한주형",
+    "domains": [
+      "백엔드",
+      "기획",
+      "풀스택",
+      "AI",
+      "DevOps",
+      "조직문화"
+    ],
+    "stacks": [
+      "Python",
+      "AWS"
+    ],
+    "bio": "SW마에스트로 14기 수료생으로, 공공기관 기획자에서 개발자로 전환한 경험을 가진 DevOps Engineer이자 CultureOps TF Lead입니다. AI 스타트업에서 인프라 운영, 자동화, 조직문화 설계를 담당하며 문제 정의와 해결, 의사소통에 중점을 둡니다. 비전공자 고민, AI 시대 개발자 역할, 팀 갈등 해결, 번아웃 관리 등 다양한 주제로 경험을 공유할 수 있습니다. 월 1회 오프라인 및 온라인 상시 소통으로 멘토링을 진행하며, 기술/팀 소통 관련 실질적인 조언을 제공합니다.",
+    "sns": "linkedin.com/in/…nghan/",
+    "contact_available": true,
+    "id": "E089",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf805a814ced9c407cfd23?pvs=25"
+  },
+  {
+    "name": "황영하",
+    "domains": [
+      "AWS",
+      "DevOps",
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring Boot",
+      "postgreSQL"
+    ],
+    "bio": "13기 연수생 출신 4년 차 백엔드 개발자로, 현대오토에버에서 이커머스 플랫폼 개발 및 운영을 담당 중입니다. DevOps 조직에서 기획부터 운영까지 전 과정을 경험하며, 오픈소스 컨트리뷰션 및 다양한 해커톤 참여로 AI/소프트웨어 인사이트를 축적했습니다. 엑스퍼트로서 소마 생활 적응, 팀 구성, 프로젝트 진행, 취업 준비 등 실질적인 도움을 제공하며, 기술 설계 및 개발 문제 해결, 네트워킹 활성화를 지원할 예정입니다. 정규 시간 외에도 자유롭게 소통하며 연수생 여러분의 성장을 돕겠습니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E090",
+    "profile_url": "https://swmaestromain.notion.site/32c91e401fdf8099bc61ea6160851b0f?pvs=25"
+  },
+  {
+    "name": "정규원",
+    "domains": [
+      "백엔드",
+      "기획"
+    ],
+    "stacks": [
+      "JAVA",
+      "Spring",
+      "kubernetes",
+      "Kafka",
+      "MySQL",
+      "Docker",
+      "Supabase",
+      "Redis",
+      "LLM",
+      "React",
+      "Kotlin"
+    ],
+    "bio": "SW 마에스트로 15기 수료생이자 LG유플러스볼트업 백엔드 개발자입니다. 40건 이상의 멘토링 경험을 바탕으로 커리어 고민, 팀 갈등, AI 활용 등 다양한 주제로 편안한 1:1 상담을 제공합니다. 오픈클로 양육 및 현업 AI 에이전트 활용 경험을 공유하며, 이력서/포트폴리오 첨삭을 통해 취업 지원을 합니다. 엑스퍼트 활동 기간 이후에도 수료 시까지 지속적으로 함께합니다.",
+    "sns": "",
+    "contact_available": true,
+    "id": "E091",
+    "profile_url": "https://swmaestromain.notion.site/33c91e401fdf800f8a56ecefc5f2b53c?pvs=25"
+  }
+]
