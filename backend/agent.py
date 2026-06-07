@@ -673,9 +673,11 @@ def create_agent_graph(api_key: str):
             else:
                 response = AIMessage(content="요청 처리 중 내부 조회 형식이 응답에 섞였습니다. 다시 질문해 주세요.")
 
-        # 추론 모델이 최종 답변 대신 사고 과정을 노출한 경우, 수집된 도구 결과를
-        # 평문 컨텍스트로 추출해 '추론 금지·한국어 최종 답변만' 지시로 한 번 더 합성한다.
-        if not response.tool_calls and _looks_like_reasoning_leak(response.content):
+        # 추론 모델이 최종 답변 대신 (1) 사고 과정을 노출하거나 (2) 빈 content 를
+        # 반환하는 경우가 간헐적으로 있다. 수집된 도구 결과를 평문 컨텍스트로 추출해
+        # '추론 금지·한국어 최종 답변만' 지시로 한 번 더 합성한다.
+        _blank_final = not (response.content or "").strip()
+        if not response.tool_calls and (_blank_final or _looks_like_reasoning_leak(response.content)):
             tool_blocks = [str(m.content) for m in current_turn if isinstance(m, ToolMessage) and m.content]
             if tool_blocks:
                 report_status("답변을 다시 정리하고 있어요...")
@@ -698,6 +700,12 @@ def create_agent_graph(api_key: str):
                         response = AIMessage(content=retry.content)
                 except Exception as resynth_err:
                     print(f"⚠️ [Agent Core] 추론 누출 재합성 실패: {resynth_err}")
+
+        # 재합성까지 실패해 여전히 빈 응답이면, 빈 화면 대신 안내 문구를 내보낸다.
+        if not response.tool_calls and not (response.content or "").strip():
+            response = AIMessage(
+                content="조회는 마쳤는데 답변 정리에 실패했어요. 같은 질문을 한 번만 다시 보내 주시면 정리해 드릴게요."
+            )
 
         if response.tool_calls:
             tool_names = ", ".join(tc["name"] for tc in response.tool_calls)

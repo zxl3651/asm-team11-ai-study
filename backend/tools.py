@@ -424,6 +424,37 @@ def search_mentorings(
     report_status(f"조건에 맞는 후보 {len(results)}건을 추렸어요...")
     print(f"   └─ 필터링 및 점수화 완료: 전체 {len(results)}건 매칭")
 
+    # 폴백: '접수중' + 요청 날짜범위에서 0건이면 해당 기간엔 신청 가능한 항목이 없는 것이다.
+    # (예: 오늘이 주말이라 '이번 주'에 남은 접수중 특강이 없음)
+    # 그냥 0건으로 끝내지 말고, 날짜범위를 풀어 다가오는 접수중 특강을 가까운 순으로 추천한다.
+    if not results and status == "접수중" and (start_date or end_date):
+        report_status("이번 기간엔 접수중 항목이 없어 다가오는 접수중 특강으로 넓혀보고 있어요...")
+        fallback = search_mentorings(
+            content_type=content_type,
+            domains=domains,
+            stacks=stacks,
+            goals=goals,
+            status=status,
+            query=query,
+            date_query=None,
+            start_date=None,
+            end_date=None,
+        )
+        fb_items = fallback.get("items", [])
+        fb_items.sort(key=lambda x: (x.get("startAt") or "9999"))
+        fb_items = fb_items[:15]
+        return {
+            "total": len(fb_items),
+            "items": fb_items,
+            "date_range_relaxed": True,
+            "requested_range": {"start_date": start_date, "end_date": end_date},
+            "note": (
+                "요청한 기간에는 접수중(신청 가능) 특강/멘토링이 없어, "
+                "다가오는 접수중 항목을 가까운 일정 순으로 확장해 제시합니다. "
+                "답변에서 요청 기간엔 신청 가능한 항목이 없었다는 점을 먼저 안내하세요."
+            ),
+        }
+
     if query and results:
         candidates = results[:15]
         results = rerank_mentorings_with_llm(query, candidates, limit=5)

@@ -415,3 +415,8 @@ export async function clearSyncedData(sessionId?: string): Promise<void> {
     await fetch(`${API_BASE}/chat/${sessionId}`, { method: "DELETE" }).catch(() => {});
   }
 }
+
+/** 대화 세션만 초기화한다(동기화된 포털 데이터는 그대로 유지). */
+export async function clearChatSession(sessionId: string): Promise<void> {
+  await fetch(`${API_BASE}/chat/${sessionId}`, { method: "DELETE" }).catch(() => {});
+}

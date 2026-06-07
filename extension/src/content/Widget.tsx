@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { ChatMessage, streamChat } from "../lib/api";
-import { runPortalSync, clearSyncedData, SyncResult } from "./sync";
+import { runPortalSync, clearChatSession, SyncResult } from "./sync";
 import { ScheduleCalendar } from "./components/ScheduleCalendar";
 import { WorkflowDiagram } from "./components/WorkflowDiagram";
 
@@ -380,8 +380,15 @@ export function Widget() {
   }
 
   async function handleClearChat() {
+    // 채팅 내용만 정리한다. 동기화된 포털 데이터(DB/벡터)는 건드리지 않는다.
     setMessages([]);
-    await clearSyncedData(undefined).catch(() => {});
+    setProcessingSteps([]);
+    try {
+      localStorage.removeItem(MSG_KEY);
+    } catch {
+      /* ignore */
+    }
+    await clearChatSession(sessionRef.current).catch(() => {});
   }
 
   // ── 시각화 탭용 최신 자료 추출 ──
@@ -595,9 +602,10 @@ export function Widget() {
                     </p>
                     <p style={{ margin: "8px 0 6px", color: "#94a3b8" }}>이렇게 물어보세요:</p>
                     {[
-                      "React 쓰는 풀스택 멘토 추천해줘",
-                      "이번 주 팀원 전원이 2시간 회의할 수 있는 시간 찾아줘",
-                      "내가 신청 가능한 접수중 특강 있어?",
+                      "연수생의 팀 정보를 알려줘.",
+                      "연수생이 들을만한 특강을 한 개 추천해줘.",
+                      "연수생의 팀에 대해서 이번주 특강/멘토링 일정을 제외하고, 2시간 회의 가능 시간을 알려줘.",
+                      "연수생의 정보를 알려줘.",
                     ].map((q) => (
                       <button
                         key={q}
