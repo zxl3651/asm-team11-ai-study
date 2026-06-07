@@ -97,6 +97,19 @@ def build_workflow_mermaid(
     if called_tools and not is_out_of_scope:
         steps = " → ".join(called_tools)
         lines.append(f'  TOOL_NOTE["실제 호출 순서: {_mermaid_label(steps)}"]:::active')
+        detail_notes = []
+        if "get_team_participant_schedule" in called_tools:
+            detail_notes.append("정규화 신청자 연결 기반 팀원별 신청 일정")
+        if "get_free_slots" in called_tools:
+            detail_notes.append("공통 빈 시간 계산")
+        if "vector_search_mentorings" in called_tools:
+            detail_notes.append("벡터 후보 탐색")
+        if "search_mentorings" in called_tools:
+            detail_notes.append("리랭킹")
+        if detail_notes:
+            lines.append(f'  TOOL_DETAIL["{_mermaid_label(" → ".join(detail_notes))}"]:::active')
+        if "get_team_participant_schedule" in called_tools and "get_free_slots" in called_tools:
+            lines.append('  TOOL_EDGE_NOTE["get_team_participant_schedule -> get_free_slots"]:::active')
     if blocked_reason:
         lines.append(f'  BLOCK_NOTE["중단 사유: {_mermaid_label(blocked_reason)}"]:::stop')
     if data_readiness and not is_out_of_scope:

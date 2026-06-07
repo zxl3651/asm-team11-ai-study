@@ -176,7 +176,7 @@ const STYLE = `
 .workflow-toolbar button{border:1px solid var(--border);border-radius:8px;background:var(--bg-card);color:var(--text-secondary);font-size:12px;font-weight:800;padding:7px 10px;cursor:pointer}
 .workflow-toolbar button:hover{background:var(--primary-light);color:var(--primary)}
 .workflow-toolbar span{min-width:48px;color:var(--text-muted);font-size:12px;font-weight:800;text-align:center}
-.workflow-pan-stage{flex:1;min-height:320px;overflow:hidden;cursor:grab;touch-action:none;background:linear-gradient(#f1f5f9 1px,transparent 1px),linear-gradient(90deg,#f1f5f9 1px,transparent 1px);background-size:24px 24px}
+.workflow-pan-stage{flex:1;min-height:760px;overflow:hidden;cursor:grab;touch-action:none;background:linear-gradient(#f1f5f9 1px,transparent 1px),linear-gradient(90deg,#f1f5f9 1px,transparent 1px);background-size:24px 24px}
 .workflow-pan-stage:active{cursor:grabbing}
 .workflow-pan-content{width:max-content;padding:24px;transform-origin:0 0}
 .workflow-pan-content svg{display:block;max-width:none}
@@ -395,15 +395,6 @@ export function Widget() {
   const latestWorkflow = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant" && messages[i].workflowMermaid) return messages[i].workflowMermaid!;
-    }
-    return null;
-  }, [messages]);
-  const latestSchedule = useMemo(() => {
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === "assistant") {
-        const block = extractScheduleBlock(messages[i].content);
-        if (block) return block;
-      }
     }
     return null;
   }, [messages]);
@@ -773,18 +764,9 @@ export function Widget() {
           {/* ── 시각화 탭 ── */}
           {tab === "viz" && (
             <div className="sm-body" style={{ flex: 1, overflowY: "auto", padding: 14, background: "#f8fafc" }}>
-              <div style={{ marginBottom: 8, fontSize: 13, fontWeight: 700, color: "#0f172a" }}>📅 일정 캘린더</div>
-              {latestSchedule ? (
-                <ScheduleCalendar content={latestSchedule} />
-              ) : (
-                <div style={{ padding: "18px 12px", fontSize: 12.5, color: "#94a3b8", textAlign: "center", background: "#fff", border: "1px dashed #e2e8f0", borderRadius: 10 }}>
-                  아직 일정 데이터가 없어요. 회의 시간/특강 추천 질문을 해보세요.
-                </div>
-              )}
-
-              <div style={{ margin: "16px 0 8px", fontSize: 13, fontWeight: 700, color: "#0f172a" }}>🧭 에이전트 처리 흐름</div>
+              <div style={{ margin: "0 0 8px", fontSize: 13, fontWeight: 700, color: "#0f172a" }}>🧭 에이전트 처리 흐름</div>
               {latestWorkflow ? (
-                <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden", minHeight: 360 }}>
+                <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden", minHeight: 820 }}>
                   <WorkflowDiagram definition={latestWorkflow} />
                 </div>
               ) : (

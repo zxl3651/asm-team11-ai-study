@@ -486,19 +486,27 @@ def _load_trainees() -> list[dict]:
 
 
 def search_trainees(
+    name: str | None = None,
     roles: list[str] | None = None,
     stacks: list[str] | None = None,
     team_status: str | None = None,
 ) -> dict:
-    """연수생을 역할/기술스택/팀 여부로 검색합니다."""
+    """연수생을 이름/역할/기술스택/팀 여부로 검색합니다."""
     trainees = _load_trainees()
     results = []
+    name_query = "".join(str(name or "").split()).lower()
 
     for t in trainees:
+        trainee_name_key = "".join(str(t.get("name", "")).split()).lower()
+        if name_query and name_query not in trainee_name_key:
+            continue
+
         if team_status and t.get("team_status") != team_status:
             continue
 
         score = 0
+        if name_query:
+            score += 10 if trainee_name_key == name_query else 5
 
         if roles:
             trainee_roles_lower = [r.lower() for r in t.get("roles", [])]
@@ -512,7 +520,7 @@ def search_trainees(
             if matched:
                 score += len(matched) * 2
 
-        if roles or stacks:
+        if name_query or roles or stacks:
             if score > 0:
                 results.append({**t, "_score": score})
         else:
@@ -631,18 +639,20 @@ def search_mentorings_tool(
 
 
 class TraineeSearchInput(BaseModel):
+    name: str | None = Field(default=None, description="조회할 연수생 이름. 예: '김민수'")
     roles: list[str] | None = Field(default=None, description="찾는 역할 목록. 예: ['백엔드', 'AI', '프론트엔드', '기획', '풀스택']")
     stacks: list[str] | None = Field(default=None, description="기술 스택 목록. 예: ['Python', 'React', 'Spring Boot']")
     team_status: str | None = Field(default=None, description="팀 빌딩 여부 필터. '팀없음'(팀원 모집 중) 또는 '팀있음' 중 선택.")
 
 @tool("search_trainees", args_schema=TraineeSearchInput)
 def search_trainees_tool(
+    name: str | None = None,
     roles: list[str] | None = None,
     stacks: list[str] | None = None,
     team_status: str | None = None,
 ) -> str:
-    """소마 연수생 목록을 역할, 스택, 팀 빌딩 여부 기준으로 검색하여 반환합니다."""
-    result = search_trainees(roles=roles, stacks=stacks, team_status=team_status)
+    """소마 연수생 목록을 이름, 역할, 스택, 팀 빌딩 여부 기준으로 검색하여 반환합니다."""
+    result = search_trainees(name=name, roles=roles, stacks=stacks, team_status=team_status)
     return json.dumps(result, ensure_ascii=False, indent=2)
 
 

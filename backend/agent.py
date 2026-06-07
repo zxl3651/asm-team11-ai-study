@@ -28,6 +28,33 @@ def _is_personal_fixed_meeting_recommendation(user_message: str) -> bool:
     return has_personal_scope and has_fixed_meeting and has_recommendation
 
 
+def _target_trainee_name_from_query(user_message: str) -> str | None:
+    text = user_message.strip()
+    match = re.search(r"([가-힣]{2,5})\s*연수생(?:의|이|은|는|을|를|에\s*대해서)?\s*팀", text)
+    if match:
+        return match.group(1)
+    match = re.search(r"([가-힣]{2,5})\s*연수생의?\s*소속\s*팀", text)
+    if match:
+        return match.group(1)
+    return None
+
+
+def _target_trainee_info_name_from_query(user_message: str) -> str | None:
+    text = user_message.strip()
+    if _target_trainee_name_from_query(text):
+        return None
+    patterns = [
+        r"([가-힣]{2,5})\s*연수생(?:의|이|은|는|을|를)?\s*(?:정보|프로필|기본\s*정보)",
+        r"([가-힣]{2,5})\s*연수생(?:에\s*대해서|에\s*관해서)\s*(?:알려|궁금|정보)",
+        r"([가-힣]{2,5})\s*연수생.*(?:알려줘|알고\s*싶어)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text)
+        if match:
+            return match.group(1)
+    return None
+
+
 def _is_team_meeting_availability_query(user_message: str) -> bool:
     text = user_message.strip().lower()
     if (
@@ -36,7 +63,11 @@ def _is_team_meeting_availability_query(user_message: str) -> bool:
         and ("정기 회의" in text or "고정 회의" in text or ("회의" in text and ("제외" in text or "피해서" in text)))
     ):
         return False
-    has_team_scope = any(keyword in text for keyword in ["우리 팀", "팀 정보를", "팀 정보", "팀원"])
+    has_team_scope = (
+        any(keyword in text for keyword in ["우리 팀", "팀 정보를", "팀 정보", "팀원", "소속 팀"])
+        or any(keyword in text for keyword in ["팀에", "팀의", "팀이", "팀은", "팀에서"])
+        or (_target_trainee_name_from_query(user_message) is not None and "팀" in text)
+    )
     has_meeting = "회의" in text
     has_availability = any(keyword in text for keyword in ["가능", "빈 시간", "후보", "시간대", "요일"])
     return has_team_scope and has_meeting and has_availability
@@ -199,10 +230,14 @@ def _fixed_meeting_recommendation_tool_message(messages: list[BaseMessage]) -> A
     )
 
 
-def _team_info_tool_message() -> AIMessage:
+def _team_info_tool_message(user_message: str | None = None) -> AIMessage:
+    args = {}
+    trainee_name = _target_trainee_name_from_query(user_message or "")
+    if trainee_name:
+        args["trainee_name"] = trainee_name
     return AIMessage(
         content="",
-        tool_calls=[_tool_call_message("get_team_info", {})],
+        tool_calls=[_tool_call_message("get_team_info", args)],
     )
 
 
@@ -232,6 +267,15 @@ def _team_free_slots_tool_message(messages: list[BaseMessage]) -> AIMessage:
             }),
             _tool_call_message("get_free_slots", args),
         ],
+    )
+
+
+def _trainee_search_tool_message(user_message: str) -> AIMessage:
+    trainee_name = _target_trainee_info_name_from_query(user_message)
+    args = {"name": trainee_name} if trainee_name else {}
+    return AIMessage(
+        content="",
+        tool_calls=[_tool_call_message("search_trainees", args)],
     )
 
 
@@ -353,6 +397,77 @@ def _fixed_recommendation_answer_from_tools(messages: list[BaseMessage]) -> str:
     return "\n".join(lines).strip()
 
 
+def _trainee_info_answer_from_tools(messages: list[BaseMessage], user_message: str) -> str:
+    payloads = _json_tool_payloads(messages)
+    result = next((payload for payload in reversed(payloads) if "trainees" in payload), {})
+    trainees = result.get("trainees") or []
+    target_name = _target_trainee_info_name_from_query(user_message)
+
+    if not trainees:
+        if target_name:
+            return f"동기화된 연수생 목록에서 `{target_name}` 연수생 정보를 찾지 못했습니다."
+        return "조건에 맞는 연수생 정보를 찾지 못했습니다."
+
+    trainee = trainees[0]
+    lines = ["연수생 정보", ""]
+    lines.append(f"- 이름: {trainee.get('name') or '미기재'}")
+    roles = trainee.get("roles") or []
+    if roles:
+        lines.append(f"- 역할: {', '.join(roles)}")
+    stacks = trainee.get("stacks") or []
+    if stacks:
+        lines.append(f"- 기술 스택: {', '.join(stacks)}")
+    if trainee.get("team_status"):
+        lines.append(f"- 팀 상태: {trainee.get('team_status')}")
+    if trainee.get("email"):
+        lines.append(f"- 이메일: {trainee.get('email')}")
+    if len(trainees) > 1:
+        lines.extend([
+            "",
+            f"동명이인 또는 부분 일치 후보가 {len(trainees)}명 있습니다. 가장 가까운 후보 1명을 먼저 표시했습니다.",
+        ])
+    return "\n".join(lines).strip()
+
+
+def _compact_team_meeting_candidates(free_slots_result: dict, max_representatives: int = 5) -> list[str]:
+    windows = free_slots_result.get("meeting_windows") or []
+    if not windows:
+        return ["이번 주 조건에서 2시간 연속으로 모두 비는 후보를 찾지 못했습니다."]
+
+    representatives = []
+    seen_dates = set()
+    for window in windows:
+        date = window.get("date")
+        if date in seen_dates:
+            continue
+        seen_dates.add(date)
+        representatives.append(
+            f"{window.get('weekday')}({date}) {window.get('start')}~{window.get('end')}"
+        )
+        if len(representatives) >= max_representatives:
+            break
+
+    if len(windows) > len(representatives):
+        return [
+            f"{', '.join(representatives)} 등 총 {len(windows)}개 후보가 있습니다.",
+            "전체 가능/불가 구간은 아래 주간 캘린더에서 확인하세요.",
+        ]
+    return [f"{', '.join(representatives)} 후보가 있습니다."]
+
+
+def _compact_free_slot_ranges(free_slots_result: dict, max_days: int = 7) -> list[str]:
+    schedule = free_slots_result.get("schedule") or []
+    lines = []
+    for day in schedule[:max_days]:
+        ranges = day.get("free_slots") or []
+        if not ranges:
+            continue
+        range_text = ", ".join(f"{slot.get('start')}~{slot.get('end')}" for slot in ranges[:3])
+        more = " 등" if len(ranges) > 3 else ""
+        lines.append(f"- {day.get('weekday')}({day.get('date')}): {range_text}{more}")
+    return lines
+
+
 def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
     payloads = _json_tool_payloads(messages)
     free_slots_result = next((payload for payload in reversed(payloads) if "meeting_windows" in payload), {})
@@ -392,7 +507,6 @@ def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
             suffix = f" 외 {more_count}건" if more_count else ""
             member_schedule_lines.append(f"- {member_name}: {len(event_list)}건 · {' / '.join(compact_events)}{suffix}")
 
-    windows = free_slots_result.get("meeting_windows") or []
     lines = [
         "팀 정보",
         "",
@@ -414,15 +528,11 @@ def _team_meeting_answer_from_tools(messages: list[BaseMessage]) -> str:
         lines.extend(["", "팀원별 신청 일정 반영", "", *coverage_lines])
 
     lines.extend(["", "가능 후보"])
-    if not windows:
-        lines.extend(["", "이번 주 조건에서 2시간 연속으로 모두 비는 후보를 찾지 못했습니다."])
-    else:
-        lines.append("")
-        for window in windows:
-            lines.append(
-                f"- {window.get('weekday')}({window.get('date')}): "
-                f"{window.get('start')}~{window.get('end')}"
-            )
+    lines.extend(["", *_compact_team_meeting_candidates(free_slots_result)])
+
+    free_slot_ranges = _compact_free_slot_ranges(free_slots_result)
+    if free_slot_ranges:
+        lines.extend(["", "넓은 가능 구간", "", *free_slot_ranges])
 
     visual_schedule_block = free_slots_result.get("visual_schedule_block") or _latest_visual_schedule_block(messages)
     if visual_schedule_block:
@@ -455,6 +565,8 @@ def create_agent_graph(api_key: str):
             intent = fallback_intent(user_message)
         if _is_simple_team_info_query(user_message):
             intent = "team_info"
+        elif _target_trainee_info_name_from_query(user_message):
+            intent = "trainee_search"
         elif _is_personal_fixed_meeting_recommendation(user_message):
             intent = "lecture_recommendation"
         elif _is_team_meeting_availability_query(user_message):
@@ -520,6 +632,7 @@ def create_agent_graph(api_key: str):
         current_turn = _current_turn_messages(messages)
         is_fixed_meeting_recommendation = _is_personal_fixed_meeting_recommendation(user_message)
         is_team_meeting_availability = _is_team_meeting_availability_query(user_message)
+        is_named_trainee_info = _target_trainee_info_name_from_query(user_message) is not None
         report_status("요청 내용을 분석하고 있어요...")
 
         # 현재 턴에서 get_free_slots 결과가 있을 때만 일정 조율 경로로 보강한다.
@@ -591,9 +704,23 @@ def create_agent_graph(api_key: str):
             return {"messages": [response], "intent": intent}
 
         if is_team_meeting_availability and not any(isinstance(m, AIMessage) and getattr(m, "tool_calls", None) for m in current_turn):
-            response = _team_info_tool_message()
+            response = _team_info_tool_message(user_message)
             report_status("필요한 조회 경로를 선택했어요: get_team_info")
             return {"messages": [response], "intent": intent}
+
+        if (
+            intent == "team_info"
+            and _target_trainee_name_from_query(user_message)
+            and not any(isinstance(m, AIMessage) and getattr(m, "tool_calls", None) for m in current_turn)
+        ):
+            response = _team_info_tool_message(user_message)
+            report_status("필요한 조회 경로를 선택했어요: get_team_info")
+            return {"messages": [response], "intent": intent}
+
+        if is_named_trainee_info and not any(isinstance(m, AIMessage) and getattr(m, "tool_calls", None) for m in current_turn):
+            response = _trainee_search_tool_message(user_message)
+            report_status("필요한 조회 경로를 선택했어요: search_trainees")
+            return {"messages": [response], "intent": "trainee_search"}
 
         if (
             is_team_meeting_availability
@@ -606,6 +733,8 @@ def create_agent_graph(api_key: str):
 
         if is_team_meeting_availability and _has_tool_call(current_turn, "get_free_slots"):
             response = AIMessage(content=_team_meeting_answer_from_tools(current_turn))
+        elif is_named_trainee_info and _has_tool_call(current_turn, "search_trainees"):
+            response = AIMessage(content=_trainee_info_answer_from_tools(current_turn, user_message))
         elif is_fixed_meeting_recommendation and (
             (
                 _has_tool_call(current_turn, "get_participant_registrations")
@@ -628,6 +757,8 @@ def create_agent_graph(api_key: str):
             allowed_tools = LATEST_TOOLS
             if intent == "team_info":
                 allowed_tools = [tool for tool in LATEST_TOOLS if tool.name == "get_team_info"]
+            elif intent == "trainee_search":
+                allowed_tools = [tool for tool in LATEST_TOOLS if tool.name == "search_trainees"]
             elif intent == "mentor_recommendation":
                 # 멘토 추천은 멘토/연수생 검색 도구만 사용하게 제한해
                 # 일정·회의 도구로 새지 않고 빠르게 답변으로 수렴하도록 한다.
@@ -669,7 +800,7 @@ def create_agent_graph(api_key: str):
                 if _has_tool_call(current_turn, "get_team_info"):
                     response = _team_free_slots_tool_message(model_messages + current_turn)
                 else:
-                    response = _team_info_tool_message()
+                    response = _team_info_tool_message(user_message)
             else:
                 response = AIMessage(content="요청 처리 중 내부 조회 형식이 응답에 섞였습니다. 다시 질문해 주세요.")
 
