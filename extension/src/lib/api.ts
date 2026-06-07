@@ -1,35 +1,70 @@
-// 백엔드(문지기 서버) 호출 래퍼.
+// 백엔드(에이전트 서버) 호출 래퍼. minsu 방식(SSE 스트리밍)으로 동작한다.
 const BASE_URL = "http://localhost:8000";
 
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
+  workflowMermaid?: string;
+  processingSteps?: string[];
 }
 
-export async function sendChat(
+export interface ChatStreamHandlers {
+  onStatus?: (message: string) => void; // 처리 과정 단계(실시간)
+  onComplete: (payload: { response: string; workflowMermaid?: string }) => void;
+  onError?: (message: string) => void;
+}
+
+/**
+ * /chat SSE 스트림을 소비한다.
+ *  - type:"status"   → 처리 단계 메시지 (onStatus)
+ *  - type:"complete" → 최종 답변 + 워크플로우 mermaid (onComplete)
+ *  - type:"error"    → 오류 (onError)
+ */
+export async function streamChat(
   message: string,
-  history: ChatMessage[],
-  somaUser: string
-): Promise<string> {
-  const res = await fetch(`${BASE_URL}/api/chat`, {
+  sessionId: string,
+  handlers: ChatStreamHandlers
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    // 소마 로그인으로 확인된 신원(soma_user)을 본문에 함께 보냄. 백엔드 '문지기'가 검사.
-    body: JSON.stringify({ message, history, soma_user: somaUser }),
+    body: JSON.stringify({ message, session_id: sessionId }),
   });
-  if (!res.ok) throw new Error(`서버 오류: ${res.status}`);
-  const data = (await res.json()) as { answer: string };
-  return data.answer;
-}
+  if (!res.ok || !res.body) {
+    handlers.onError?.(`서버 오류: ${res.status}`);
+    return;
+  }
 
-// 확장이 세션으로 파싱한 '로그인 필요' 데이터(특강/멘토링·팀매칭)를 백엔드 캐시에 올린다.
-export async function postContext(payload: {
-  sessions?: unknown[];
-  teams?: unknown[];
-}): Promise<void> {
-  await fetch(`${BASE_URL}/api/context`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() || "";
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith("data: ")) continue;
+      const json = trimmed.slice(6);
+      try {
+        const data = JSON.parse(json);
+        if (data.type === "status") {
+          handlers.onStatus?.(data.message);
+        } else if (data.type === "complete") {
+          handlers.onComplete({
+            response: data.response,
+            workflowMermaid: data.workflow_mermaid || undefined,
+          });
+        } else if (data.type === "error") {
+          handlers.onError?.(data.message || "AI 처리 중 오류가 발생했습니다.");
+        }
+      } catch {
+        /* 부분 청크 무시 */
+      }
+    }
+  }
 }

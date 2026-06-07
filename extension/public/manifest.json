@@ -1,16 +1,20 @@
 {
   "manifest_version": 3,
   "name": "소마 메이트 (SoMa Mate)",
-  "version": "0.1.0",
-  "description": "소마 연수생을 위한 에이전트형 멘토·멘토링 탐색 도우미",
+  "version": "1.0.0",
+  "description": "소마 연수생을 위한 에이전트형 멘토·멘토링·일정 탐색 AI 비서",
   "permissions": ["storage"],
-  "host_permissions": ["http://localhost:8000/*"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "*://*.swmaestro.ai/*",
+    "*://*.swmaestro.org/*"
+  ],
   "action": {
     "default_title": "소마 메이트"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.swmaestro.ai/*", "*://swmaestro.ai/*"],
+      "matches": ["*://*.swmaestro.ai/*", "*://*.swmaestro.org/*"],
       "js": ["src/content/index.js"],
       "run_at": "document_idle"
     }
